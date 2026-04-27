@@ -1,121 +1,162 @@
 <?php
-
 declare(strict_types=1);
 
-require __DIR__ . '/includes/init_admin.php';
+require_once __DIR__ . '/../includes/guards/admin_guard.php';
+require_once __DIR__ . '/../includes/document_helpers.php';
+require_once __DIR__ . '/../includes/notification_helper.php';
+require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/../includes/functions.php';
 
 $pdo = db();
-$docId = (int) ($_GET['id'] ?? 0);
+$docId = (int) ($_GET['id'] ?? $_POST['document_id'] ?? 0);
 
-$doc = $docId > 0 ? mgrid_document_find_for_admin($pdo, $docId) : null;
-if ($doc === null) {
-    flash_set('error', __('doc.not_found'));
-    redirect('admin/admin_documents.php');
+if ($docId <= 0) {
+    redirect('admin_documents.php');
 }
 
-$versions = mgrid_document_versions($pdo, $docId);
+$stmt = $pdo->prepare(
+    "SELECT d.*, u.status AS user_status, u.id AS user_id, u.m_id
+     FROM user_documents d
+     INNER JOIN users u ON u.id = d.user_id
+     WHERE d.id = :id
+     LIMIT 1"
+);
+$stmt->execute([':id' => $docId]);
+$doc = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$logStmt = $pdo->prepare('
-    SELECT l.action, l.remark, l.action_at, a.full_name AS admin_name
-    FROM document_verification_logs l
-    LEFT JOIN admins a ON a.id = l.admin_id
-    WHERE l.document_id = :id
-    ORDER BY l.action_at DESC
-');
-$logStmt->execute(['id' => $docId]);
-$logs = $logStmt->fetchAll() ?: [];
+if (!$doc) {
+    redirect('admin_documents.php');
+}
 
-$mgrid_page_title = mgrid_title('title.admin_review_doc');
-require __DIR__ . '/includes/shell_open.php';
+$errors = [];
+
+if (is_post()) {
+    require_csrf();
+
+    $action = (string) ($_POST['action'] ?? '');
+    $comment = trim((string) ($_POST['admin_comment'] ?? ''));
+    $admin = current_admin();
+    $adminId = (int) ($admin['id'] ?? 0);
+
+    if (!in_array($action, ['approve', 'reject', 'resubmission'], true)) {
+        $errors[] = 'Hatua si sahihi.';
+    }
+
+    if (in_array($action, ['reject', 'resubmission'], true) && $comment === '') {
+        $errors[] = 'Weka maoni kabla ya hatua hii.';
+    }
+
+    if ($errors === []) {
+        try {
+            $pdo->beginTransaction();
+
+            if ($action === 'approve') {
+                $newDocStatus = 'verified';
+                $newUserStatus = 'active';
+                $notifyTitle = 'NIDA imethibitishwa';
+                $notifyMsg = 'Hongera! NIDA yako imethibitishwa. Akaunti yako sasa iko active.';
+                $logAction = 'approve_nida';
+            } elseif ($action === 'reject') {
+                $newDocStatus = 'rejected';
+                $newUserStatus = 'rejected';
+                $notifyTitle = 'NIDA imekataliwa';
+                $notifyMsg = 'NIDA yako imekataliwa. Sababu: ' . $comment;
+                $logAction = 'reject_nida';
+            } else {
+                $newDocStatus = 'resubmission_requested';
+                $newUserStatus = 'pending';
+                $notifyTitle = 'Tuma NIDA upya';
+                $notifyMsg = 'Tafadhali tuma NIDA upya. Maoni ya msimamizi: ' . $comment;
+                $logAction = 'resubmission_nida';
+            }
+
+            $upDoc = $pdo->prepare('UPDATE user_documents SET status = :status, admin_comment = :admin_comment, reviewed_at = NOW(), reviewed_by = :reviewed_by WHERE id = :id');
+            $upDoc->execute([
+                ':status' => $newDocStatus,
+                ':admin_comment' => $comment !== '' ? $comment : null,
+                ':reviewed_by' => $adminId > 0 ? $adminId : null,
+                ':id' => $docId,
+            ]);
+
+            $upUser = $pdo->prepare('UPDATE users SET status = :status WHERE id = :user_id');
+            $upUser->execute([
+                ':status' => $newUserStatus,
+                ':user_id' => (int) $doc['user_id'],
+            ]);
+
+            $insVLog = $pdo->prepare(
+                'INSERT INTO document_verification_logs (document_id, admin_id, action, comment, created_at)
+                 VALUES (:document_id, :admin_id, :action, :comment, NOW())'
+            );
+            $insVLog->execute([
+                ':document_id' => $docId,
+                ':admin_id' => $adminId > 0 ? $adminId : null,
+                ':action' => $newDocStatus,
+                ':comment' => $comment !== '' ? $comment : null,
+            ]);
+
+            push_notification($pdo, (int) $doc['user_id'], $notifyTitle, $notifyMsg, 'system');
+            write_admin_log($pdo, $adminId, $logAction, 'user_document', $docId, $comment !== '' ? $comment : null);
+
+            if ($action === 'approve') {
+                recalculate_mscore($pdo, (int) $doc['user_id']);
+            }
+
+            $pdo->commit();
+            redirect('admin_documents.php');
+        } catch (Throwable $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            $errors[] = 'Imeshindikana kuhifadhi mapitio.';
+        }
+    }
+}
 ?>
-
-<div class="mgrid-card mb-3">
-  <div class="mgrid-card-header">
-    <h1 class="mgrid-card-title"><i class="ti ti-file-search"></i> Review Document</h1>
-    <a href="<?= e(url('admin/admin_documents.php')) ?>" class="btn-mgrid btn-mgrid-ghost">Back</a>
-  </div>
-  <div class="mgrid-card-body">
-    <div class="mgrid-grid-2">
-      <div>
-        <h2 class="h6 mb-3">User Details</h2>
-        <p class="mb-1"><strong>Name:</strong> <?= e((string) $doc['full_name']) ?></p>
-        <p class="mb-1"><strong>M-ID:</strong> <span class="mgrid-mono-id"><?= e((string) $doc['m_id']) ?></span></p>
-        <p class="mb-1"><strong>Email:</strong> <?= e((string) $doc['email']) ?></p>
-        <p class="mb-0"><strong>Phone:</strong> <?= e((string) $doc['phone']) ?></p>
+<!DOCTYPE html>
+<html lang="sw">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kagua NIDA — Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/mgrid-reference-theme.css" rel="stylesheet" />
+  </head>
+  <body class="bg-light">
+    <main class="container py-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h4 m-0">Kagua NIDA: <?= e((string) $doc['m_id']) ?></h1>
+        <a href="admin_documents.php" class="btn btn-outline-secondary btn-sm">Rudi</a>
       </div>
-      <div>
-        <h2 class="h6 mb-3">Document Metadata</h2>
-        <p class="mb-1"><strong>Type:</strong> <?= e((string) $doc['type_name']) ?></p>
-        <p class="mb-1"><strong>Title:</strong> <?= e((string) $doc['title']) ?></p>
-        <p class="mb-1"><strong>Uploaded:</strong> <?= e(substr((string) $doc['uploaded_at'], 0, 16)) ?></p>
-        <p class="mb-0"><strong>Status:</strong> <span class="badge text-bg-<?= e(mgrid_document_status_badge((string) $doc['status'])) ?>"><?= e(mgrid_document_status_label((string) $doc['status'])) ?></span></p>
+
+      <?php foreach ($errors as $error): ?>
+        <div class="alert alert-danger border-0 mb-2"><?= e($error) ?></div>
+      <?php endforeach; ?>
+
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <p class="mb-2"><strong>Status ya sasa:</strong> <?= e((string) $doc['status']) ?></p>
+          <p class="mb-2"><strong>Faili:</strong> <a href="../document_view.php?id=<?= (int) $doc['id'] ?>" target="_blank">Fungua NIDA</a></p>
+          <p class="mb-0"><strong>Tarehe ya upakiaji:</strong> <?= e((string) $doc['uploaded_at']) ?></p>
+        </div>
       </div>
-    </div>
 
-    <hr>
-    <div class="d-flex gap-2 mb-3">
-      <a href="<?= e(url('document_view.php?id=' . (int) $doc['id'])) ?>" target="_blank" class="btn-mgrid btn-mgrid-outline">Preview / Open</a>
-      <a href="<?= e(url('document_view.php?id=' . (int) $doc['id'] . '&download=1')) ?>" class="btn-mgrid btn-mgrid-ghost">Download</a>
-    </div>
+      <form method="post" class="card border-0 shadow-sm">
+        <div class="card-body">
+          <?= csrf_input() ?>
+          <input type="hidden" name="document_id" value="<?= (int) $doc['id'] ?>" />
+          <div class="mb-3">
+            <label class="form-label" for="admin_comment">Maoni ya msimamizi</label>
+            <textarea class="form-control" id="admin_comment" name="admin_comment" rows="4"></textarea>
+          </div>
+          <div class="d-flex gap-2 flex-wrap">
+            <button class="btn btn-success" type="submit" name="action" value="approve">Approve</button>
+            <button class="btn btn-danger" type="submit" name="action" value="reject">Reject</button>
+            <button class="btn btn-warning" type="submit" name="action" value="resubmission">Request Resubmission</button>
+          </div>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
 
-    <form method="post" action="<?= e(url('update_document_status.php')) ?>" class="row g-3">
-      <?= csrf_field() ?>
-      <input type="hidden" name="document_id" value="<?= (int) $doc['id'] ?>">
-      <div class="col-12">
-        <label class="mgrid-form-label" for="remark">Admin remark</label>
-        <textarea id="remark" name="remark" class="mgrid-form-control" rows="3" maxlength="2000" placeholder="Add clear reason or verification note..."><?= e((string) ($doc['admin_remark'] ?? '')) ?></textarea>
-      </div>
-      <div class="col-12 d-flex gap-2 flex-wrap">
-        <button class="btn-mgrid btn-mgrid-primary" type="submit" name="action" value="verified">Verify</button>
-        <button class="btn-mgrid btn-mgrid-outline" type="submit" name="action" value="resubmission_requested">Request Resubmission</button>
-        <button class="btn btn-danger" type="submit" name="action" value="rejected">Reject</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<div class="mgrid-grid-2">
-  <div class="mgrid-card">
-    <div class="mgrid-card-header"><h2 class="mgrid-card-title"><i class="ti ti-history"></i> Version History</h2></div>
-    <div class="mgrid-card-body">
-      <?php if ($versions === []): ?>
-        <p class="text-muted mb-0">No versions found.</p>
-      <?php else: ?>
-        <ul class="list-unstyled mb-0">
-          <?php foreach ($versions as $v): ?>
-            <li class="mb-2 pb-2 border-bottom">
-              <div class="d-flex justify-content-between">
-                <strong>v<?= (int) $v['version_number'] ?> — <?= e((string) $v['title']) ?></strong>
-                <span class="badge text-bg-<?= e(mgrid_document_status_badge((string) $v['status'])) ?>"><?= e(mgrid_document_status_label((string) $v['status'])) ?></span>
-              </div>
-              <div class="small text-muted"><?= e(substr((string) $v['uploaded_at'], 0, 16)) ?></div>
-            </li>
-          <?php endforeach; ?>
-        </ul>
-      <?php endif; ?>
-    </div>
-  </div>
-
-  <div class="mgrid-card">
-    <div class="mgrid-card-header"><h2 class="mgrid-card-title"><i class="ti ti-list-details"></i> Action Logs</h2></div>
-    <div class="mgrid-card-body">
-      <?php if ($logs === []): ?>
-        <p class="text-muted mb-0">No action logs yet.</p>
-      <?php else: ?>
-        <ul class="list-unstyled mb-0">
-          <?php foreach ($logs as $log): ?>
-            <li class="mb-2 pb-2 border-bottom">
-              <div class="fw-semibold"><?= e((string) strtoupper((string) $log['action'])) ?></div>
-              <div class="small text-muted"><?= e((string) ($log['admin_name'] ?? 'System')) ?> · <?= e(substr((string) $log['action_at'], 0, 16)) ?></div>
-              <?php if (!empty($log['remark'])): ?>
-                <div class="small mt-1"><?= e((string) $log['remark']) ?></div>
-              <?php endif; ?>
-            </li>
-          <?php endforeach; ?>
-        </ul>
-      <?php endif; ?>
-    </div>
-  </div>
-</div>
-
-<?php require __DIR__ . '/includes/shell_close.php'; ?>
