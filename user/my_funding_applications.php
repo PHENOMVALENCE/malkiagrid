@@ -8,10 +8,10 @@ $uid = (int) $auth['user_id'];
 $pdo = db();
 
 $stmt = $pdo->prepare('
-  SELECT id, reference_number, application_type, requested_amount, status, submitted_at
+  SELECT id, reference_number, "funding" AS application_type, amount_requested AS requested_amount, status, created_at AS submitted_at
   FROM funding_applications
   WHERE user_id = :uid
-  ORDER BY submitted_at DESC
+  ORDER BY created_at DESC
 ');
 $stmt->execute(['uid' => $uid]);
 $rows = $stmt->fetchAll() ?: [];

@@ -7,15 +7,41 @@ require __DIR__ . '/includes/init_admin.php';
 $pdo = db();
 $q = clean_string($_GET['q'] ?? '');
 $sql = '
-    SELECT u.id, u.m_id, u.full_name, u.email, u.phone, u.status, u.created_at,
-           p.national_id_status
+    SELECT
+        u.id,
+        u.m_id,
+        u.first_name,
+        u.middle_name,
+        u.surname,
+        u.email,
+        u.phone,
+        u.status,
+        u.created_at,
+        nd.nida_status AS national_id_status
     FROM users u
-    LEFT JOIN user_profiles p ON p.user_id = u.id
+    LEFT JOIN (
+        SELECT d.user_id, d.status AS nida_status
+        FROM user_documents d
+        INNER JOIN document_types dt ON dt.id = d.document_type_id
+        WHERE dt.code = "nida"
+          AND d.id IN (
+              SELECT MAX(d2.id)
+              FROM user_documents d2
+              INNER JOIN document_types dt2 ON dt2.id = d2.document_type_id
+              WHERE dt2.code = "nida"
+              GROUP BY d2.user_id
+          )
+    ) nd ON nd.user_id = u.id
     WHERE 1 = 1
 ';
 $params = [];
 if ($q !== '') {
-    $sql .= ' AND (full_name LIKE :q OR email LIKE :q2 OR phone LIKE :q3 OR m_id LIKE :q4)';
+    $sql .= ' AND (
+      CONCAT_WS(" ", u.first_name, u.middle_name, u.surname) LIKE :q
+      OR u.email LIKE :q2
+      OR u.phone LIKE :q3
+      OR u.m_id LIKE :q4
+    )';
     $like = '%' . $q . '%';
     $params = ['q' => $like, 'q2' => $like, 'q3' => $like, 'q4' => $like];
 }
@@ -53,9 +79,10 @@ require __DIR__ . '/includes/shell_open.php';
         </thead>
         <tbody>
           <?php foreach ($users as $r): ?>
+            <?php $fullName = trim((string) (($r['first_name'] ?? '') . ' ' . ($r['middle_name'] ?? '') . ' ' . ($r['surname'] ?? ''))); ?>
             <tr>
               <td class="fw-semibold"><?= e((string) $r['m_id']) ?></td>
-              <td><?= e((string) $r['full_name']) ?></td>
+              <td><?= e($fullName !== '' ? $fullName : 'Mwanachama') ?></td>
               <td class="small"><?= e((string) $r['email']) ?></td>
               <td class="small"><?= e((string) $r['phone']) ?></td>
               <td><span class="badge bg-light text-dark border"><?= e((string) $r['status']) ?></span></td>

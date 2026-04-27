@@ -11,13 +11,13 @@ $rows = [];
 
 if ($docTypeId !== null) {
     $stmt = $pdo->prepare(
-        "SELECT d.id, d.user_id, d.title, d.status, d.uploaded_at, d.version_number,
+        "SELECT d.id, d.user_id, d.document_type, d.original_name, d.status, d.created_at AS uploaded_at, d.version_number,
                 u.m_id, u.first_name, u.middle_name, u.surname
          FROM user_documents d
          INNER JOIN users u ON u.id = d.user_id
          WHERE d.document_type_id = :doc_type_id
            AND d.status = 'pending'
-         ORDER BY d.uploaded_at ASC"
+         ORDER BY d.created_at ASC"
     );
     $stmt->execute([':doc_type_id' => $docTypeId]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
@@ -61,7 +61,7 @@ if ($docTypeId !== null) {
                 <tr>
                   <td><?= e((string) $row['m_id']) ?></td>
                   <td><?= e(trim((string) ($row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['surname']))) ?></td>
-                  <td><?= e((string) $row['title']) ?></td>
+                  <td><?= e((string) ($row['original_name'] ?? $row['document_type'] ?? 'NIDA')) ?></td>
                   <td>v<?= e((string) $row['version_number']) ?></td>
                   <td><?= e((string) $row['uploaded_at']) ?></td>
                   <td class="d-flex gap-2">

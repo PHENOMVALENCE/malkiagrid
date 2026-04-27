@@ -10,13 +10,13 @@ $id = (int) ($_GET['id'] ?? 0);
 
 if (!mbenefits_module_ready($pdo) || $id <= 0) {
     flash_set('error', __('benefit.claim_detail.not_found'));
-    redirect('user/my_benefits.php');
+    redirect(url('user/my_benefits.php'));
 }
 
 $st = $pdo->prepare('
   SELECT c.*, o.title AS offer_title, o.id AS offer_id, p.name AS provider_name
   FROM benefit_claims c
-  INNER JOIN benefit_offers o ON o.id = c.benefit_offer_id
+  INNER JOIN benefit_offers o ON o.id = c.benefit_id
   INNER JOIN benefit_providers p ON p.id = o.provider_id
   WHERE c.id = :id AND c.user_id = :u
   LIMIT 1
@@ -25,11 +25,11 @@ $st->execute(['id' => $id, 'u' => $uid]);
 $claim = $st->fetch();
 if (!$claim) {
     flash_set('error', __('benefit.claim_detail.not_found'));
-    redirect('user/my_benefits.php');
+    redirect(url('user/my_benefits.php'));
 }
 
 $logs = $pdo->prepare('
-  SELECT l.*, a.full_name AS admin_name
+  SELECT l.*, a.email AS admin_name
   FROM benefit_claim_logs l
   LEFT JOIN admins a ON a.id = l.admin_id
   WHERE l.claim_id = :cid
@@ -38,7 +38,7 @@ $logs = $pdo->prepare('
 $logs->execute(['cid' => $id]);
 $logRows = $logs->fetchAll() ?: [];
 
-$mgrid_page_title = mgrid_title('title.claim_ref', ['ref' => (string) $claim['claim_reference']]);
+$mgrid_page_title = mgrid_title('title.claim_ref', ['ref' => 'CLM-' . (string) $claim['id']]);
 require __DIR__ . '/includes/shell_open.php';
 ?>
 
@@ -47,12 +47,12 @@ require __DIR__ . '/includes/shell_open.php';
     <div class="d-flex flex-wrap justify-content-between gap-2">
       <div>
         <div class="mgrid-topbar-label">Claim reference</div>
-        <div class="mgrid-mono-id" style="font-size:1.25rem;"><?= e((string) $claim['claim_reference']) ?></div>
+        <div class="mgrid-mono-id" style="font-size:1.25rem;"><?= e('CLM-' . (string) $claim['id']) ?></div>
       </div>
       <span class="badge text-bg-<?= e(mbenefits_claim_status_badge((string) $claim['status'])) ?> align-self-center"><?= e(mbenefits_claim_status_label((string) $claim['status'])) ?></span>
     </div>
     <h1 class="h4 mt-3 mb-1"><?= e((string) $claim['offer_title']) ?></h1>
-    <p class="text-muted mb-0"><?= e((string) $claim['provider_name']) ?> · <?= e(substr((string) $claim['claimed_at'], 0, 16)) ?></p>
+    <p class="text-muted mb-0"><?= e((string) $claim['provider_name']) ?> · <?= e(substr((string) $claim['created_at'], 0, 16)) ?></p>
   </div>
 </div>
 
@@ -61,13 +61,13 @@ require __DIR__ . '/includes/shell_open.php';
     <div class="mgrid-card">
       <div class="mgrid-card-header"><h2 class="mgrid-card-title">Notes</h2></div>
       <div class="mgrid-card-body">
-        <?php if (trim((string) ($claim['user_notes'] ?? '')) !== ''): ?>
+        <?php if (trim((string) ($claim['claim_note'] ?? '')) !== ''): ?>
           <p class="small text-muted mb-1">Your note</p>
-          <p><?= e((string) $claim['user_notes']) ?></p>
+          <p><?= e((string) $claim['claim_note']) ?></p>
         <?php endif; ?>
-        <?php if (trim((string) ($claim['admin_remarks'] ?? '')) !== ''): ?>
+        <?php if (trim((string) ($claim['admin_comment'] ?? '')) !== ''): ?>
           <p class="small text-muted mb-1">Admin</p>
-          <p class="mb-0"><?= e((string) $claim['admin_remarks']) ?></p>
+          <p class="mb-0"><?= e((string) $claim['admin_comment']) ?></p>
         <?php else: ?>
           <p class="text-muted mb-0">No admin remarks yet.</p>
         <?php endif; ?>
@@ -86,7 +86,7 @@ require __DIR__ . '/includes/shell_open.php';
               <li class="mb-2 pb-2 border-bottom">
                 <div class="small text-muted"><?= e(substr((string) $l['created_at'], 0, 19)) ?></div>
                 <div><?= e((string) ($l['old_status'] ?? '—')) ?> → <strong><?= e((string) $l['new_status']) ?></strong></div>
-                <?php if (trim((string) ($l['note'] ?? '')) !== ''): ?><div class="small"><?= e((string) $l['note']) ?></div><?php endif; ?>
+                <?php if (trim((string) ($l['comment'] ?? '')) !== ''): ?><div class="small"><?= e((string) $l['comment']) ?></div><?php endif; ?>
                 <?php if (trim((string) ($l['admin_name'] ?? '')) !== ''): ?><div class="small text-muted">By <?= e((string) $l['admin_name']) ?></div><?php endif; ?>
               </li>
             <?php endforeach; ?>

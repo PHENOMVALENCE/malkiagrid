@@ -13,7 +13,7 @@ if ($score === null || isset($_GET['recalculate'])) {
         $score = calculateUserMScore($uid);
         flash_set('success', __('mscore.user.ok'));
         if (isset($_GET['recalculate'])) {
-            redirect('user/my_mscore.php');
+            redirect(url('user/my_mscore.php'));
         }
     } catch (Throwable $e) {
         if ($score === null) {

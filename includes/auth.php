@@ -195,3 +195,61 @@ function logout_all(): void
     session_destroy();
 }
 
+function is_user_logged_in(): bool
+{
+    start_secure_session();
+
+    return (string) ($_SESSION['role'] ?? '') === 'user' && isset($_SESSION['user_id']) && is_numeric($_SESSION['user_id']);
+}
+
+function is_admin_logged_in(): bool
+{
+    start_secure_session();
+
+    return (string) ($_SESSION['role'] ?? '') === 'admin' && isset($_SESSION['admin_id']) && is_numeric($_SESSION['admin_id']);
+}
+
+function auth_user(): ?array
+{
+    if (!is_user_logged_in()) {
+        return null;
+    }
+
+    $user = current_user();
+    if (!is_array($user)) {
+        return null;
+    }
+
+    $fullName = trim((string) (($user['first_name'] ?? '') . ' ' . ($user['middle_name'] ?? '') . ' ' . ($user['surname'] ?? '')));
+
+    return [
+        'user_id' => (int) ($user['id'] ?? 0),
+        'm_id' => (string) ($user['m_id'] ?? ''),
+        'full_name' => $fullName !== '' ? $fullName : 'Mwanachama',
+        'email' => (string) ($user['email'] ?? ''),
+        'status' => (string) ($user['status'] ?? ''),
+    ];
+}
+
+function auth_admin(): ?array
+{
+    if (!is_admin_logged_in()) {
+        return null;
+    }
+
+    $admin = current_admin();
+    if (!is_array($admin)) {
+        return null;
+    }
+
+    $fullName = trim((string) ($admin['full_name'] ?? 'Msimamizi'));
+
+    return [
+        'admin_id' => (int) ($admin['id'] ?? 0),
+        'full_name' => $fullName !== '' ? $fullName : 'Msimamizi',
+        'email' => (string) ($admin['email'] ?? ''),
+        'role' => (string) ($admin['role'] ?? 'admin'),
+        'status' => (string) ($admin['status'] ?? ''),
+    ];
+}
+

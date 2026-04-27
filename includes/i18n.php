@@ -12,7 +12,8 @@ $mgrid_i18n_php_cache = null;
 
 function mgrid_normalize_ui_lang(?string $lang): string
 {
-    return 'sw';
+    $lang = strtolower(trim((string) $lang));
+    return in_array($lang, ['sw', 'en'], true) ? $lang : 'sw';
 }
 
 function mgrid_ui_lang(): string
@@ -32,7 +33,7 @@ function mgrid_i18n_bootstrap(): void
     if (session_status() !== PHP_SESSION_ACTIVE) {
         return;
     }
-    $_SESSION['preferred_language'] = 'sw';
+    $_SESSION['preferred_language'] = mgrid_normalize_ui_lang((string) ($_SESSION['preferred_language'] ?? 'sw'));
 }
 
 /**

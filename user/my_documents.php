@@ -14,10 +14,12 @@ $offset = ($page - 1) * $perPage;
 
 $countStmt = $pdo->prepare('
     SELECT COUNT(*)
-    FROM user_documents d
-    LEFT JOIN user_documents newer ON newer.parent_document_id = d.id
-    WHERE d.user_id = :uid
-      AND newer.id IS NULL
+    FROM (
+      SELECT MAX(id) AS id
+      FROM user_documents
+      WHERE user_id = :uid
+      GROUP BY document_type_id
+    ) latest
 ');
 $countStmt->execute(['uid' => $uid]);
 $total = (int) $countStmt->fetchColumn();
@@ -31,10 +33,13 @@ $listStmt = $pdo->prepare('
     SELECT d.*, dt.name AS type_name, dt.slug AS type_slug
     FROM user_documents d
     INNER JOIN document_types dt ON dt.id = d.document_type_id
-    LEFT JOIN user_documents newer ON newer.parent_document_id = d.id
-    WHERE d.user_id = :uid
-      AND newer.id IS NULL
-    ORDER BY d.uploaded_at DESC
+    INNER JOIN (
+      SELECT MAX(id) AS id
+      FROM user_documents
+      WHERE user_id = :uid
+      GROUP BY document_type_id
+    ) latest ON latest.id = d.id
+    ORDER BY d.created_at DESC
     LIMIT :limit OFFSET :offset
 ');
 $listStmt->bindValue(':uid', $uid, PDO::PARAM_INT);
@@ -112,11 +117,11 @@ require __DIR__ . '/includes/shell_open.php';
           <?php foreach ($documents as $doc): ?>
             <tr>
               <td>
-                <strong><?= e((string) $doc['title']) ?></strong>
+                <strong><?= e((string) ($doc['original_name'] ?? $doc['type_name'] ?? 'Document')) ?></strong>
                 <div class="small" style="color:var(--mgrid-ink-500);">Version <?= (int) $doc['version_number'] ?></div>
               </td>
               <td><?= e((string) $doc['type_name']) ?></td>
-              <td><?= e(substr((string) $doc['uploaded_at'], 0, 16)) ?></td>
+              <td><?= e(substr((string) ($doc['created_at'] ?? ''), 0, 16)) ?></td>
               <td>
                 <span class="badge text-bg-<?= e(mgrid_document_status_badge((string) $doc['status'])) ?>">
                   <?= e(mgrid_document_status_label((string) $doc['status'])) ?>

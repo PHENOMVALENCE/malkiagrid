@@ -11,11 +11,11 @@ $ready = trainings_module_ready($pdo);
 $rows = [];
 if ($ready) {
     $st = $pdo->prepare('
-        SELECT r.*, p.title, p.training_type, p.provider_name, p.schedule_start
+        SELECT r.*, p.title, "general" AS training_type, p.provider AS provider_name, p.start_date AS schedule_start
         FROM training_registrations r
-        INNER JOIN training_programs p ON p.id = r.training_program_id
+        INNER JOIN training_programs p ON p.id = r.training_id
         WHERE r.user_id = :u
-        ORDER BY r.applied_at DESC
+        ORDER BY r.created_at DESC
         LIMIT 100
     ');
     $st->execute(['u' => $uid]);
@@ -59,8 +59,8 @@ require __DIR__ . '/includes/shell_open.php';
                 <td><strong><?= e((string) $r['title']) ?></strong><div class="small text-muted"><?= e((string) $r['provider_name']) ?></div></td>
                 <td><?= e(ucfirst((string) $r['training_type'])) ?></td>
                 <td class="small"><?= $r['schedule_start'] ? e(substr((string) $r['schedule_start'], 0, 16)) : '—' ?></td>
-                <td class="small"><?= e(substr((string) $r['applied_at'], 0, 16)) ?></td>
-                <td><span class="badge text-bg-<?= e(training_registration_status_badge((string) $r['status'])) ?>"><?= e(training_registration_status_label((string) $r['status'])) ?></span></td>
+                <td class="small"><?= e(substr((string) $r['created_at'], 0, 16)) ?></td>
+                <td><span class="badge text-bg-<?= e(training_registration_status_badge((string) $r['registration_status'])) ?>"><?= e(training_registration_status_label((string) $r['registration_status'])) ?></span></td>
                 <td><span class="badge text-bg-<?= e(training_participation_status_badge((string) $r['participation_status'])) ?>"><?= e(training_participation_status_label((string) $r['participation_status'])) ?></span></td>
                 <td><span class="badge text-bg-<?= e(training_certificate_status_badge((string) $r['certificate_status'])) ?>"><?= e(training_certificate_status_label((string) $r['certificate_status'])) ?></span></td>
               </tr>

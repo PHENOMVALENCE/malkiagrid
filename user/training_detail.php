@@ -10,22 +10,19 @@ $id = (int) ($_GET['id'] ?? 0);
 
 if (!trainings_module_ready($pdo) || $id <= 0) {
     flash_set('error', __('train.detail.not_found'));
-    redirect('user/trainings.php');
+    redirect(url('user/trainings.php'));
 }
 
 $p = trainings_get_by_id($pdo, $id);
-if ($p === null || (int) $p['is_archived'] === 1 || (int) ($p['is_active'] ?? 0) !== 1) {
+if ($p === null || (string) ($p['status'] ?? '') !== 'published') {
     flash_set('error', __('train.detail.not_found'));
-    redirect('user/trainings.php');
+    redirect(url('user/trainings.php'));
 }
 
 $state = ot_training_listing_state($p);
-$canRegister = (int) $p['is_active'] === 1
-    && $state === 'active'
-    && (int) ($p['register_internal'] ?? 0) === 1
-    && !trainings_user_has_active_registration($pdo, $uid, $id);
+$canRegister = $state === 'active' && !trainings_user_has_active_registration($pdo, $uid, $id);
 
-$ext = trim((string) ($p['external_link'] ?? ''));
+$ext = '';
 
 $mgrid_page_title = (string) $p['title'] . ' — ' . __('site.brand');
 require __DIR__ . '/includes/shell_open.php';

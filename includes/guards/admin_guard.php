@@ -5,6 +5,6 @@ require_once __DIR__ . '/../init.php';
 
 if (!is_admin_logged_in()) {
     flash_error('Tafadhali ingia kama msimamizi kwanza.');
-    redirect('/login.php');
+    redirect(url('login.php'));
 }
 

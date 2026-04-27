@@ -10,13 +10,13 @@ $id = (int) ($_GET['id'] ?? 0);
 
 if (!mbenefits_module_ready($pdo) || $id <= 0) {
     flash_set('error', __('benefit.not_found'));
-    redirect('user/benefits.php');
+    redirect(url('user/benefits.php'));
 }
 
 $offer = mbenefits_get_offer($pdo, $id);
-if ($offer === null || (int) $offer['is_active'] !== 1) {
+if ($offer === null || (string) ($offer['status'] ?? '') !== 'published') {
     flash_set('error', __('benefit.not_found'));
-    redirect('user/benefits.php');
+    redirect(url('user/benefits.php'));
 }
 
 $ev = mbenefits_evaluate_eligibility($pdo, $uid, $offer);

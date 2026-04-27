@@ -12,11 +12,11 @@ $docId = (int) ($_GET['id'] ?? 0);
 $doc = $docId > 0 ? mgrid_document_find_for_user($pdo, $docId, $uid) : null;
 if ($doc === null) {
     flash_set('error', __('doc.not_found'));
-    redirect('user/my_documents.php');
+    redirect(url('user/my_documents.php'));
 }
 if (!mgrid_document_can_reupload((string) $doc['status'])) {
     flash_set('error', __('doc.reupload.blocked'));
-    redirect('user/my_documents.php');
+    redirect(url('user/my_documents.php'));
 }
 
 $typeStmt = $pdo->prepare('SELECT id, name FROM document_types WHERE id = :id LIMIT 1');
@@ -49,7 +49,7 @@ require __DIR__ . '/includes/shell_open.php';
       </div>
       <div class="col-md-6">
         <label class="mgrid-form-label" for="title">Document title</label>
-        <input class="mgrid-form-control" type="text" id="title" name="title" maxlength="180" required value="<?= e((string) $doc['title']) ?>">
+        <input class="mgrid-form-control" type="text" id="title" name="title" maxlength="180" required value="<?= e((string) ($doc['original_name'] ?? $doc['title'] ?? '')) ?>">
       </div>
       <div class="col-12">
         <label class="mgrid-form-label" for="description">Description (optional)</label>

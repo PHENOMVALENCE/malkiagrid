@@ -13,6 +13,6 @@ if (is_array($admin)) {
 
 if (!$isSuper) {
     flash_error('Huna ruhusa ya super admin.');
-    redirect('/admin/dashboard.php');
+    redirect(url('admin/dashboard.php'));
 }
 

@@ -85,13 +85,15 @@ if (is_post()) {
             ]);
 
             $insVLog = $pdo->prepare(
-                'INSERT INTO document_verification_logs (document_id, admin_id, action, comment, created_at)
-                 VALUES (:document_id, :admin_id, :action, :comment, NOW())'
+                'INSERT INTO document_verification_logs (document_id, user_id, admin_id, old_status, new_status, comment, created_at)
+                 VALUES (:document_id, :user_id, :admin_id, :old_status, :new_status, :comment, NOW())'
             );
             $insVLog->execute([
                 ':document_id' => $docId,
+                ':user_id' => (int) $doc['user_id'],
                 ':admin_id' => $adminId > 0 ? $adminId : null,
-                ':action' => $newDocStatus,
+                ':old_status' => (string) $doc['status'],
+                ':new_status' => $newDocStatus,
                 ':comment' => $comment !== '' ? $comment : null,
             ]);
 
@@ -137,7 +139,7 @@ if (is_post()) {
         <div class="card-body">
           <p class="mb-2"><strong>Status ya sasa:</strong> <?= e((string) $doc['status']) ?></p>
           <p class="mb-2"><strong>Faili:</strong> <a href="../document_view.php?id=<?= (int) $doc['id'] ?>" target="_blank">Fungua NIDA</a></p>
-          <p class="mb-0"><strong>Tarehe ya upakiaji:</strong> <?= e((string) $doc['uploaded_at']) ?></p>
+          <p class="mb-0"><strong>Tarehe ya upakiaji:</strong> <?= e((string) ($doc['created_at'] ?? '')) ?></p>
         </div>
       </div>
 

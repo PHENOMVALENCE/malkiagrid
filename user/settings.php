@@ -7,11 +7,16 @@ require __DIR__ . '/includes/init_member.php';
 $pdo = db();
 $uid = (int) auth_user()['user_id'];
 
-$st = $pdo->prepare('SELECT preferred_language, password_hash, full_name, email, phone FROM users WHERE id = :id LIMIT 1');
+$st = $pdo->prepare('SELECT preferred_language, password_hash, first_name, middle_name, surname, email, phone FROM users WHERE id = :id LIMIT 1');
 $st->execute(['id' => $uid]);
 $userRow = $st->fetch() ?: [];
 $lang = (string) ($userRow['preferred_language'] ?? 'sw');
 $langLabel = $lang === 'sw' ? __('lang.ui_sw') : __('lang.ui_en');
+$fullName = trim(implode(' ', array_filter([
+    (string) ($userRow['first_name'] ?? ''),
+    (string) ($userRow['middle_name'] ?? ''),
+    (string) ($userRow['surname'] ?? ''),
+])));
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -29,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $up->execute(['lang' => $newLang, 'id' => $uid]);
                 $_SESSION['preferred_language'] = $newLang;
                 flash_set('success', __('settings.success.lang'));
-                redirect('user/settings.php');
+                redirect(url('user/settings.php'));
             }
         } elseif ($action === 'password') {
             $currentPassword = (string) ($_POST['current_password'] ?? '');
@@ -50,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $upPw = $pdo->prepare('UPDATE users SET password_hash = :hash WHERE id = :id LIMIT 1');
                 $upPw->execute(['hash' => $newHash, 'id' => $uid]);
                 flash_set('success', __('settings.success.password'));
-                redirect('user/settings.php');
+                redirect(url('user/settings.php'));
             }
         } else {
             $errors[] = __('settings.error.unsupported_action');
@@ -138,7 +143,7 @@ require __DIR__ . '/includes/shell_open.php';
       <div class="card-body p-4">
         <h2 class="h6 text-uppercase text-muted mgrid-dash-stat-label mb-2"><?= e(__('settings.snapshot_title')) ?></h2>
         <div class="row g-3 small">
-          <div class="col-md-4"><strong class="text-dark"><?= e(__('settings.lbl_name')) ?>:</strong> <?= e((string) ($userRow['full_name'] ?? '—')) ?></div>
+          <div class="col-md-4"><strong class="text-dark"><?= e(__('settings.lbl_name')) ?>:</strong> <?= e($fullName !== '' ? $fullName : '—') ?></div>
           <div class="col-md-4"><strong class="text-dark"><?= e(__('settings.lbl_email')) ?>:</strong> <?= e((string) ($userRow['email'] ?? '—')) ?></div>
           <div class="col-md-4"><strong class="text-dark"><?= e(__('settings.lbl_phone')) ?>:</strong> <?= e((string) ($userRow['phone'] ?? '—')) ?></div>
         </div>

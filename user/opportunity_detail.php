@@ -10,22 +10,19 @@ $id = (int) ($_GET['id'] ?? 0);
 
 if (!opportunities_module_ready($pdo) || $id <= 0) {
     flash_set('error', __('opp.detail.not_found'));
-    redirect('user/opportunities.php');
+    redirect(url('user/opportunities.php'));
 }
 
 $o = opportunities_get_by_id($pdo, $id);
-if ($o === null || (int) $o['is_archived'] === 1 || (int) ($o['is_active'] ?? 0) !== 1) {
+if ($o === null || (string) ($o['status'] ?? '') !== 'published') {
     flash_set('error', __('opp.detail.not_found'));
-    redirect('user/opportunities.php');
+    redirect(url('user/opportunities.php'));
 }
 
 $state = ot_opportunity_listing_state($o);
-$canApply = (int) ($o['is_active'] ?? 0) === 1
-    && $state === 'active'
-    && (int) ($o['apply_internal'] ?? 0) === 1
-    && !opportunities_user_has_active_application($pdo, $uid, $id);
+$canApply = $state === 'active' && !opportunities_user_has_active_application($pdo, $uid, $id);
 
-$hasExternal = trim((string) ($o['external_link'] ?? '')) !== '';
+$hasExternal = false;
 
 $mgrid_page_title = (string) $o['title'] . ' — ' . __('site.brand');
 require __DIR__ . '/includes/shell_open.php';
@@ -86,7 +83,7 @@ require __DIR__ . '/includes/shell_open.php';
             </div>
             <button type="submit" class="btn-mgrid btn-mgrid-primary w-100">Apply on M-GRID</button>
           </form>
-        <?php elseif ((int) ($o['apply_internal'] ?? 0) === 1 && opportunities_user_has_active_application($pdo, $uid, $id)): ?>
+        <?php elseif (opportunities_user_has_active_application($pdo, $uid, $id)): ?>
           <p class="small text-muted">You already have an active application for this listing.</p>
           <a class="btn-mgrid btn-mgrid-outline w-100" href="<?= e(url('user/my_opportunities.php')) ?>">View my applications</a>
         <?php elseif ($state !== 'active'): ?>

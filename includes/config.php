@@ -19,7 +19,7 @@ if (!defined('APP_DEBUG')) {
 }
 
 if (!defined('APP_URL')) {
-    define('APP_URL', rtrim((string) (getenv('APP_URL') ?: ''), '/'));
+    define('APP_URL', rtrim((string) (getenv('APP_URL') ?: '/m-grid1'), '/'));
 }
 
 if (!defined('DB_HOST')) {
@@ -29,7 +29,7 @@ if (!defined('DB_PORT')) {
     define('DB_PORT', (string) (getenv('DB_PORT') ?: '3306'));
 }
 if (!defined('DB_NAME')) {
-    define('DB_NAME', (string) (getenv('DB_NAME') ?: 'malkia_grid'));
+    define('DB_NAME', (string) (getenv('DB_NAME') ?: 'malkiagrid'));
 }
 if (!defined('DB_USER')) {
     define('DB_USER', (string) (getenv('DB_USER') ?: 'root'));

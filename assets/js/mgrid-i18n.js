@@ -347,6 +347,31 @@
       "admin.link_analytics": "Analytics",
       "admin.link_reports": "Reports",
       "admin.link_team": "Administration team",
+      "admin.dashboard.kicker": "Command center",
+      "admin.dashboard.title": "Admin dashboard",
+      "admin.dashboard.subtitle": "Track verification, member growth, and recent admin actions in one place.",
+      "admin.dashboard.queue": "NIDA queue",
+      "admin.dashboard.total_members": "Total members",
+      "admin.dashboard.active_members": "Active members",
+      "admin.dashboard.pending_members": "Pending members",
+      "admin.dashboard.rejected_members": "Rejected members",
+      "admin.dashboard.docs_total": "Total documents",
+      "admin.dashboard.docs_pending": "Pending documents",
+      "admin.dashboard.funding_pending": "Pending M-Fund applications",
+      "admin.dashboard.quick_actions": "Quick actions",
+      "admin.dashboard.qa_members": "Open members",
+      "admin.dashboard.qa_documents": "Review documents",
+      "admin.dashboard.qa_funding": "Review funding",
+      "admin.dashboard.qa_reports": "View reports",
+      "admin.dashboard.nida_review": "NIDA pending review",
+      "admin.dashboard.table_mid": "M-ID",
+      "admin.dashboard.table_name": "Name",
+      "admin.dashboard.table_date": "Uploaded",
+      "admin.dashboard.table_action": "Action",
+      "admin.dashboard.review": "Review",
+      "admin.dashboard.no_pending_nida": "No pending NIDA documents right now.",
+      "admin.dashboard.recent_activity": "Recent admin activity",
+      "admin.dashboard.no_logs": "No admin activity logged yet.",
     },
     sw: {
       "lang.en": "English",
@@ -689,6 +714,31 @@
       "admin.link_analytics": "Takwimu",
       "admin.link_reports": "Ripoti",
       "admin.link_team": "Timu ya usimamizi",
+      "admin.dashboard.kicker": "Kitovu cha usimamizi",
+      "admin.dashboard.title": "Dashibodi ya msimamizi",
+      "admin.dashboard.subtitle": "Fuatilia uhakiki, ukuaji wa wanachama, na shughuli za wasimamizi kwa pamoja.",
+      "admin.dashboard.queue": "Foleni ya NIDA",
+      "admin.dashboard.total_members": "Wanachama wote",
+      "admin.dashboard.active_members": "Wanachama active",
+      "admin.dashboard.pending_members": "Wanachama pending",
+      "admin.dashboard.rejected_members": "Wanachama rejected",
+      "admin.dashboard.docs_total": "Nyaraka zote",
+      "admin.dashboard.docs_pending": "Nyaraka pending",
+      "admin.dashboard.funding_pending": "Maombi ya M-Fund pending",
+      "admin.dashboard.quick_actions": "Vitendo vya haraka",
+      "admin.dashboard.qa_members": "Fungua wanachama",
+      "admin.dashboard.qa_documents": "Kagua nyaraka",
+      "admin.dashboard.qa_funding": "Kagua M-Fund",
+      "admin.dashboard.qa_reports": "Angalia ripoti",
+      "admin.dashboard.nida_review": "NIDA zinazosubiri mapitio",
+      "admin.dashboard.table_mid": "M-ID",
+      "admin.dashboard.table_name": "Jina",
+      "admin.dashboard.table_date": "Tarehe ya kupakia",
+      "admin.dashboard.table_action": "Hatua",
+      "admin.dashboard.review": "Kagua",
+      "admin.dashboard.no_pending_nida": "Hakuna NIDA zinazongoja mapitio kwa sasa.",
+      "admin.dashboard.recent_activity": "Shughuli za karibuni za admin",
+      "admin.dashboard.no_logs": "Bado hakuna shughuli za admin zilizorekodiwa.",
     },
   };
 
@@ -825,11 +875,14 @@
   function initLangToggle() {
     const fromDoc = document.documentElement.getAttribute("data-mgrid-default-lang");
     let initial = "sw";
-    if (fromDoc === "sw") {
+    if (fromDoc === "sw" || fromDoc === "en") {
       initial = fromDoc;
     }
     try {
-      localStorage.setItem("mgrid_lang", "sw");
+      const stored = localStorage.getItem("mgrid_lang");
+      if (stored === "sw" || stored === "en") {
+        initial = stored;
+      }
     } catch (e2) {
       /* ignore */
     }

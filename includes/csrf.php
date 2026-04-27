@@ -23,7 +23,9 @@ function csrf_token(): string
 
 function csrf_input(): string
 {
-    return '<input type="hidden" name="_token" value="' . htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') . '">';
+    $token = htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8');
+    return '<input type="hidden" name="_token" value="' . $token . '">' .
+        '<input type="hidden" name="_csrf" value="' . $token . '">';
 }
 
 function verify_csrf(?string $token): bool
@@ -40,10 +42,24 @@ function verify_csrf(?string $token): bool
 
 function require_csrf(): void
 {
-    $token = $_POST['_token'] ?? '';
+    $token = $_POST['_token'] ?? ($_POST['_csrf'] ?? '');
     if (!verify_csrf(is_string($token) ? $token : null)) {
         http_response_code(419);
         exit('CSRF token si sahihi.');
+    }
+}
+
+if (!function_exists('csrf_field')) {
+    function csrf_field(): string
+    {
+        return csrf_input();
+    }
+}
+
+if (!function_exists('csrf_verify')) {
+    function csrf_verify(?string $token): bool
+    {
+        return verify_csrf($token);
     }
 }
 

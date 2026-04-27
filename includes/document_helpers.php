@@ -110,7 +110,15 @@ function latest_nida_document(PDO $pdo, int $userId, int $docTypeId): ?array
     return is_array($row) ? $row : null;
 }
 
-function create_nida_document(PDO $pdo, int $userId, int $docTypeId, string $mime, int $size, string $relativePath): int
+function create_nida_document(
+    PDO $pdo,
+    int $userId,
+    int $docTypeId,
+    string $mime,
+    int $size,
+    string $relativePath,
+    ?string $originalName = null
+): int
 {
     $prev = latest_nida_document($pdo, $userId, $docTypeId);
     $previousId = null;
@@ -124,23 +132,57 @@ function create_nida_document(PDO $pdo, int $userId, int $docTypeId, string $mim
         }
     }
 
-    $stmt = $pdo->prepare(
-        'INSERT INTO user_documents
-        (user_id, document_type_id, title, file_path, mime_type, file_size, status, version_number, previous_document_id, uploaded_at)
-        VALUES
-        (:user_id, :document_type_id, :title, :file_path, :mime_type, :file_size, :status, :version_number, :previous_document_id, NOW())'
-    );
-    $stmt->execute([
+    static $docColumns = null;
+    if (!is_array($docColumns)) {
+        $docColumns = [];
+        $cols = $pdo->query('SHOW COLUMNS FROM user_documents')->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        foreach ($cols as $col) {
+            $field = (string) ($col['Field'] ?? '');
+            if ($field !== '') {
+                $docColumns[$field] = true;
+            }
+        }
+    }
+
+    $fields = ['user_id', 'document_type_id', 'file_path', 'mime_type', 'file_size', 'status', 'version_number', 'previous_document_id'];
+    $params = [':user_id', ':document_type_id', ':file_path', ':mime_type', ':file_size', ':status', ':version_number', ':previous_document_id'];
+    $bind = [
         ':user_id' => $userId,
         ':document_type_id' => $docTypeId,
-        ':title' => 'NIDA',
         ':file_path' => $relativePath,
         ':mime_type' => $mime,
         ':file_size' => $size,
         ':status' => 'pending',
         ':version_number' => $version,
         ':previous_document_id' => $previousId,
-    ]);
+    ];
+
+    if (isset($docColumns['document_type'])) {
+        $fields[] = 'document_type';
+        $params[] = ':document_type';
+        $bind[':document_type'] = 'nida';
+    }
+    if (isset($docColumns['original_name'])) {
+        $fields[] = 'original_name';
+        $params[] = ':original_name';
+        $bind[':original_name'] = $originalName !== null && trim($originalName) !== '' ? trim($originalName) : 'nida';
+    } elseif (isset($docColumns['title'])) {
+        $fields[] = 'title';
+        $params[] = ':title';
+        $bind[':title'] = 'NIDA';
+    }
+    if (isset($docColumns['uploaded_at'])) {
+        $fields[] = 'uploaded_at';
+        $params[] = 'NOW()';
+    }
+
+    $sql = sprintf(
+        'INSERT INTO user_documents (%s) VALUES (%s)',
+        implode(', ', $fields),
+        implode(', ', $params)
+    );
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($bind);
 
     return (int) $pdo->lastInsertId();
 }

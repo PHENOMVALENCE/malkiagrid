@@ -7,17 +7,53 @@ require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/includes/flash.php';
 require_once __DIR__ . '/includes/functions.php';
 
+function user_login_redirect_path(string $status): string
+{
+    if ($status === 'active') {
+        return url('user/dashboard.php');
+    }
+
+    return url('pending-verification.php');
+}
+
+function admin_login_redirect_path(): string
+{
+    return url('admin/dashboard.php');
+}
+
 if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin' && isset($_SESSION['admin_id'])) {
-    redirect('admin/dashboard.php');
+    $admin = current_admin();
+    if (is_array($admin) && (string) ($admin['status'] ?? '') === 'active') {
+        redirect(admin_login_redirect_path());
+    }
+
+    logout_all();
+    flash_error('Kikao cha msimamizi si halali. Tafadhali ingia tena.');
+    redirect(url('login.php'));
 }
 if (isset($_SESSION['role']) && $_SESSION['role'] === 'user' && isset($_SESSION['user_id'])) {
-    redirect('user/dashboard.php');
+    $user = current_user();
+    if (is_array($user)) {
+        $status = (string) ($user['status'] ?? 'pending');
+        if ($status === 'suspended') {
+            logout_all();
+            flash_error('Akaunti yako imesimamishwa. Wasiliana na msimamizi.');
+            redirect(url('login.php'));
+        }
+
+        redirect(user_login_redirect_path($status));
+    }
+
+    logout_all();
+    flash_error('Kikao cha mwanachama si halali. Tafadhali ingia tena.');
+    redirect(url('login.php'));
 }
 
 $errors = [];
 $activeRole = 'user';
 $userLogin = '';
 $adminEmail = '';
+$flashErrors = flash_get('error');
 
 if (is_post()) {
     require_csrf();
@@ -33,7 +69,7 @@ if (is_post()) {
         } else {
             $result = authenticate_admin($adminEmail, $adminPassword);
             if (($result['ok'] ?? false) === true) {
-                redirect('admin/dashboard.php');
+                redirect(admin_login_redirect_path());
             }
 
             $reason = (string) ($result['reason'] ?? 'invalid_credentials');
@@ -55,13 +91,7 @@ if (is_post()) {
             $result = authenticate_user($userLogin, $userPassword);
             if (($result['ok'] ?? false) === true) {
                 $status = (string) ($result['status'] ?? 'pending');
-                if ($status === 'pending' || $status === 'rejected') {
-                    redirect('pending-verification.php');
-                }
-                if ($status === 'active') {
-                    redirect('user/dashboard.php');
-                }
-                redirect('pending-verification.php');
+                redirect(user_login_redirect_path($status));
             }
 
             $reason = (string) ($result['reason'] ?? 'invalid_credentials');
@@ -121,6 +151,9 @@ if (is_post()) {
           <h1 class="h2 mgrid-section-heading mb-1">Karibu tena, Malkia</h1>
           <p class="text-muted small mb-4">Ingia ili kuendelea kwenye wasifu wako uliothibitishwa.</p>
 
+          <?php foreach ($flashErrors as $error): ?>
+            <div class="alert alert-danger border-0 mb-2"><?= e((string) $error) ?></div>
+          <?php endforeach; ?>
           <?php foreach ($errors as $error): ?>
             <div class="alert alert-danger border-0 mb-2"><?= e($error) ?></div>
           <?php endforeach; ?>

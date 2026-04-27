@@ -16,6 +16,12 @@ if ($status === 'active') {
     redirect('user/dashboard.php');
 }
 
+$fullName = trim((string) (($user['first_name'] ?? '') . ' ' . ($user['middle_name'] ?? '') . ' ' . ($user['surname'] ?? '')));
+if ($fullName === '') {
+    $fullName = (string) ($user['full_name'] ?? 'Mwanachama');
+}
+$userMid = (string) ($user['m_id'] ?? '—');
+
 $pdo = db();
 $errors = [];
 $success = null;
@@ -48,7 +54,8 @@ if (is_post() && $docTypeId !== null) {
                     $docTypeId,
                     (string) $mimeOrMessage,
                     (int) $file['size'],
-                    $stored['relative_path']
+                    $stored['relative_path'],
+                    (string) ($file['name'] ?? 'nida')
                 );
                 $pdo->commit();
 
@@ -124,6 +131,14 @@ if (is_post() && $docTypeId !== null) {
 
             <div class="alert alert-warning border-0 mb-4" id="verifyStatusBox">
               Hali ya sasa: <strong id="verifyStatusText"><?= e($status === 'rejected' ? 'Ilikataliwa, pakia upya' : 'Inasubiri kupakiwa kwa NIDA') ?></strong>
+            </div>
+
+            <div class="card border-0 bg-light mb-4">
+              <div class="card-body py-3">
+                <div class="small text-uppercase text-muted mb-2">Maelezo ya akaunti</div>
+                <div class="small"><strong>Jina kamili:</strong> <?= e($fullName) ?></div>
+                <div class="small"><strong>M-ID:</strong> <?= e($userMid) ?></div>
+              </div>
             </div>
 
             <form id="verifyIdForm" method="post" enctype="multipart/form-data" novalidate>

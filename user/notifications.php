@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify(is_string($_POST['_csrf
             markNotificationAsRead($nid, $uid);
         }
     }
-    redirect('user/notifications.php');
+    redirect(url('user/notifications.php'));
 }
 
 $filter = clean_string($_GET['filter'] ?? '');

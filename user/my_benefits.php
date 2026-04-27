@@ -13,10 +13,10 @@ if ($ready) {
     $st = $pdo->prepare('
         SELECT c.*, o.title AS offer_title, p.name AS provider_name
         FROM benefit_claims c
-        INNER JOIN benefit_offers o ON o.id = c.benefit_offer_id
+        INNER JOIN benefit_offers o ON o.id = c.benefit_id
         INNER JOIN benefit_providers p ON p.id = o.provider_id
         WHERE c.user_id = :u
-        ORDER BY c.claimed_at DESC
+        ORDER BY c.created_at DESC
         LIMIT 100
     ');
     $st->execute(['u' => $uid]);
@@ -62,14 +62,14 @@ require __DIR__ . '/includes/shell_open.php';
           <tbody>
             <?php foreach ($claims as $c): ?>
               <tr>
-                <td class="mgrid-table-mid-cell"><?= e((string) $c['claim_reference']) ?></td>
+                <td class="mgrid-table-mid-cell">CLM-<?= (int) $c['id'] ?></td>
                 <td><?= e((string) $c['offer_title']) ?></td>
                 <td><?= e((string) $c['provider_name']) ?></td>
-                <td><?= e(substr((string) $c['claimed_at'], 0, 16)) ?></td>
+                <td><?= e(substr((string) $c['created_at'], 0, 16)) ?></td>
                 <td><span class="badge text-bg-<?= e(mbenefits_claim_status_badge((string) $c['status'])) ?>"><?= e(mbenefits_claim_status_label((string) $c['status'])) ?></span></td>
                 <td>
                   <a class="btn btn-sm btn-outline-primary" href="<?= e(url('user/benefit_claim_detail.php?id=' . (int) $c['id'])) ?>">Details</a>
-                  <a class="btn btn-sm btn-outline-secondary" href="<?= e(url('user/benefit_detail.php?id=' . (int) $c['benefit_offer_id'])) ?>">Offer</a>
+                  <a class="btn btn-sm btn-outline-secondary" href="<?= e(url('user/benefit_detail.php?id=' . (int) $c['benefit_id'])) ?>">Offer</a>
                 </td>
               </tr>
             <?php endforeach; ?>
