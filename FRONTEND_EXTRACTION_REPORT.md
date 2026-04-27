@@ -87,10 +87,10 @@
 | Platform settings | `admin/platform_settings.php` | System-level settings hub | admin | Setting groups, quick links | Settings forms (if enabled) | Save settings/manage links | Settings cards | Global dashboard CSS | Global JS | Settings/icons | settings read/write dependencies |
 
 ## Frontend Inventory (Non-runtime Prototype HTML)
-- Public prototypes: `public/index.html`, `public/login.html`, `public/register.html`
+- Public prototypes: `index.html`, `login.html`, `register.html`, `pending-verification.html`
 - Dashboard prototypes: `dashboard/home.html`, `dashboard/profile.html`, `dashboard/score.html`, `dashboard/documents.html`, `dashboard/loans.html`, `dashboard/partners.html`, `dashboard/benefits.html`, `dashboard/settings.html`
 - Admin prototypes: `admin/home.html`, `admin/users.html`, `admin/user-detail.html`, `admin/loans.html`, `admin/partners.html`, `admin/benefits.html`, `admin/reports.html`
-- Template/demo pages: `ui-buttons.html`, `ui-forms.html`, `ui-cards.html`, `authentication-login.html`, `authentication-register.html`, `authentication-forgot-password.html`, `sample-page.html`, `docs.html`, `icon-tabler.html`, `index.html`, others.
+- Template/demo pages: removed during frontend cleanup (kept only active template pages).
 
 ## Full Layout Map
 

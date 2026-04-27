@@ -11,15 +11,15 @@ Mradi huu ni toleo la **frontend-only** la M GRID, lililoboreshwa kwa muonekano 
 
 ## Entry Points
 
-- `index.html` -> `public/index.html`
-- `login.html` -> `public/login.html`
-- `register.html` -> `public/register.html`
-- `pending-verification.html` -> `public/pending-verification.html`
+- `index.html`
+- `login.html`
+- `register.html`
+- `pending-verification.html`
 
 ## Mtiririko wa Auth (Frontend Demo)
 
-1. Usajili unaanzia `public/register.html`
-2. Baada ya usajili, mtumiaji anaelekezwa `public/pending-verification.html`
+1. Usajili unaanzia `register.html`
+2. Baada ya usajili, mtumiaji anaelekezwa `pending-verification.html`
 3. Mtumiaji anapakia picha ya NIDA, hali inakuwa "pending_review"
 4. Login ya user:
    - ikiwa si `verified` -> anarudishwa pending verification page
@@ -73,4 +73,3 @@ Kwa kuwa ni frontend-only:
 ## Note
 
 Faili za `.php` bado zipo kwenye repository kwa historia/rejea, lakini muundo wa sasa wa UI umeandaliwa ku-run kama frontend-only.
-"# malkiagrid" 

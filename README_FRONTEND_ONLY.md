@@ -19,8 +19,9 @@ Goal: preserve original design/layout for frontend rebuild work.
 
 This project can now be opened as a static frontend package:
 
-- Root entrypoint is `index.html` (redirects to `public/index.html`)
+- Root entrypoint is `index.html`
 - Auth entrypoints are `login.html` and `register.html`
+- Verification entrypoint is `pending-verification.html`
 - Apache is configured to prefer HTML via `.htaccess` (`DirectoryIndex index.html index.htm`)
 
 No backend runtime is required for UI preview.

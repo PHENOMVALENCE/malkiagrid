@@ -21,23 +21,23 @@
           <div class="mgrid-sidebar-tagline">Digital identity &amp; opportunity</div>
         </div>
         <ul class="nav nav-pills flex-column gap-1">
-          <li class="nav-item"><a class="nav-link" href="home.html">Overview</a></li>
-          <li class="nav-item"><a class="nav-link active" href="profile.html">My M-ID &amp; Profile (Wasifu)</a></li>
-          <li class="nav-item"><a class="nav-link" href="score.html">My M-Score (Alama)</a></li>
+          <li class="nav-item"><a class="nav-link" href="home.html">Muhtasari</a></li>
+          <li class="nav-item"><a class="nav-link active" href="profile.html">M-ID &amp; M-Profile (Wasifu)</a></li>
+          <li class="nav-item"><a class="nav-link" href="score.html">M-Score (Alama)</a></li>
           <li class="nav-item"><a class="nav-link" href="documents.html">M-Documents (Nyaraka)</a></li>
           <li class="nav-item"><a class="nav-link" href="loans.html">M-Fund (Mikopo)</a></li>
           <li class="nav-item"><a class="nav-link" href="partners.html">M-Partners (Washirika)</a></li>
           <li class="nav-item"><a class="nav-link" href="benefits.html">M-Benefits (Faida)</a></li>
-          <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+          <li class="nav-item"><a class="nav-link" href="settings.html">Mipangilio</a></li>
         </ul>
         <div class="mt-auto pt-4 border-top">
-          <a class="btn btn-outline-danger btn-sm w-100" href="../public/login.html">Logout</a>
+          <a class="btn btn-outline-danger btn-sm w-100" href="../login.html">Toka</a>
         </div>
       </nav>
       <div class="flex-grow-1 p-3 p-md-4 pb-5 pb-xl-4">
         <header class="border-bottom bg-white rounded-3 p-3 mb-4">
           <h1 class="mgrid-page-header-title mb-0">M-ID &amp; M-Profile (Wasifu)</h1>
-          <p class="mgrid-page-header-sub mb-0">View and manage your verified identity (Utambulisho uliothibitishwa)</p>
+          <p class="mgrid-page-header-sub mb-0">Tazama na simamia utambulisho wako uliothibitishwa</p>
         </header>
 
         <div class="mgrid-profile-id-card p-4 mb-4">
@@ -56,50 +56,50 @@
               <div class="small text-muted text-uppercase">M-ID</div>
               <div class="font-monospace fs-4 fw-semibold">M-2026-004821</div>
               <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&amp;data=M-2026-004821" width="80" height="80" class="mt-2" alt="QR code for M-ID" loading="lazy" />
-              <div class="small text-muted mt-2">Member since Jan 2026</div>
-              <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="btnDownloadMid">Download My M-ID</button>
+              <div class="small text-muted mt-2">Mwanachama tangu Jan 2026</div>
+              <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="btnDownloadMid">Pakua M-ID yangu</button>
             </div>
           </div>
         </div>
 
         <ul class="nav nav-tabs mb-3" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="t1-tab" data-bs-toggle="tab" data-bs-target="#t1" type="button" role="tab">Personal</button>
+            <button class="nav-link active" id="t1-tab" data-bs-toggle="tab" data-bs-target="#t1" type="button" role="tab">Binafsi</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="t2-tab" data-bs-toggle="tab" data-bs-target="#t2" type="button" role="tab">Business</button>
+            <button class="nav-link" id="t2-tab" data-bs-toggle="tab" data-bs-target="#t2" type="button" role="tab">Biashara</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="t3-tab" data-bs-toggle="tab" data-bs-target="#t3" type="button" role="tab">Documents</button>
+            <button class="nav-link" id="t3-tab" data-bs-toggle="tab" data-bs-target="#t3" type="button" role="tab">Nyaraka</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="t4-tab" data-bs-toggle="tab" data-bs-target="#t4" type="button" role="tab">Security</button>
+            <button class="nav-link" id="t4-tab" data-bs-toggle="tab" data-bs-target="#t4" type="button" role="tab">Usalama</button>
           </li>
         </ul>
         <div class="tab-content">
           <div class="tab-pane fade show active" id="t1" role="tabpanel">
-            <form class="row g-3" data-mgrid-demo data-success-msg="Profile saved (demo).">
+            <form class="row g-3" data-mgrid-demo data-success-msg="Wasifu umehifadhiwa (demo).">
               <div class="col-md-6">
-                <label class="form-label" for="pname">Full name</label>
+                <label class="form-label" for="pname">Jina kamili</label>
                 <input type="text" class="form-control" id="pname" value="Amina Hassan" readonly />
               </div>
               <div class="col-md-6">
-                <label class="form-label" for="pphone">Phone</label>
+                <label class="form-label" for="pphone">Simu</label>
                 <input type="text" class="form-control" id="pphone" value="+255712345678" readonly />
               </div>
               <div class="col-12">
-                <label class="form-label" for="pbio">Bio</label>
+                <label class="form-label" for="pbio">Wasifu mfupi</label>
                 <textarea class="form-control" id="pbio" rows="3" readonly>Agri-business owner, DSM.</textarea>
               </div>
               <div class="col-12">
-                <button type="button" class="btn btn-outline-secondary btn-sm" id="editProfile">Edit</button>
-                <button type="submit" class="btn btn-primary btn-sm d-none" id="saveProfile">Save</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="editProfile">Hariri</button>
+                <button type="submit" class="btn btn-primary btn-sm d-none" id="saveProfile">Hifadhi</button>
               </div>
             </form>
           </div>
-          <div class="tab-pane fade" id="t2" role="tabpanel"><p class="text-muted small">Business fields (mock) — BRELA, TIN, bank name.</p></div>
-          <div class="tab-pane fade" id="t3" role="tabpanel"><p class="text-muted small">See <a href="documents.html">Documents</a> for uploads.</p></div>
-          <div class="tab-pane fade" id="t4" role="tabpanel"><p class="text-muted small">Password change in Settings.</p></div>
+          <div class="tab-pane fade" id="t2" role="tabpanel"><p class="text-muted small">Sehemu za biashara (mock) — BRELA, TIN, jina la benki.</p></div>
+          <div class="tab-pane fade" id="t3" role="tabpanel"><p class="text-muted small">Tazama <a href="documents.html">Nyaraka</a> kwa upakiaji.</p></div>
+          <div class="tab-pane fade" id="t4" role="tabpanel"><p class="text-muted small">Badili nenosiri kwenye Mipangilio.</p></div>
         </div>
       </div>
     </div>
