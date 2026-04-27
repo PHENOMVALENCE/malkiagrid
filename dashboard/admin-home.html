@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="sw" data-mgrid-default-lang="sw">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashibodi ya Msimamizi — M-Grid</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/mgrid-variables.css" rel="stylesheet" />
+    <link href="../assets/css/mgrid-overrides.css" rel="stylesheet" />
+    <link href="../assets/css/mgrid-components.css" rel="stylesheet" />
+    <link href="../assets/css/mgrid-animations.css" rel="stylesheet" />
+    <link href="../assets/css/mgrid-reference-theme.css" rel="stylesheet" />
+  </head>
+  <body class="bg-light">
+    <div class="d-flex min-vh-100">
+      <nav class="mgrid-dash-sidebar d-none d-xl-flex flex-column p-3">
+        <div class="mb-4">
+          <div class="mgrid-sidebar-brand">M·GRID ADMIN</div>
+          <div class="mgrid-sidebar-tagline">Usimamizi wa jukwaa</div>
+        </div>
+        <ul class="nav nav-pills flex-column gap-1">
+          <li class="nav-item"><a class="nav-link active" href="admin-home.html">Muhtasari</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Wanachama</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Uhakiki wa NIDA</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Nyaraka</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">M-Score</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Ripoti</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Mipangilio</a></li>
+        </ul>
+        <div class="mt-auto pt-4 border-top">
+          <a class="btn btn-outline-danger btn-sm w-100" href="../public/login.html">Toka</a>
+        </div>
+      </nav>
+
+      <div class="flex-grow-1 p-3 p-md-4">
+        <header class="border-bottom bg-white rounded-3 p-3 mb-4">
+          <h1 class="mgrid-page-header-title mb-0">Dashibodi ya Msimamizi</h1>
+          <p class="mgrid-page-header-sub mb-0">Muhtasari wa uthibitisho, wanachama, na shughuli za mfumo</p>
+        </header>
+
+        <div class="row g-3 g-lg-4 mb-4">
+          <div class="col-6 col-xl-3">
+            <div class="card mgrid-stat-card h-100 p-3">
+              <div class="mgrid-stat-label">Wanachama wote</div>
+              <div class="mgrid-stat-value">12,480</div>
+              <div class="small text-muted">+124 wiki hii</div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="card mgrid-stat-card h-100 p-3">
+              <div class="mgrid-stat-label">Wanasubiri uhakiki</div>
+              <div class="mgrid-stat-value">326</div>
+              <div class="small text-muted">NIDA & nyaraka</div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="card mgrid-stat-card h-100 p-3">
+              <div class="mgrid-stat-label">Imethibitishwa leo</div>
+              <div class="mgrid-stat-value">47</div>
+              <div class="small text-muted">Mapitio yamekamilika</div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="card mgrid-stat-card h-100 p-3">
+              <div class="mgrid-stat-label">Maombi ya ufadhili</div>
+              <div class="mgrid-stat-value">89</div>
+              <div class="small text-muted">Yanasubiri maamuzi</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-8">
+            <div class="card border-0 shadow-sm mb-4">
+              <div class="card-header bg-white">Foleni ya uthibitisho wa NIDA</div>
+              <div class="table-responsive">
+                <table class="table table-sm align-middle mb-0">
+                  <thead>
+                    <tr>
+                      <th>M-ID</th>
+                      <th>Jina</th>
+                      <th>Tarehe</th>
+                      <th>Hali</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>M-2026-009901</td><td>Neema Joseph</td><td>27 Apr 2026</td><td><span class="badge bg-warning text-dark">Inasubiri</span></td></tr>
+                    <tr><td>M-2026-009902</td><td>Asha Mussa</td><td>27 Apr 2026</td><td><span class="badge bg-warning text-dark">Inasubiri</span></td></tr>
+                    <tr><td>M-2026-009903</td><td>Zawadi Mwita</td><td>27 Apr 2026</td><td><span class="badge bg-info">Inapitiwa</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white">Shughuli za hivi karibuni</div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Msimamizi A amethibitisha nyaraka 12</li>
+                <li class="list-group-item">M-Score imehesabiwa upya kwa wanachama 84</li>
+                <li class="list-group-item">Tangazo jipya limetumwa kwa wanachama wote</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card border-0 shadow-sm mb-3">
+              <div class="card-header bg-white">Vitendo vya haraka</div>
+              <div class="card-body row g-2">
+                <div class="col-12"><button class="btn btn-outline-primary w-100 btn-sm">Kagua NIDA</button></div>
+                <div class="col-12"><button class="btn btn-outline-primary w-100 btn-sm">Kagua Nyaraka</button></div>
+                <div class="col-12"><button class="btn btn-outline-primary w-100 btn-sm">Tuma Tangazo</button></div>
+                <div class="col-12"><button class="btn btn-outline-primary w-100 btn-sm">Pakua Ripoti</button></div>
+              </div>
+            </div>
+            <div class="alert alert-info small mb-0">
+              Kumbusho: kuna maombi 26 yaliyozidi masaa 24 bila mapitio.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/mgrid-i18n.js"></script>
+    <script src="../assets/js/mgrid-core.js"></script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+// Malkia Grid — premium soft-power design tokens
+:root,
+[data-bs-theme="light"] {
+  --gold: #c48a8a;
+  --gold-light: #dfb2b2;
+  --gold-dark: #9a6767;
+  --gold-muted: #f7e9e9;
+
+  --charcoal: #2d1e2f;
+  --charcoal-mid: #4a2e4f;
+  --charcoal-soft: #6b6b6b;
+
+  --blush: #f7e9e9;
+  --blush-mid: #ecdcdc;
+  --blush-accent: #b07676;
+
+  --white: #ffffff;
+  --off-white: #faf8f7;
+  --surface: #f7f2f2;
+  --surface-2: #ece6e6;
+
+  --bronze: #be8667;
+  --silver: #b0a5b9;
+  --gold-tier: #b76e79;
+  --diamond: #7b86cc;
+
+  --success: #3e7b5f;
+  --success-bg: #e9f4ee;
+  --warning: #9b6328;
+  --warning-bg: #fcf3e8;
+  --danger: #a33952;
+  --danger-bg: #fceef2;
+  --info: #4f5f9c;
+  --info-bg: #eceffc;
+
+  --focus-ring: rgba(196, 138, 138, 0.45);
+
+  --shadow-sm: 0 8px 20px rgba(55, 32, 64, 0.08);
+  --shadow-md: 0 14px 34px rgba(55, 32, 64, 0.12);
+  --shadow-lg: 0 24px 50px rgba(55, 32, 64, 0.16);
+  --shadow-gold: 0 0 0 1px rgba(183, 110, 121, 0.24), 0 14px 30px rgba(143, 74, 99, 0.22);
+
+  --radius-sm: 10px;
+  --radius-input: 14px;
+  --radius-card: 18px;
+  --radius-panel: 22px;
+
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", "Segoe UI", sans-serif;
+  --font-mono-id: "JetBrains Mono", "Courier New", monospace;
+
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.3s ease;
+
+  // Spacing scale
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 40px;
+  --space-5: 64px;
+}

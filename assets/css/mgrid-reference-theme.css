@@ -1,0 +1,315 @@
+:root {
+  --mgrid-ref-bg: #f3eee8;
+  --mgrid-ref-surface: #ffffff;
+  --mgrid-ref-border: #e8ddd2;
+  --mgrid-ref-ink: #2f2622;
+  --mgrid-ref-muted: #7a6f68;
+  --mgrid-ref-accent: #c7928d;
+  --mgrid-ref-accent-dark: #a86f6a;
+  --mgrid-ref-deep: #2d1b23;
+}
+
+body {
+  background: var(--mgrid-ref-bg) !important;
+  color: var(--mgrid-ref-ink);
+}
+
+.mgrid-navbar {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--mgrid-ref-border);
+  box-shadow: 0 4px 12px rgba(38, 24, 22, 0.05);
+}
+
+.mgrid-nav-wrap {
+  min-height: 78px;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+}
+
+.mgrid-brand-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid #d8c9bc;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #6e4f49;
+  background: #fffaf5;
+}
+
+.mgrid-navbar .nav-link {
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: #2f2622;
+  padding-left: 0.55rem !important;
+  padding-right: 0.55rem !important;
+}
+
+.mgrid-navbar .nav-link:hover {
+  color: #7b5b55;
+}
+
+.mgrid-navbar .btn-link {
+  font-weight: 500;
+  color: #2f2622 !important;
+}
+
+.mgrid-brand-name {
+  letter-spacing: 0.04em;
+  font-size: 1.85rem;
+  line-height: 1;
+}
+
+.mgrid-brand-tagline {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.62rem;
+  color: #7a6e67;
+}
+
+.mgrid-header-controls {
+  flex-wrap: nowrap;
+}
+
+.mgrid-header-controls .btn-primary {
+  padding-inline: 1.15rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 991.98px) {
+  .mgrid-nav-wrap {
+    min-height: 68px;
+  }
+
+  .mgrid-brand-name {
+    font-size: 1.5rem;
+  }
+
+  #navMain {
+    border-top: 1px solid #e8ddd2;
+    margin-top: 0.5rem;
+    padding-top: 0.65rem;
+  }
+
+  .mgrid-header-controls {
+    margin-top: 0.6rem;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}
+
+.mgrid-hero-full.mgrid-hero-photo {
+  min-height: 84vh;
+}
+
+.mgrid-hero-full.mgrid-hero-photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, rgba(38, 23, 30, 0.78), rgba(87, 52, 62, 0.42));
+  z-index: 0;
+}
+
+.mgrid-hero-full .container {
+  position: relative;
+  z-index: 1;
+}
+
+.mgrid-section-heading,
+h1,
+h2,
+h3 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  letter-spacing: 0.01em;
+  color: #2b1f1a;
+}
+
+.mgrid-public section {
+  border-top: 1px solid #efe7df;
+}
+
+.mgrid-public section:nth-of-type(odd) {
+  background: #f8f4ef;
+}
+
+.mgrid-public section:nth-of-type(even) {
+  background: #f2ece5;
+}
+
+.card,
+.mgrid-tier-card,
+.mgrid-benefits-panel,
+.mgrid-partner-cell,
+.mgrid-mid-card--premium,
+.mgrid-modal-rounded {
+  border: 1px solid var(--mgrid-ref-border) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 8px 20px rgba(45, 27, 35, 0.05) !important;
+}
+
+.mgrid-tier-card.is-active {
+  border-color: #d7b1ae !important;
+  box-shadow: 0 10px 24px rgba(167, 109, 104, 0.18) !important;
+}
+
+#features {
+  background: #f3eee8 !important;
+  padding-top: 2.2rem !important;
+}
+
+#features .mgrid-section-heading {
+  font-size: clamp(2.05rem, 4vw, 3.4rem);
+  line-height: 1.05;
+}
+
+.mgrid-feature-intro {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: #6f635d;
+}
+
+.mgrid-feature-card {
+  border-radius: 16px !important;
+  border-color: #dfd5cb !important;
+  background: #fbfaf8 !important;
+  box-shadow: 0 1px 2px rgba(35, 24, 22, 0.04), 0 6px 14px rgba(35, 24, 22, 0.04) !important;
+}
+
+.mgrid-feature-card h3 {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 1.9rem;
+  font-weight: 500;
+  border-bottom: 1px solid #ece5dd;
+  padding-bottom: 0.7rem;
+}
+
+.mgrid-feature-card p {
+  font-size: 1rem;
+  color: #6e635d !important;
+}
+
+#benefits,
+#partners,
+#faq {
+  background: #f3eee8 !important;
+}
+
+#benefits .card,
+#partners .mgrid-partner-cell {
+  background: #fbfaf8 !important;
+}
+
+#benefits ul li {
+  margin-bottom: 0.65rem;
+}
+
+#partners .mgrid-partner-cell {
+  min-height: 142px;
+  text-align: left;
+}
+
+.mgrid-cta-banner {
+  border-top: 8px solid #2d1222;
+  border-bottom: 8px solid #2d1222;
+}
+
+.mgrid-cta-panel {
+  background: #faf9f7;
+  border: 1px solid #e5d8cc;
+  border-radius: 18px;
+  box-shadow: 0 10px 24px rgba(20, 12, 17, 0.2);
+}
+
+.mgrid-cta-panel .mgrid-section-heading {
+  color: #2b1f1a !important;
+}
+
+.mgrid-cta-panel .btn-outline-secondary {
+  border-radius: 10px;
+  border-color: #ddd0c4;
+  color: #2f2622;
+  background: #fff;
+}
+
+#faq .accordion-item {
+  border-radius: 12px !important;
+  border: 1px solid #dfd4c8 !important;
+  overflow: hidden;
+  margin-bottom: 0.6rem;
+}
+
+#faq .accordion-button {
+  background: #fbfaf8;
+  font-weight: 600;
+  color: #2b1f1a;
+}
+
+#faq .accordion-button:not(.collapsed) {
+  background: #f6f2ed;
+  box-shadow: none;
+}
+
+#faq .accordion-body {
+  color: #5f544d;
+  background: #fbfaf8;
+}
+
+.btn-primary,
+.btn-mgrid-primary {
+  background: linear-gradient(180deg, var(--mgrid-ref-accent), var(--mgrid-ref-accent-dark)) !important;
+  border-color: var(--mgrid-ref-accent-dark) !important;
+  border-radius: 10px !important;
+}
+
+.btn-outline-light {
+  border-radius: 10px !important;
+}
+
+.mgrid-lang-toggle .btn {
+  border-radius: 8px !important;
+  border-color: #dccdc3;
+  color: #5e4d45;
+}
+
+.mgrid-lang-toggle .btn:hover {
+  background: #f6ece5;
+}
+
+.mgrid-cta-banner {
+  background: linear-gradient(120deg, #2d1b23, #412933) !important;
+}
+
+.mgrid-footer {
+  background: #efe7df !important;
+  color: var(--mgrid-ref-ink) !important;
+}
+
+.mgrid-footer a {
+  color: #5d453f !important;
+}
+
+.mgrid-footer a:hover {
+  color: #2f2622 !important;
+}
+
+.mgrid-login-pattern,
+.mgrid-register-left {
+  background-color: #f3eee8 !important;
+}
+
+.mgrid-register-left {
+  background-image: linear-gradient(145deg, #3b2230, #7f5d63) !important;
+}
+
+#regStep1 .form-control-sm,
+#regStep1 .input-group-text {
+  min-height: 34px;
+  font-size: 0.9rem;
+}
+
+#regStep1 .form-label {
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+  color: var(--mgrid-ref-muted);
+}

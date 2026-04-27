@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="sw" data-mgrid-default-lang="sw">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Malkia Grid — Mtandao wa kiuchumi wa wanawake</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/mgrid-variables.css" rel="stylesheet" />
+    <link href="../assets/css/mgrid-overrides.css" rel="stylesheet" />
+    <link href="../assets/css/mgrid-components.css" rel="stylesheet" />
+    <link href="../assets/css/mgrid-animations.css" rel="stylesheet" />
+    <link href="../assets/css/mgrid-reference-theme.css" rel="stylesheet" />
+  </head>
+  <body class="bg-white mgrid-public">
+    <nav class="navbar navbar-expand-lg fixed-top mgrid-navbar" id="mgridMainNav" data-bs-theme="light">
+      <div class="container mgrid-nav-wrap">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+          <span class="d-inline-flex align-items-center justify-content-center mgrid-brand-mark">MG</span>
+          <span class="mgrid-brand-lockup">
+            <span class="mgrid-brand-name">M GRID</span>
+            <span class="mgrid-brand-tagline d-none d-sm-block">Mtandao wa kiuchumi wa wanawake</span>
+          </span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navMain"
+          aria-controls="navMain"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMain">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-2">
+            <li class="nav-item">
+              <a class="nav-link" href="#about" data-i18n="nav.about">Kuhusu</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#how">Jinsi inavyofanya kazi</a></li>
+            <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+            <li class="nav-item"><a class="nav-link" href="#benefits">Faida</a></li>
+            <li class="nav-item"><a class="nav-link" href="#partners" data-i18n="nav.partners">Washirika</a></li>
+            <li class="nav-item"><a class="nav-link" href="#faq">Maswali</a></li>
+          </ul>
+          <div class="d-flex align-items-center gap-2 mgrid-header-controls">
+            <div class="btn-group btn-group-sm mgrid-lang-toggle" role="group" aria-label="Language / Lugha">
+              <input type="radio" class="btn-check" name="mgridLang" id="mgridLangEn" value="en" autocomplete="off" />
+              <label class="btn btn-sm btn-outline-secondary" for="mgridLangEn">EN</label>
+              <input type="radio" class="btn-check" name="mgridLang" id="mgridLangSw" value="sw" autocomplete="off" />
+              <label class="btn btn-sm btn-outline-secondary" for="mgridLangSw">SW</label>
+            </div>
+            <a class="btn btn-link text-decoration-none text-dark px-2" href="login.html">Ingia</a>
+            <a class="btn btn-primary" href="register.html">Jisajili kwa M-ID</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="mgrid-hero-full mgrid-hero-photo position-relative">
+      <div class="mgrid-gold-grain" aria-hidden="true"></div>
+      <div class="container position-relative py-5 mgrid-pt-nav-offset">
+        <div class="row align-items-center min-vh-100 py-5">
+          <div class="col-lg-8 fade-in-up">
+            <h1 class="mgrid-hero-title text-white mb-4" data-i18n="hero.title">
+              Your Digital Passport to Economic Power
+            </h1>
+            <p class="mgrid-hero-lead text-white mb-4" data-i18n="hero.subtitle">
+              Malkia Grid gives every woman in Tanzania a verified identity, a credit score, and access to finance,
+              training, and opportunities.
+            </p>
+            <div class="d-flex flex-wrap gap-3 mb-5 stagger">
+              <a class="btn btn-primary btn-lg" href="register.html">Get Your M-ID</a>
+              <button type="button" class="btn btn-outline-light btn-lg" data-bs-toggle="modal" data-bs-target="#modalHowItWorks" data-i18n="cta.watch">
+                Watch How It Works
+              </button>
+            </div>
+            <div class="row g-3 text-white text-center text-md-start">
+              <div class="col-6 col-md-3">
+                <div class="fs-3 fw-semibold font-monospace">1M+</div>
+                <div class="small opacity-75" data-i18n="hero.stats_women">Wanawake</div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="fs-3 fw-semibold">6</div>
+                <div class="small opacity-75" data-i18n="hero.stats_regions">Mikoa</div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="fs-3 fw-semibold">20+</div>
+                <div class="small opacity-75" data-i18n="hero.stats_partners">Washirika</div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="fs-3 fw-semibold">TZS 5B+</div>
+                <div class="small opacity-75" data-i18n="hero.stats_unlocked">Imefunguliwa</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center pb-4">
+          <span class="d-inline-block mgrid-scroll-hint text-white-50 small" aria-hidden="true" data-i18n="hero.scroll">Shuka chini</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="py-4">
+      <div class="container">
+        <div class="card border-0 shadow-sm p-3 p-md-4">
+          <div class="row g-2 text-center">
+            <div class="col-6 col-md-3"><small class="text-muted">Malkia wa Nguvu</small></div>
+            <div class="col-6 col-md-3"><small class="text-muted">Clouds Media Group</small></div>
+            <div class="col-6 col-md-3"><small class="text-muted">Utunzaji salama wa data</small></div>
+            <div class="col-6 col-md-3"><small class="text-muted">Muundo wa kitaifa</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What is M-Grid -->
+    <section id="about" class="py-5 py-lg-6">
+      <div class="container py-4">
+        <div class="row g-5 align-items-center">
+          <div class="col-lg-6">
+            <p class="small text-uppercase text-muted mb-2">M GRID NI NINI</p>
+            <h2 class="display-6 mb-3 mgrid-section-heading">Kuhusu Malkia Grid</h2>
+            <p class="lead mgrid-body-reading">
+              Malkia Grid imejengwa kwa kiwango cha taifa: utambulisho wa kuaminika, wasifu unaokua, na njia iliyo wazi ya kufikia fursa.
+            </p>
+          </div>
+          <div class="col-lg-6">
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <div class="card h-100 p-3">
+                  <h3 class="h6 mb-2">Heshima kwanza</h3>
+                  <p class="small text-muted mb-0">Taarifa zako zinatunzwa kwa heshima na usalama.</p>
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="card h-100 p-3">
+                  <h3 class="h6 mb-2">Imejengwa kwa ushirikiano</h3>
+                  <p class="small text-muted mb-0">Wasifu wa mpangilio huwezesha taasisi kufanya maamuzi kwa urahisi.</p>
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="card h-100 p-3">
+                  <h3 class="h6 mb-2">Imejengwa kupanuka</h3>
+                  <p class="small text-muted mb-0">M-Fund, M-Partner na M-Benefits huunganishwa bila kubadili utambulisho wako.</p>
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="card h-100 p-3">
+                  <h3 class="h6 mb-2">Mchango wa kitaifa</h3>
+                  <p class="small text-muted mb-0">Inalenga kuunganisha wanawake wengi kwenye mfumo mmoja unaoaminika.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" class="py-5 bg-light">
+      <div class="container">
+        <h2 class="text-center mb-5 mgrid-section-heading">Jinsi inavyofanya kazi</h2>
+        <div class="row g-4">
+          <div class="col-md-3">
+            <div class="card card-hover h-100 border-0 p-4">
+              <div class="rounded-circle bg-dark text-warning d-inline-flex align-items-center justify-content-center mb-3 mgrid-step-num">1</div>
+              <h3 class="h6 fw-semibold text-dark">Jisajili</h3>
+              <p class="text-muted small mb-0">Fungua akaunti kwa taarifa sahihi.</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card card-hover h-100 border-0 p-4">
+              <div class="rounded-circle bg-dark text-warning d-inline-flex align-items-center justify-content-center mb-3 mgrid-step-num">2</div>
+              <h3 class="h6 fw-semibold text-dark">Pokea M-ID</h3>
+              <p class="text-muted small mb-0">Unapata kitambulisho chako cha kudumu.</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card card-hover h-100 border-0 p-4">
+              <div class="rounded-circle bg-dark text-warning d-inline-flex align-items-center justify-content-center mb-3 mgrid-step-num">3</div>
+              <h3 class="h6 fw-semibold text-dark">Kamilisha wasifu</h3>
+              <p class="text-muted small mb-0">Jaza wasifu na nyaraka muhimu.</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card card-hover h-100 border-0 p-4">
+              <div class="rounded-circle bg-dark text-warning d-inline-flex align-items-center justify-content-center mb-3 mgrid-step-num">4</div>
+              <h3 class="h6 fw-semibold text-dark">Fikia fursa</h3>
+              <p class="text-muted small mb-0">Pata faida, mafunzo na washirika.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-5 py-lg-6">
+      <div class="container">
+        <div class="row g-4 align-items-start mb-4">
+          <div class="col-lg-7">
+            <p class="small text-uppercase text-muted mb-2">Jukwaa kuu</p>
+            <h2 class="mb-0 mgrid-section-heading">Utambulisho, wasifu, alama,<br />na ujiandaa wa mtaji</h2>
+          </div>
+          <div class="col-lg-5">
+            <p class="small mgrid-feature-intro mb-0">Vipengele vinavyojumuika kwa muda - kila safu inaongeza ishara bila kuvunja rekodi yako.</p>
+          </div>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="mgrid-tier-card p-4 h-100 card-hover mgrid-feature-card">
+              <h3 class="h4 mb-3">M-ID</h3>
+              <p class="small text-muted mb-0">Kitambulisho kimoja cha kudumu kwa mwanachama.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mgrid-tier-card p-4 h-100 card-hover mgrid-feature-card">
+              <h3 class="h4 mb-3">M-Profile</h3>
+              <p class="small text-muted mb-0">Wasifu wa mwanachama wenye nyaraka na uhakiki.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mgrid-tier-card p-4 h-100 card-hover mgrid-feature-card">
+              <h3 class="h4 mb-3">M-Score</h3>
+              <p class="small text-muted mb-0">Alama ya kuaminika kwa hatua za maendeleo.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mgrid-tier-card p-4 h-100 card-hover mgrid-feature-card">
+              <h3 class="h4 mb-3">M-Fund</h3>
+              <p class="small text-muted mb-0">Njia za kujiandaa kifedha na maombi ya hiari.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="benefits" class="py-5 bg-light">
+      <div class="container">
+        <div class="row g-4 align-items-start">
+          <div class="col-lg-5">
+            <p class="small text-uppercase text-muted mb-2">Matokeo</p>
+            <h2 class="mgrid-section-heading">Faida na fursa</h2>
+            <p class="small text-muted">Malkia Grid inaanza na utambulisho, kisha alama ya kuaminika, halafu njia za huduma na msaada.</p>
+            <ul class="small ps-3">
+              <li>M-ID moja ya kudumu</li>
+              <li>Dashibodi ya M-Profile</li>
+              <li>Njia wazi ya M-Score</li>
+              <li>Kiswahili ni lugha kuu, English ni ya pili</li>
+            </ul>
+          </div>
+          <div class="col-lg-7">
+            <div class="row g-3">
+              <div class="col-sm-6"><div class="card p-3"><strong>M-Fund</strong><p class="small text-muted mb-0">Njia za mikopo (inapangwa).</p></div></div>
+              <div class="col-sm-6"><div class="card p-3"><strong>M-Partner</strong><p class="small text-muted mb-0">Huduma za washirika kulingana na wasifu wako.</p></div></div>
+              <div class="col-sm-6"><div class="card p-3"><strong>M-Benefits</strong><p class="small text-muted mb-0">Programu, misaada na mafunzo.</p></div></div>
+              <div class="col-sm-6"><div class="card p-3"><strong>Uhakiki</strong><p class="small text-muted mb-0">Upakiaji wa nyaraka na mapitio.</p></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Partners -->
+    <section id="partners" class="py-5 bg-white">
+      <div class="container text-center">
+        <p class="small text-uppercase text-muted mb-2">Mfumo wa washirika</p>
+        <h2 class="mb-4 mgrid-section-heading">Mfumo wa washirika</h2>
+        <p class="small text-muted mx-auto mb-4 mgrid-max-w-560">Washirika wa kifedha, afya, ujuzi, na vyombo vya habari huunganishwa kupitia wasifu wa mpangilio - kupunguza mzozo na kusaidia ufikivu haki.</p>
+        <div class="row g-3 justify-content-center">
+          <div class="col-md-3"><div class="p-3 border rounded mgrid-partner-cell text-start"><strong>Fedha</strong><p class="small mb-0 text-muted">Mikopo, akiba na bima.</p></div></div>
+          <div class="col-md-3"><div class="p-3 border rounded mgrid-partner-cell text-start"><strong>Afya na ustawi</strong><p class="small mb-0 text-muted">Huduma za afya kwa faragha.</p></div></div>
+          <div class="col-md-3"><div class="p-3 border rounded mgrid-partner-cell text-start"><strong>Ujuzi na biashara</strong><p class="small mb-0 text-muted">Mafunzo na ukuaji wa biashara.</p></div></div>
+          <div class="col-md-3"><div class="p-3 border rounded mgrid-partner-cell text-start"><strong>Vyombo vya habari</strong><p class="small mb-0 text-muted">Mwonekano na hadithi zenye idhini.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="mgrid-cta-banner py-5 position-relative">
+      <div class="container position-relative py-4">
+        <div class="mgrid-cta-panel p-4 p-lg-5">
+          <div class="row g-4 align-items-start">
+            <div class="col-lg-7">
+              <p class="small text-uppercase text-muted mb-2">Anza</p>
+              <h2 class="display-5 mb-3 mgrid-section-heading">Jiunge na sajili ya kitaifa ya biashara zinazoongozwa na wanawake.</h2>
+              <p class="mb-0 text-muted">Pokea M-ID, amilisha Wasifu wa M, na shiriki katika njia ya utawala kuelekea uaminifu na fursa.</p>
+            </div>
+            <div class="col-lg-5">
+              <div class="d-grid gap-2">
+                <a class="btn btn-primary btn-lg" href="register.html">Jisajili kwa M-ID</a>
+                <a class="btn btn-outline-secondary btn-lg" href="login.html">Ingia kama mwanachama</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="py-5 bg-white">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <p class="small text-uppercase text-muted mb-2">Uwazi</p>
+            <h2 class="mgrid-section-heading">Maswali yanayoulizwa mara kwa mara</h2>
+            <p class="small text-muted">Majibu ya haraka kuhusu M-ID, M-Score na faragha ya taarifa.</p>
+          </div>
+          <div class="col-lg-8">
+            <div class="accordion" id="faqAcc">
+              <div class="accordion-item">
+                <h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#fq1">M-ID ni nini?</button></h2>
+                <div id="fq1" class="accordion-collapse collapse show" data-bs-parent="#faqAcc"><div class="accordion-body">Ni namba yako ya kipekee ya Malkia Grid inayobaki nawe muda wote.</div></div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fq2">M-Score ipo tayari sasa?</button></h2>
+                <div id="fq2" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">M-Score inatekelezwa kwa hatua; utaona maendeleo kadri mfumo unavyokamilika.</div></div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fq3">Nani anaweza kuona taarifa zangu?</button></h2>
+                <div id="fq3" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Ni wewe na wasimamizi wenye ruhusa maalum tu kulingana na sera za mfumo.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mgrid-footer pt-5 pb-3">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="mgrid-logo-text mb-2">M·GRID</div>
+            <p class="small opacity-75" data-i18n="footer.tagline">Women's digital identity for opportunity and trust.</p>
+          </div>
+          <div class="col-md-4">
+            <div class="fw-semibold mb-2" data-i18n="home.quick_links">Viungo vya haraka</div>
+            <ul class="list-unstyled small">
+              <li><a href="#about">Kuhusu</a></li>
+              <li><a href="#partners">Washirika</a></li>
+              <li><a href="register.html">Jisajili</a></li>
+              <li><a href="login.html" data-i18n="home.link_admin_login">Ingia msimamizi</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <div class="fw-semibold mb-2" data-i18n="home.contact">Mawasiliano</div>
+            <p class="small opacity-75 mb-0">Dar es Salaam, Tanzania</p>
+            <p class="small mb-0"><a href="mailto:info@malkiagrid.co.tz">info@malkiagrid.co.tz</a></p>
+            <div class="mt-3 d-flex gap-3">
+              <a href="#" aria-label="Facebook">FB</a>
+              <a href="#" aria-label="Instagram">IG</a>
+              <a href="#" aria-label="LinkedIn">IN</a>
+              <a href="#" aria-label="X">X</a>
+            </div>
+          </div>
+        </div>
+        <hr class="border-secondary opacity-25 my-4" />
+        <p class="small text-center mb-0 opacity-75">
+          © 2025 Malkia wa Nguvu / Clouds Media Group · <a href="#" data-i18n="home.footer_privacy">Faragha</a> · <a href="#" data-i18n="home.footer_terms">Masharti</a>
+        </p>
+      </div>
+    </footer>
+
+    <div id="mgridToastContainer" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+    <div class="modal fade" id="modalHowItWorks" tabindex="-1" aria-labelledby="modalHowLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg mgrid-modal-rounded">
+          <div class="modal-header border-0">
+            <h2 class="modal-title mgrid-section-heading" id="modalHowLabel" data-i18n="home.modal_title">Jinsi M-Grid inavyofanya kazi</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body pt-0">
+            <p class="text-muted" data-i18n="home.modal_text">
+              Hapa tutoweka video fupi ya Clouds Media Group. Kwa sasa, endelea kusajili ili upate M-ID yako.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/mgrid-i18n.js"></script>
+    <script src="../assets/js/mgrid-core.js"></script>
+    <script src="../assets/js/mgrid-landing.js"></script>
+  </body>
+</html>

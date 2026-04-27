@@ -1,0 +1,322 @@
+body.mgrid-landing-premium.mgrid-public {
+  background: var(--mgrid-surface-alt);
+  color: var(--mgrid-ink-950);
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero__overlay {
+  background:
+    linear-gradient(112deg, rgba(34, 28, 33, 0.78) 0%, rgba(62, 45, 54, 0.66) 42%, rgba(42, 33, 39, 0.52) 100%),
+    radial-gradient(80% 70% at 10% 10%, rgba(212, 165, 165, 0.18) 0%, transparent 55%);
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero__accent {
+  color: #f2dfbf;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero__title {
+  color: #fffdfb;
+  text-shadow: 0 2px 10px rgba(24, 18, 22, 0.35);
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero__lead {
+  color: rgba(255, 248, 242, 0.92);
+  max-width: 36rem;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-dash {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(74, 63, 53, 0.14);
+  box-shadow: 0 10px 34px rgba(28, 22, 26, 0.2);
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-dash__head-title,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-dash__label {
+  color: #4a3f35;
+  font-weight: 600;
+}
+
+body.mgrid-landing-premium.mgrid-public main.mgrid-lp > section {
+  padding-top: 56px !important;
+  padding-bottom: 56px !important;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero {
+  min-height: 86vh;
+  margin-bottom: 8px;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero__inner {
+  padding-top: clamp(6rem, 12vw, 8rem);
+  padding-bottom: clamp(3rem, 7vw, 5rem);
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-lead,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-partner-card__meta,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-feature__copy,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-cta__text {
+  color: var(--mgrid-ink-500);
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-partner-card,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-feature,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-pillar,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-mod,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-cta__panel,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-faq--panel {
+  border-color: var(--mgrid-ink-100);
+  border-radius: var(--mgrid-radius-lg);
+  box-shadow: var(--mgrid-shadow-card);
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-partner-row,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-feature-grid,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-mod-grid,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-faq-grid,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-cta-grid {
+  gap: 20px;
+  align-items: stretch;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-btn--primary,
+body.mgrid-landing-premium.mgrid-public .mgrid-nav-vanilla__btn--primary {
+  background: linear-gradient(135deg, #d4a5a5 0%, #c9a58a 100%) !important;
+  border-color: rgba(193, 123, 107, 0.2) !important;
+  color: #fff !important;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-btn--outline-dark,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-btn--ghost {
+  border-color: var(--mgrid-ink-100) !important;
+  color: var(--mgrid-ink-800) !important;
+  background: #fff !important;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-btn--outline-dark:hover,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-btn--ghost:hover {
+  border-color: #c17b6b !important;
+  color: #c17b6b !important;
+  background: #fff9f5 !important;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-process__item,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-partner-card,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-feature,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-pillar,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-mod {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-process-row > [role="listitem"] {
+  display: flex;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-process-row > [role="listitem"] .mgrid-lp-process__item {
+  width: 100%;
+}
+
+/* Navbar logo sizing fix (prevents oversized logo on index/public pages) */
+body.mgrid-public .mgrid-nav-vanilla__brand .mgrid-brand-mark,
+body.mgrid-public .navbar-brand .mgrid-brand-mark {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.mgrid-public .mgrid-nav-vanilla__brand .mgrid-brand-mark img,
+body.mgrid-public .navbar-brand .mgrid-brand-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 992px) {
+  body.mgrid-landing-premium.mgrid-public main.mgrid-lp > section {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero {
+    min-height: 72vh;
+  }
+
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero__title {
+    font-size: clamp(1.9rem, 8vw, 2.4rem);
+  }
+
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero__lead {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  body.mgrid-landing-premium.mgrid-public .mgrid-nav-vanilla__inner {
+    min-height: 64px;
+  }
+
+  body.mgrid-landing-premium.mgrid-public main.mgrid-lp > section {
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+  }
+
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero__inner {
+    padding-top: 80px;
+    padding-bottom: 26px;
+  }
+
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-h2 {
+    font-size: clamp(1.6rem, 7vw, 2rem);
+  }
+
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-process__item,
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-partner-card,
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-feature,
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-pillar,
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-mod {
+    padding: 14px;
+  }
+
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-faq__trigger {
+    padding: 12px;
+    font-size: 0.88rem;
+  }
+
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-faq__panel {
+    padding: 0 12px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  body.mgrid-landing-premium.mgrid-public .mgrid-container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero {
+    min-height: 64vh;
+  }
+
+  body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero__title {
+    font-size: 1.75rem;
+    line-height: 1.16;
+  }
+}
+
+/* Professional visual tone refinements */
+body.mgrid-landing-premium.mgrid-public .mgrid-nav-vanilla--premium {
+  background: rgba(250, 248, 246, 0.9) !important;
+  border-bottom: 1px solid rgba(74, 63, 53, 0.12) !important;
+  box-shadow: 0 6px 24px rgba(74, 63, 53, 0.08) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-nav-vanilla__inner {
+  min-height: 72px;
+  align-items: center;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-nav-vanilla__brand {
+  opacity: 1 !important;
+  color: #4a3f35 !important;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-brand-name {
+  color: #4a3f35 !important;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-brand-tagline {
+  color: #7a6b60 !important;
+  opacity: 1 !important;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-nav-vanilla__link {
+  color: #4a3f35 !important;
+  font-weight: 600;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-nav-vanilla__link:hover {
+  color: #c17b6b !important;
+}
+
+/* Mobile menu control: polish forces a light bar — bars must stay dark (premium SCSS used white for transparent hero). */
+body.mgrid-landing-premium.mgrid-public .mgrid-nav-vanilla--premium .mgrid-nav-vanilla__toggle {
+  flex-shrink: 0;
+  border: 1px solid rgba(74, 63, 53, 0.35) !important;
+  background: #fff !important;
+  box-shadow: 0 1px 4px rgba(74, 63, 53, 0.12);
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-nav-vanilla--premium .mgrid-nav-vanilla__toggle span {
+  background: #3d342e !important;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-nav-vanilla--premium .mgrid-nav-vanilla__toggle:hover {
+  border-color: rgba(74, 63, 53, 0.55) !important;
+  background: #faf7f4 !important;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-nav-vanilla--premium .mgrid-nav-vanilla__toggle:focus-visible {
+  border-color: rgba(74, 63, 53, 0.55) !important;
+  background: #faf7f4 !important;
+  outline: 2px solid #c17b6b;
+  outline-offset: 2px;
+}
+
+@media (max-width: 991.98px) {
+  body.mgrid-landing-premium.mgrid-public .mgrid-nav-vanilla--premium.mgrid-nav-vanilla--open .mgrid-nav-vanilla__panel {
+    margin-top: 0.35rem;
+    padding: 0.65rem 0.75rem 0.85rem;
+    background: #fff;
+    border: 1px solid rgba(74, 63, 53, 0.12);
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(74, 63, 53, 0.14);
+  }
+
+  body.mgrid-landing-premium.mgrid-public .mgrid-nav-vanilla--premium.mgrid-nav-vanilla--open .mgrid-nav-vanilla__links {
+    gap: 0.25rem;
+  }
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-nav-vanilla__btn--primary:hover {
+  background: #c17b6b !important;
+  color: #fff !important;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lang-toggle .btn,
+body.mgrid-landing-premium.mgrid-public .mgrid-lang-toggle label {
+  color: #4a3f35 !important;
+  border-color: rgba(74, 63, 53, 0.22) !important;
+  background: #fff !important;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lang-toggle .btn-check:checked + .btn,
+body.mgrid-landing-premium.mgrid-public .mgrid-lang-toggle input:checked + label {
+  background: #f1e3db !important;
+  color: #4a3f35 !important;
+  border-color: rgba(74, 63, 53, 0.3) !important;
+}
+
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-partner-card:hover,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-feature:hover,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-mod:hover,
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-pillar:hover {
+  border-color: rgba(74, 63, 53, 0.16);
+  box-shadow: 0 6px 24px rgba(74, 63, 53, 0.1);
+  transform: translateY(-1px);
+}

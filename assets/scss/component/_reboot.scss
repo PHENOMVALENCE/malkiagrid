@@ -1,0 +1,35 @@
+// ----------------------------------------------
+// Reboot Style
+// ----------------------------------------------
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+  color: $link-hover-color;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+:focus:not(:focus-visible) {
+  outline: 0;
+}
+
+:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 1px rgba(184, 150, 61, 0.5) !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
