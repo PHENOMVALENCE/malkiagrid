@@ -1,128 +1,187 @@
 <?php
-
 declare(strict_types=1);
 
-require __DIR__ . '/includes/init.php';
+require_once __DIR__ . '/includes/init.php';
+require_once __DIR__ . '/includes/csrf.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/flash.php';
+require_once __DIR__ . '/includes/functions.php';
 
-if (auth_actor() !== null) {
-    $u = auth_actor();
-    redirect(($u['account_type'] ?? 'user') === 'admin' ? 'admin/dashboard.php' : 'user/dashboard.php');
+if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin' && isset($_SESSION['admin_id'])) {
+    redirect('admin/dashboard.php');
+}
+if (isset($_SESSION['role']) && $_SESSION['role'] === 'user' && isset($_SESSION['user_id'])) {
+    redirect('user/dashboard.php');
 }
 
 $errors = [];
-$loginValue = '';
+$activeRole = 'user';
+$userLogin = '';
+$adminEmail = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!csrf_verify($_POST['_csrf'] ?? null)) {
-        $errors[] = __('auth.error.token');
-    } else {
-        $loginValue = clean_string($_POST['login'] ?? '');
-        $password = (string) ($_POST['password'] ?? '');
+if (is_post()) {
+    require_csrf();
 
-        if ($loginValue === '' || $password === '') {
-            $errors[] = __('auth.error.empty_login');
+    $activeRole = (string) ($_POST['login_role'] ?? 'user');
+
+    if ($activeRole === 'admin') {
+        $adminEmail = trim((string) ($_POST['admin_email'] ?? ''));
+        $adminPassword = (string) ($_POST['admin_password'] ?? '');
+
+        if ($adminEmail === '' || $adminPassword === '') {
+            $errors[] = 'Weka barua pepe na nenosiri la msimamizi.';
         } else {
-            $pdo = db();
-
-            $adminStmt = $pdo->prepare('
-                SELECT id, admin_id, full_name, email, password_hash, status, role
-                FROM admins
-                WHERE email = :login OR admin_id = :admin_id
-                LIMIT 1
-            ');
-            $adminStmt->execute([
-                'login' => strtolower($loginValue),
-                'admin_id' => strtoupper($loginValue),
-            ]);
-            $admin = $adminStmt->fetch();
-            if ($admin && password_verify($password, (string) $admin['password_hash'])) {
-                if (($admin['status'] ?? '') !== 'active') {
-                    $errors[] = __('auth.error.admin_inactive');
-                } else {
-                    auth_login_admin($admin);
-                    flash_set('success', __('auth.success.welcome_named', ['name' => (string) $admin['full_name']]));
-                    redirect('admin/dashboard.php');
-                }
+            $result = authenticate_admin($adminEmail, $adminPassword);
+            if (($result['ok'] ?? false) === true) {
+                redirect('admin/dashboard.php');
             }
 
-            $stmt = $pdo->prepare('
-                SELECT id, m_id, full_name, phone, email, password_hash, status, preferred_language
-                FROM users
-                WHERE email = :email OR phone = :phone
-                LIMIT 1
-            ');
-            $stmt->execute([
-                'email' => strtolower($loginValue),
-                'phone' => normalise_phone($loginValue),
-            ]);
-            $row = $stmt->fetch();
-            if (!$row || !password_verify($password, (string) $row['password_hash'])) {
-                $errors[] = __('auth.error.credentials');
-            } elseif (($row['status'] ?? '') === 'suspended') {
-                $errors[] = __('auth.error.suspended');
+            $reason = (string) ($result['reason'] ?? 'invalid_credentials');
+            if ($reason === 'throttled') {
+                $errors[] = 'Jaribio nyingi sana. Subiri kidogo ujaribu tena.';
+            } elseif ($reason === 'disabled') {
+                $errors[] = 'Ufikivu umekataliwa. Akaunti ya msimamizi imezuiwa.';
             } else {
-                auth_login_user($row);
-                if (($row['status'] ?? '') !== 'active') {
-                    flash_set('success', __('auth.success.verify_first'));
-                    redirect('user/verify-id.php');
+                $errors[] = 'Taarifa za kuingia si sahihi.';
+            }
+        }
+    } else {
+        $userLogin = trim((string) ($_POST['user_login'] ?? ''));
+        $userPassword = (string) ($_POST['user_password'] ?? '');
+
+        if ($userLogin === '' || $userPassword === '') {
+            $errors[] = 'Weka M-ID, simu au barua pepe pamoja na nenosiri.';
+        } else {
+            $result = authenticate_user($userLogin, $userPassword);
+            if (($result['ok'] ?? false) === true) {
+                $status = (string) ($result['status'] ?? 'pending');
+                if ($status === 'pending' || $status === 'rejected') {
+                    redirect('pending-verification.php');
                 }
-                flash_set('success', __('auth.success.welcome_named', ['name' => (string) $row['full_name']]));
-                redirect('user/dashboard.php');
+                if ($status === 'active') {
+                    redirect('user/dashboard.php');
+                }
+                redirect('pending-verification.php');
+            }
+
+            $reason = (string) ($result['reason'] ?? 'invalid_credentials');
+            if ($reason === 'throttled') {
+                $errors[] = 'Jaribio nyingi sana. Subiri kidogo ujaribu tena.';
+            } elseif ($reason === 'suspended') {
+                $errors[] = 'Akaunti yako imesimamishwa. Wasiliana na msimamizi.';
+            } else {
+                $errors[] = 'Taarifa za kuingia si sahihi.';
             }
         }
     }
 }
-
-$mgrid_page_title = mgrid_title('title.login');
-$mgrid_layout = 'auth';
-require __DIR__ . '/includes/header.php';
 ?>
+<!DOCTYPE html>
+<html lang="sw" data-mgrid-default-lang="sw">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ingia — M-Grid</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/mgrid-variables.css" rel="stylesheet" />
+    <link href="assets/css/mgrid-overrides.css" rel="stylesheet" />
+    <link href="assets/css/mgrid-components.css" rel="stylesheet" />
+    <link href="assets/css/mgrid-animations.css" rel="stylesheet" />
+    <link href="assets/css/mgrid-reference-theme.css" rel="stylesheet" />
+  </head>
+  <body class="bg-white">
+    <div class="min-vh-100 d-lg-flex">
+      <div class="d-none d-lg-flex flex-column justify-content-between col-lg-5 mgrid-register-left p-5">
+        <div>
+          <div class="mgrid-logo-text-light mb-4">M·GRID</div>
+          <p class="lead text-white opacity-90 mgrid-register-lead">Njia yako ya fursa huanza na M-ID moja.</p>
+        </div>
+        <div class="mgrid-mid-card text-dark mt-4">
+          <div class="small text-muted text-uppercase">Kadi ya mfano</div>
+          <div class="mgrid-mid-card-mono">M-2026-004821</div>
+          <div class="fw-semibold mt-2">Amina Hassan</div>
+          <div class="small text-muted">Dar es Salaam · Gold</div>
+        </div>
+        <p class="small mb-0">
+          <a class="text-white text-decoration-underline" href="register.php">Pata M-ID yako</a>
+        </p>
+      </div>
 
-<div class="mgrid-auth-card" style="max-width:560px; margin:0 auto;">
-  <div class="mgrid-auth-brand-wrap">
-    <div class="mgrid-auth-logo-mark">
-      <img src="<?= e(asset('images/logos/logo.png')) ?>" alt="Malkia Grid logo" />
-    </div>
-    <div>
-      <span class="mgrid-auth-brand-name">M GRID</span>
-      <span class="mgrid-auth-brand-tagline">Women Rising in Power and Opportunity</span>
-    </div>
-  </div>
-  <p class="mb-3"><a class="text-decoration-none" href="<?= e(url('index.php')) ?>" data-i18n="auth.back_home">&larr; Back to Home</a></p>
-  <div class="mgrid-auth-tabs" role="tablist" aria-label="Authentication pages">
-    <a class="mgrid-auth-tab is-active" href="<?= e(url('login.php')) ?>" role="tab" aria-selected="true" data-i18n="auth.sign_in_tab">Sign in</a>
-    <a class="mgrid-auth-tab" href="<?= e(url('register.php')) ?>" role="tab" aria-selected="false" data-i18n="auth.register_tab">Register</a>
-  </div>
-  <h1 class="mgrid-display" style="font-size:2rem; margin-bottom:6px;" data-i18n="auth.welcome_login">Welcome back</h1>
-  <p style="color: var(--mgrid-ink-500); font-size: 14.5px;" data-i18n="auth.lead_login">Sign in to continue to your verified member profile.</p>
+      <div class="col-lg-7 d-flex align-items-center justify-content-center p-4 p-lg-5">
+        <div class="w-100 mgrid-max-w-460">
+          <p class="mb-2">
+            <a class="small text-decoration-none" href="index.php">&larr; Rudi ukurasa mkuu</a>
+          </p>
+          <h1 class="h2 mgrid-section-heading mb-1">Karibu tena, Malkia</h1>
+          <p class="text-muted small mb-4">Ingia ili kuendelea kwenye wasifu wako uliothibitishwa.</p>
 
-  <?php if ($msg = flash_get('success')): ?>
-    <div class="mgrid-alert mgrid-alert-success"><?= e($msg) ?></div>
-  <?php endif; ?>
-  <?php if ($msg = flash_get('error')): ?>
-    <div class="mgrid-alert mgrid-alert-danger"><?= e($msg) ?></div>
-  <?php endif; ?>
-  <?php foreach ($errors as $err): ?>
-    <div class="mgrid-alert mgrid-alert-danger"><?= e($err) ?></div>
-  <?php endforeach; ?>
+          <?php foreach ($errors as $error): ?>
+            <div class="alert alert-danger border-0 mb-2"><?= e($error) ?></div>
+          <?php endforeach; ?>
 
-  <form method="post" novalidate>
-    <?= csrf_field() ?>
-    <div class="mb-3">
-      <label for="login" class="mgrid-form-label" data-i18n="auth.label_login">Email or phone</label>
-      <input type="text" class="mgrid-form-control" id="login" name="login" autocomplete="username" value="<?= e($loginValue) ?>" required>
-    </div>
-    <div class="mb-4">
-      <label for="password" class="mgrid-form-label" data-i18n="auth.label_password">Password</label>
-      <input type="password" class="mgrid-form-control" id="password" name="password" autocomplete="current-password" required>
-    </div>
-    <button type="submit" class="btn-mgrid btn-mgrid-primary w-100 justify-content-center py-3 mb-3" data-i18n="auth.submit_login">Sign in</button>
-    <p class="text-center" style="font-size: 13.5px; color: var(--mgrid-ink-500); margin-top: 20px;">
-      <span data-i18n="auth.meta_new">New to Malkia Grid?</span>
-      <a href="<?= e(url('register.php')) ?>" style="color: var(--mgrid-gold-600); font-weight: 500;" data-i18n="auth.meta_create">Create your account</a>
-    </p>
-  </form>
-</div>
+          <form method="post" novalidate>
+            <?= csrf_input() ?>
+            <div class="btn-group w-100 mb-4" role="group" aria-label="Login role">
+              <input type="radio" class="btn-check" name="login_role" id="roleUser" value="user" autocomplete="off" <?= $activeRole !== 'admin' ? 'checked' : '' ?> />
+              <label class="btn btn-outline-primary" for="roleUser">Mwanachama</label>
+              <input type="radio" class="btn-check" name="login_role" id="roleAdmin" value="admin" autocomplete="off" <?= $activeRole === 'admin' ? 'checked' : '' ?> />
+              <label class="btn btn-outline-primary" for="roleAdmin">Msimamizi</label>
+            </div>
 
-<?php
-require __DIR__ . '/includes/footer.php';
+            <div id="userFields" class="<?= $activeRole === 'admin' ? 'd-none' : '' ?>">
+              <div class="mb-3">
+                <label class="form-label" for="userLogin">M-ID, namba ya simu au barua pepe</label>
+                <input type="text" class="form-control" id="userLogin" name="user_login" autocomplete="username" value="<?= e($userLogin) ?>" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="userPassword">Nenosiri</label>
+                <input type="password" class="form-control" id="userPassword" name="user_password" autocomplete="current-password" />
+              </div>
+            </div>
+
+            <div id="adminFields" class="<?= $activeRole === 'admin' ? '' : 'd-none' ?>">
+              <div class="mb-3">
+                <label class="form-label" for="adminEmail">Barua pepe ya msimamizi</label>
+                <input type="email" class="form-control" id="adminEmail" name="admin_email" autocomplete="username" value="<?= e($adminEmail) ?>" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="adminPassword">Nenosiri la msimamizi</label>
+                <input type="password" class="form-control" id="adminPassword" name="admin_password" autocomplete="current-password" />
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mb-3">Ingia</button>
+            <p class="text-center small text-muted mb-0">
+              Mpya hapa? <a href="register.php">Pata M-ID yako</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const roleUser = document.getElementById('roleUser');
+        const roleAdmin = document.getElementById('roleAdmin');
+        const userFields = document.getElementById('userFields');
+        const adminFields = document.getElementById('adminFields');
+
+        function toggle() {
+          const isAdmin = roleAdmin.checked;
+          userFields.classList.toggle('d-none', isAdmin);
+          adminFields.classList.toggle('d-none', !isAdmin);
+        }
+
+        roleUser.addEventListener('change', toggle);
+        roleAdmin.addEventListener('change', toggle);
+      })();
+    </script>
+  </body>
+</html>
+
