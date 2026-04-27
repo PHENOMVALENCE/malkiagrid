@@ -43,8 +43,8 @@
             <li class="nav-item">
               <a class="nav-link" href="#about" data-i18n="nav.about">Kuhusu</a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="#how">Jinsi inavyofanya kazi</a></li>
-            <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+            <li class="nav-item"><a class="nav-link" href="#how" data-i18n="nav.how">Jinsi</a></li>
+            <li class="nav-item"><a class="nav-link" href="#features" data-i18n="nav.features">Vipengele</a></li>
             <li class="nav-item"><a class="nav-link" href="#benefits">Faida</a></li>
             <li class="nav-item"><a class="nav-link" href="#partners" data-i18n="nav.partners">Washirika</a></li>
             <li class="nav-item"><a class="nav-link" href="#faq">Maswali</a></li>
@@ -67,8 +67,8 @@
     <header class="mgrid-hero-full mgrid-hero-photo position-relative">
       <div class="mgrid-gold-grain" aria-hidden="true"></div>
       <div class="container position-relative py-5 mgrid-pt-nav-offset">
-        <div class="row align-items-center min-vh-100 py-5">
-          <div class="col-lg-8 fade-in-up">
+        <div class="row align-items-center min-vh-100 py-5 g-4">
+          <div class="col-lg-7 fade-in-up">
             <h1 class="mgrid-hero-title text-white mb-4" data-i18n="hero.title">
               Your Digital Passport to Economic Power
             </h1>
@@ -98,6 +98,35 @@
               <div class="col-6 col-md-3">
                 <div class="fs-3 fw-semibold">TZS 5B+</div>
                 <div class="small opacity-75" data-i18n="hero.stats_unlocked">Imefunguliwa</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5 fade-in-up">
+            <div class="mgrid-hero-console card border-0 shadow-lg">
+              <div class="mgrid-hero-console__head d-flex justify-content-between align-items-center">
+                <span class="small text-uppercase">Dashibodi ya mwanachama</span>
+                <span class="mgrid-hero-console__live">Hai</span>
+              </div>
+              <div class="mgrid-hero-console__row">
+                <span>M-ID</span>
+                <strong>M-2026-004821</strong>
+              </div>
+              <div class="mgrid-hero-console__row">
+                <span>M-Profile (Wasifu)</span>
+                <div class="mgrid-hero-console__progress">
+                  <span>Ukamilishaji</span>
+                  <div class="progress mgrid-progress-h-6">
+                    <div class="progress-bar mgrid-w-75" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="mgrid-hero-console__row">
+                <span>Uhakiki</span>
+                <strong class="text-warning-emphasis">Inasubiri mapitio</strong>
+              </div>
+              <div class="mgrid-hero-console__row">
+                <span>M-Score</span>
+                <strong>68 · Ngazi ya dhahabu</strong>
               </div>
             </div>
           </div>
@@ -133,29 +162,35 @@
             </p>
           </div>
           <div class="col-lg-6">
-            <div class="row g-3">
-              <div class="col-12 col-md-6">
-                <div class="card h-100 p-3">
-                  <h3 class="h6 mb-2">Heshima kwanza</h3>
-                  <p class="small text-muted mb-0">Taarifa zako zinatunzwa kwa heshima na usalama.</p>
+            <div class="row g-3 mgrid-about-rail">
+              <div class="col-12 col-md-4">
+                <div class="card h-100 p-3 p-lg-4 mgrid-about-card">
+                  <div class="mgrid-about-card__meta d-flex justify-content-between align-items-center mb-3">
+                    <span>01</span>
+                    <span class="mgrid-about-card__icon">♡</span>
+                  </div>
+                  <h3 class="h5 mb-2">Heshima kwanza</h3>
+                  <p class="small text-muted mb-0">Hadithi yako na data zinatunzwa kwa heshima. Majukumu wazi, vikao salama, na nafasi ya kukua.</p>
                 </div>
               </div>
-              <div class="col-12 col-md-6">
-                <div class="card h-100 p-3">
-                  <h3 class="h6 mb-2">Imejengwa kwa ushirikiano</h3>
-                  <p class="small text-muted mb-0">Wasifu wa mpangilio huwezesha taasisi kufanya maamuzi kwa urahisi.</p>
+              <div class="col-12 col-md-4">
+                <div class="card h-100 p-3 p-lg-4 mgrid-about-card">
+                  <div class="mgrid-about-card__meta d-flex justify-content-between align-items-center mb-3">
+                    <span>02</span>
+                    <span class="mgrid-about-card__icon">🏛</span>
+                  </div>
+                  <h3 class="h5 mb-2">Imejengwa kwa ushirika</h3>
+                  <p class="small text-muted mb-0">Wasifu wa mpangilio na moduli za uhakiki zinawasaidia taasisi kusema "ndiyo" kwa uaminifu.</p>
                 </div>
               </div>
-              <div class="col-12 col-md-6">
-                <div class="card h-100 p-3">
-                  <h3 class="h6 mb-2">Imejengwa kupanuka</h3>
-                  <p class="small text-muted mb-0">M-Fund, M-Partner na M-Benefits huunganishwa bila kubadili utambulisho wako.</p>
-                </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="card h-100 p-3">
-                  <h3 class="h6 mb-2">Mchango wa kitaifa</h3>
-                  <p class="small text-muted mb-0">Inalenga kuunganisha wanawake wengi kwenye mfumo mmoja unaoaminika.</p>
+              <div class="col-12 col-md-4">
+                <div class="card h-100 p-3 p-lg-4 mgrid-about-card">
+                  <div class="mgrid-about-card__meta d-flex justify-content-between align-items-center mb-3">
+                    <span>03</span>
+                    <span class="mgrid-about-card__icon">⚖</span>
+                  </div>
+                  <h3 class="h5 mb-2">Imejengwa kupanuka</h3>
+                  <p class="small text-muted mb-0">M-Fund (Mikopo), M-Partner (Washirika), na M-Benefits (Faida) zinaweza kuunganishwa utakapokuwa tayari.</p>
                 </div>
               </div>
             </div>
@@ -216,25 +251,25 @@
         <div class="row g-4">
           <div class="col-md-6">
             <div class="mgrid-tier-card p-4 h-100 card-hover mgrid-feature-card">
-              <h3 class="h4 mb-3">M-ID</h3>
+              <h3 class="h4 mb-3"><span class="mgrid-feature-icon">⦿</span> M-ID</h3>
               <p class="small text-muted mb-0">Kitambulisho kimoja cha kudumu kwa mwanachama.</p>
             </div>
           </div>
           <div class="col-md-6">
             <div class="mgrid-tier-card p-4 h-100 card-hover mgrid-feature-card">
-              <h3 class="h4 mb-3">M-Profile</h3>
+              <h3 class="h4 mb-3"><span class="mgrid-feature-icon">⟲</span> M-Profile</h3>
               <p class="small text-muted mb-0">Wasifu wa mwanachama wenye nyaraka na uhakiki.</p>
             </div>
           </div>
           <div class="col-md-6">
             <div class="mgrid-tier-card p-4 h-100 card-hover mgrid-feature-card">
-              <h3 class="h4 mb-3">M-Score</h3>
+              <h3 class="h4 mb-3"><span class="mgrid-feature-icon">⎇</span> M-Score</h3>
               <p class="small text-muted mb-0">Alama ya kuaminika kwa hatua za maendeleo.</p>
             </div>
           </div>
           <div class="col-md-6">
             <div class="mgrid-tier-card p-4 h-100 card-hover mgrid-feature-card">
-              <h3 class="h4 mb-3">M-Fund</h3>
+              <h3 class="h4 mb-3"><span class="mgrid-feature-icon">$</span> M-Fund</h3>
               <p class="small text-muted mb-0">Njia za kujiandaa kifedha na maombi ya hiari.</p>
             </div>
           </div>
@@ -250,8 +285,8 @@
             <h2 class="mgrid-section-heading">Faida na fursa</h2>
             <p class="small text-muted">Malkia Grid inaanza na utambulisho, kisha alama ya kuaminika, halafu njia za huduma na msaada.</p>
             <ul class="small ps-3">
-              <li>M-ID moja ya kudumu</li>
-              <li>Dashibodi ya M-Profile</li>
+              <li>M-ID (Kitambulisho cha M) moja ya kudumu</li>
+              <li>Dashibodi ya M-Profile (Wasifu wa M)</li>
               <li>Njia wazi ya M-Score</li>
               <li>Kiswahili ni lugha kuu, English ni ya pili</li>
             </ul>
@@ -275,10 +310,10 @@
         <h2 class="mb-4 mgrid-section-heading">Mfumo wa washirika</h2>
         <p class="small text-muted mx-auto mb-4 mgrid-max-w-560">Washirika wa kifedha, afya, ujuzi, na vyombo vya habari huunganishwa kupitia wasifu wa mpangilio - kupunguza mzozo na kusaidia ufikivu haki.</p>
         <div class="row g-3 justify-content-center">
-          <div class="col-md-3"><div class="p-3 border rounded mgrid-partner-cell text-start"><strong>Fedha</strong><p class="small mb-0 text-muted">Mikopo, akiba na bima.</p></div></div>
-          <div class="col-md-3"><div class="p-3 border rounded mgrid-partner-cell text-start"><strong>Afya na ustawi</strong><p class="small mb-0 text-muted">Huduma za afya kwa faragha.</p></div></div>
-          <div class="col-md-3"><div class="p-3 border rounded mgrid-partner-cell text-start"><strong>Ujuzi na biashara</strong><p class="small mb-0 text-muted">Mafunzo na ukuaji wa biashara.</p></div></div>
-          <div class="col-md-3"><div class="p-3 border rounded mgrid-partner-cell text-start"><strong>Vyombo vya habari</strong><p class="small mb-0 text-muted">Mwonekano na hadithi zenye idhini.</p></div></div>
+          <div class="col-md-3"><div class="p-3 border rounded mgrid-partner-cell text-start"><small class="mgrid-partner-track">Njia ya muunganisho</small><h3 class="h4 mt-2 mb-2">Fedha</h3><p class="small mb-0 text-muted">Washirika wa mikopo, akiba, na bima huunganishwa kupitia mikataba ya data iliyodhibitiwa.</p></div></div>
+          <div class="col-md-3"><div class="p-3 border rounded mgrid-partner-cell text-start"><small class="mgrid-partner-track">Njia ya muunganisho</small><h3 class="h4 mt-2 mb-2">Afya na ustawi</h3><p class="small mb-0 text-muted">Programu za afya na ustawi kwa ishara za wasifu zinazohifadhi faragha.</p></div></div>
+          <div class="col-md-3"><div class="p-3 border rounded mgrid-partner-cell text-start"><small class="mgrid-partner-track">Njia ya muunganisho</small><h3 class="h4 mt-2 mb-2">Ujuzi na biashara</h3><p class="small mb-0 text-muted">Mafunzo, vyeti, na msaada wa biashara uliopangwa kwa safari yako.</p></div></div>
+          <div class="col-md-3"><div class="p-3 border rounded mgrid-partner-cell text-start"><small class="mgrid-partner-track">Njia ya muunganisho</small><h3 class="h4 mt-2 mb-2">Vyombo vya habari na mwonekano</h3><p class="small mb-0 text-muted">Ufikiaji na hadithi zinazoheshimu idhini na viwango vya programu.</p></div></div>
         </div>
       </div>
     </section>
@@ -291,7 +326,7 @@
             <div class="col-lg-7">
               <p class="small text-uppercase text-muted mb-2">Anza</p>
               <h2 class="display-5 mb-3 mgrid-section-heading">Jiunge na sajili ya kitaifa ya biashara zinazoongozwa na wanawake.</h2>
-              <p class="mb-0 text-muted">Pokea M-ID, amilisha Wasifu wa M, na shiriki katika njia ya utawala kuelekea uaminifu na fursa.</p>
+              <p class="mb-0 text-muted">Pokea M-ID (Kitambulisho cha M), amilisha M-Profile (Wasifu wa M), na shiriki katika njia ya utawala kuelekea uaminifu na fursa.</p>
             </div>
             <div class="col-lg-5">
               <div class="d-grid gap-2">
@@ -333,38 +368,28 @@
     </section>
 
     <!-- Footer -->
-    <footer class="mgrid-footer pt-5 pb-3">
+    <footer class="mgrid-footer mgrid-footer-ref pt-5 pb-3">
       <div class="container">
         <div class="row g-4">
           <div class="col-md-4">
-            <div class="mgrid-logo-text mb-2">M·GRID</div>
-            <p class="small opacity-75" data-i18n="footer.tagline">Women's digital identity for opportunity and trust.</p>
+            <div class="mgrid-footer-ref__title mb-2">M GRID</div>
+            <p class="small mgrid-footer-ref__text mb-0">Jukwaa la uanachama kwa wanawake wajasiriamali Tanzania - <strong>M-ID</strong> iliyothibitishwa, <strong>M-Profile (Wasifu wa M)</strong>, na njia wazi ya kufikia fursa.</p>
           </div>
           <div class="col-md-4">
-            <div class="fw-semibold mb-2" data-i18n="home.quick_links">Viungo vya haraka</div>
-            <ul class="list-unstyled small">
-              <li><a href="#about">Kuhusu</a></li>
-              <li><a href="#partners">Washirika</a></li>
-              <li><a href="register.html">Jisajili</a></li>
-              <li><a href="login.html" data-i18n="home.link_admin_login">Ingia msimamizi</a></li>
+            <div class="mgrid-footer-ref__title mb-2">Washirika wa programu</div>
+            <p class="small mgrid-footer-ref__text mb-0">Malkia wa Nguvu · Clouds Media Group - uongozi wa programu, mfikaji wa vyombo vya habari, na mlinganisho wa taasisi.</p>
+          </div>
+          <div class="col-md-4">
+            <div class="mgrid-footer-ref__title mb-2">Rasilimali</div>
+            <ul class="list-unstyled small mb-0 mgrid-footer-ref__links">
+              <li><a href="register.html">Jisajili kwa M-ID</a></li>
+              <li><a href="login.html">Ingia kama mwanachama</a></li>
+              <li><a href="#faq">Maswali yanayoulizwa mara kwa mara</a></li>
             </ul>
           </div>
-          <div class="col-md-4">
-            <div class="fw-semibold mb-2" data-i18n="home.contact">Mawasiliano</div>
-            <p class="small opacity-75 mb-0">Dar es Salaam, Tanzania</p>
-            <p class="small mb-0"><a href="mailto:info@malkiagrid.co.tz">info@malkiagrid.co.tz</a></p>
-            <div class="mt-3 d-flex gap-3">
-              <a href="#" aria-label="Facebook">FB</a>
-              <a href="#" aria-label="Instagram">IG</a>
-              <a href="#" aria-label="LinkedIn">IN</a>
-              <a href="#" aria-label="X">X</a>
-            </div>
-          </div>
         </div>
-        <hr class="border-secondary opacity-25 my-4" />
-        <p class="small text-center mb-0 opacity-75">
-          © 2025 Malkia wa Nguvu / Clouds Media Group · <a href="#" data-i18n="home.footer_privacy">Faragha</a> · <a href="#" data-i18n="home.footer_terms">Masharti</a>
-        </p>
+        <hr class="my-4" />
+        <p class="small text-center mb-0 mgrid-footer-ref__copy">© 2026 M GRID. Haki zote zimehifadhiwa.</p>
       </div>
     </footer>
 

@@ -1,12 +1,14 @@
 :root {
-  --mgrid-ref-bg: #f3eee8;
-  --mgrid-ref-surface: #ffffff;
-  --mgrid-ref-border: #e8ddd2;
-  --mgrid-ref-ink: #2f2622;
-  --mgrid-ref-muted: #7a6f68;
-  --mgrid-ref-accent: #c7928d;
-  --mgrid-ref-accent-dark: #a86f6a;
-  --mgrid-ref-deep: #2d1b23;
+  --mgrid-ref-bg: #f8f2ef;
+  --mgrid-ref-surface: #fffdfb;
+  --mgrid-ref-border: #eadfd7;
+  --mgrid-ref-ink: #2e2424;
+  --mgrid-ref-muted: #7f7070;
+  --mgrid-ref-accent: #c98f9e;
+  --mgrid-ref-accent-dark: #ab6f82;
+  --mgrid-ref-deep: #2f1f2b;
+  --mgrid-ref-rose-soft: #f3e5ea;
+  --mgrid-ref-lilac-soft: #efe7f3;
 }
 
 body {
@@ -15,10 +17,10 @@ body {
 }
 
 .mgrid-navbar {
-  background: rgba(255, 255, 255, 0.95) !important;
+  background: rgba(255, 251, 249, 0.95) !important;
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--mgrid-ref-border);
-  box-shadow: 0 4px 12px rgba(38, 24, 22, 0.05);
+  border-bottom: 1px solid #eaded7;
+  box-shadow: 0 6px 18px rgba(64, 37, 47, 0.08);
 }
 
 .mgrid-nav-wrap {
@@ -59,6 +61,7 @@ body {
   letter-spacing: 0.04em;
   font-size: 1.85rem;
   line-height: 1;
+  color: #3a2731;
 }
 
 .mgrid-brand-tagline {
@@ -107,7 +110,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(100deg, rgba(38, 23, 30, 0.78), rgba(87, 52, 62, 0.42));
+  background: linear-gradient(110deg, rgba(42, 24, 36, 0.8), rgba(123, 79, 101, 0.42));
   z-index: 0;
 }
 
@@ -116,13 +119,62 @@ body {
   z-index: 1;
 }
 
+.mgrid-hero-title {
+  font-size: clamp(2.7rem, 6.2vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+  max-width: 14ch;
+}
+
+.mgrid-hero-console {
+  background: rgba(255, 252, 248, 0.96) !important;
+  border-radius: 16px !important;
+  border: 1px solid #ddcfc4 !important;
+  overflow: hidden;
+}
+
+.mgrid-hero-console__head {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #eadfd5;
+  color: #4f443f;
+}
+
+.mgrid-hero-console__live {
+  color: #4c8c6f;
+  font-size: 0.85rem;
+}
+
+.mgrid-hero-console__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.9rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #efe4da;
+  color: #2e2420;
+  font-size: 0.92rem;
+}
+
+.mgrid-hero-console__row:last-child {
+  border-bottom: 0;
+}
+
+.mgrid-hero-console__progress {
+  width: 68%;
+  max-width: 240px;
+}
+
+.mgrid-hero-console__progress > span {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
 .mgrid-section-heading,
 h1,
 h2,
 h3 {
   font-family: "Cormorant Garamond", Georgia, serif;
   letter-spacing: 0.01em;
-  color: #2b1f1a;
+  color: #2f1f28;
 }
 
 .mgrid-public section {
@@ -130,11 +182,11 @@ h3 {
 }
 
 .mgrid-public section:nth-of-type(odd) {
-  background: #f8f4ef;
+  background: #fbf7f4;
 }
 
 .mgrid-public section:nth-of-type(even) {
-  background: #f2ece5;
+  background: #f6efeb;
 }
 
 .card,
@@ -144,8 +196,17 @@ h3 {
 .mgrid-mid-card--premium,
 .mgrid-modal-rounded {
   border: 1px solid var(--mgrid-ref-border) !important;
-  border-radius: 14px !important;
-  box-shadow: 0 8px 20px rgba(45, 27, 35, 0.05) !important;
+  border-radius: 16px !important;
+  background: linear-gradient(180deg, #fffdfc 0%, #fff9f7 100%) !important;
+  box-shadow: 0 10px 24px rgba(56, 30, 40, 0.07) !important;
+}
+
+/* Keep card blocks visually uniform across landing sections */
+#about .card,
+#features .mgrid-tier-card,
+#benefits .card,
+#partners .mgrid-partner-cell {
+  min-height: 210px;
 }
 
 .mgrid-tier-card.is-active {
@@ -154,7 +215,7 @@ h3 {
 }
 
 #features {
-  background: #f3eee8 !important;
+  background: linear-gradient(180deg, #f8f1ed 0%, #f4ece9 100%) !important;
   padding-top: 2.2rem !important;
 }
 
@@ -171,17 +232,38 @@ h3 {
 
 .mgrid-feature-card {
   border-radius: 16px !important;
-  border-color: #dfd5cb !important;
-  background: #fbfaf8 !important;
-  box-shadow: 0 1px 2px rgba(35, 24, 22, 0.04), 0 6px 14px rgba(35, 24, 22, 0.04) !important;
+  border-color: #e6d8d1 !important;
+  background: linear-gradient(180deg, #fffdfc 0%, #fff7f5 100%) !important;
+  box-shadow: 0 8px 22px rgba(57, 30, 39, 0.08) !important;
 }
 
 .mgrid-feature-card h3 {
   font-family: "JetBrains Mono", monospace;
-  font-size: 1.9rem;
+  font-size: 1.82rem;
   font-weight: 500;
-  border-bottom: 1px solid #ece5dd;
+  border-bottom: 1px solid #efe3dc;
   padding-bottom: 0.7rem;
+}
+
+.mgrid-feature-icon {
+  display: inline-flex;
+  width: 1.5rem;
+  color: #9a6f7d;
+  font-weight: 600;
+}
+
+.card-hover,
+.mgrid-tier-card,
+.mgrid-partner-cell {
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.card-hover:hover,
+.mgrid-tier-card:hover,
+.mgrid-partner-cell:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(67, 35, 50, 0.11) !important;
+  border-color: #d7b6c0 !important;
 }
 
 .mgrid-feature-card p {
@@ -192,7 +274,7 @@ h3 {
 #benefits,
 #partners,
 #faq {
-  background: #f3eee8 !important;
+  background: #f8f2ef !important;
 }
 
 #benefits .card,
@@ -205,20 +287,53 @@ h3 {
 }
 
 #partners .mgrid-partner-cell {
-  min-height: 142px;
+  min-height: 210px;
   text-align: left;
 }
 
+.mgrid-partner-track {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #9d7f8a;
+  font-size: 0.63rem;
+  font-weight: 700;
+}
+
+#partners .mgrid-partner-cell h3 {
+  font-size: 2rem;
+}
+
+.mgrid-about-card {
+  background: #fbfaf8 !important;
+}
+
+.mgrid-about-card__meta {
+  color: #bdb2aa;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 1.4rem;
+}
+
+.mgrid-about-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 8px;
+  background: #f2ece6;
+  font-size: 0.95rem;
+}
+
 .mgrid-cta-banner {
-  border-top: 8px solid #2d1222;
-  border-bottom: 8px solid #2d1222;
+  border-top: 8px solid #3a1f32;
+  border-bottom: 8px solid #3a1f32;
 }
 
 .mgrid-cta-panel {
-  background: #faf9f7;
-  border: 1px solid #e5d8cc;
+  background: linear-gradient(180deg, #fffdfb 0%, #fff7f4 100%);
+  border: 1px solid #eadcd3;
   border-radius: 18px;
-  box-shadow: 0 10px 24px rgba(20, 12, 17, 0.2);
+  box-shadow: 0 14px 28px rgba(34, 16, 26, 0.2);
 }
 
 .mgrid-cta-panel .mgrid-section-heading {
@@ -257,9 +372,17 @@ h3 {
 
 .btn-primary,
 .btn-mgrid-primary {
-  background: linear-gradient(180deg, var(--mgrid-ref-accent), var(--mgrid-ref-accent-dark)) !important;
+  background: linear-gradient(180deg, #d7a1ae, #b8778c) !important;
   border-color: var(--mgrid-ref-accent-dark) !important;
-  border-radius: 10px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 18px rgba(148, 84, 108, 0.3);
+}
+
+.btn-primary:hover,
+.btn-mgrid-primary:hover {
+  background: linear-gradient(180deg, #cd93a3, #ad6f84) !important;
+  border-color: #a7657a !important;
+  transform: translateY(-1px);
 }
 
 .btn-outline-light {
@@ -267,9 +390,9 @@ h3 {
 }
 
 .mgrid-lang-toggle .btn {
-  border-radius: 8px !important;
-  border-color: #dccdc3;
-  color: #5e4d45;
+  border-radius: 10px !important;
+  border-color: #e3d2cb;
+  color: #664f58;
 }
 
 .mgrid-lang-toggle .btn:hover {
@@ -277,11 +400,11 @@ h3 {
 }
 
 .mgrid-cta-banner {
-  background: linear-gradient(120deg, #2d1b23, #412933) !important;
+  background: linear-gradient(120deg, #35202f, #5a3550) !important;
 }
 
 .mgrid-footer {
-  background: #efe7df !important;
+  background: #f4ece7 !important;
   color: var(--mgrid-ref-ink) !important;
 }
 
@@ -291,6 +414,46 @@ h3 {
 
 .mgrid-footer a:hover {
   color: #2f2622 !important;
+}
+
+.mgrid-footer-ref {
+  background: linear-gradient(180deg, #f5eeea 0%, #f0e7e2 100%) !important;
+}
+
+.mgrid-footer-ref__title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.75rem;
+  line-height: 1.1;
+  color: #321f2a;
+  font-weight: 600;
+}
+
+.mgrid-footer-ref__text {
+  color: #4f453f;
+  line-height: 1.45;
+  max-width: 34ch;
+}
+
+.mgrid-footer-ref hr {
+  border-color: #d5cac0;
+  opacity: 0.9;
+}
+
+.mgrid-footer-ref__links li {
+  margin-bottom: 0.3rem;
+}
+
+.mgrid-footer-ref__links a {
+  color: #2f2622 !important;
+  text-decoration: none;
+}
+
+.mgrid-footer-ref__links a:hover {
+  text-decoration: underline;
+}
+
+.mgrid-footer-ref__copy {
+  color: #6f5f64;
 }
 
 .mgrid-login-pattern,
@@ -312,4 +475,262 @@ h3 {
   margin-bottom: 0.25rem;
   font-size: 0.85rem;
   color: var(--mgrid-ref-muted);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive pass for full template                                           */
+/* -------------------------------------------------------------------------- */
+
+.mgrid-page-header-title {
+  font-size: clamp(1.45rem, 2.2vw, 2rem);
+}
+
+.mgrid-page-header-sub {
+  color: #6e635d;
+}
+
+@media (max-width: 1199.98px) {
+  .mgrid-hero-full.mgrid-hero-photo {
+    min-height: 72vh;
+  }
+
+  .mgrid-feature-card h3 {
+    font-size: 1.55rem;
+  }
+
+  #about .card,
+  #features .mgrid-tier-card,
+  #benefits .card,
+  #partners .mgrid-partner-cell {
+    min-height: 190px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  /* Public pages */
+  body.mgrid-public {
+    padding-top: 70px;
+  }
+
+  .mgrid-navbar {
+    background: rgba(255, 255, 255, 0.98) !important;
+  }
+
+  .mgrid-navbar .navbar-collapse {
+    background: #fff;
+    border: 1px solid #e8ddd2;
+    border-radius: 12px;
+    margin-top: 0.6rem;
+    padding: 0.8rem;
+    box-shadow: 0 8px 20px rgba(28, 19, 18, 0.07);
+  }
+
+  .mgrid-navbar .navbar-nav {
+    gap: 0.25rem !important;
+    margin-bottom: 0.8rem !important;
+  }
+
+  .mgrid-navbar .nav-link {
+    padding: 0.45rem 0.4rem !important;
+  }
+
+  .mgrid-header-controls {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 0.5rem !important;
+  }
+
+  .mgrid-header-controls .btn-primary,
+  .mgrid-header-controls .btn-link {
+    font-size: 0.9rem;
+  }
+
+  .mgrid-hero-full.mgrid-hero-photo {
+    min-height: 62vh;
+  }
+
+  .mgrid-hero-title {
+    font-size: clamp(2rem, 7vw, 3rem) !important;
+  }
+
+  .mgrid-hero-console {
+    margin-top: 0.25rem;
+  }
+
+  .mgrid-hero-lead {
+    font-size: 0.96rem;
+  }
+
+  .mgrid-public section {
+    padding-top: 2.2rem !important;
+    padding-bottom: 2.2rem !important;
+  }
+
+  #features .mgrid-section-heading {
+    font-size: clamp(1.8rem, 6vw, 2.6rem);
+    line-height: 1.08;
+  }
+
+  .mgrid-feature-intro {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .mgrid-feature-card {
+    padding: 1rem !important;
+  }
+
+  .mgrid-feature-card p {
+    font-size: 0.94rem;
+  }
+
+  .mgrid-about-card__meta {
+    font-size: 1.2rem;
+  }
+
+  .mgrid-cta-panel {
+    padding: 1rem !important;
+  }
+
+  .mgrid-cta-panel .btn {
+    width: 100%;
+  }
+
+  #faq .accordion-button {
+    font-size: 0.95rem;
+  }
+
+  /* Auth / verification pages */
+  .mgrid-register-left {
+    display: none !important;
+  }
+
+  .mgrid-max-w-460,
+  .mgrid-max-w-560 {
+    max-width: 100% !important;
+  }
+
+  #regStep1 .row.g-2 > div {
+    margin-bottom: 0.2rem;
+  }
+
+  /* Dashboard pages */
+  .mgrid-dash-sidebar {
+    display: none !important;
+  }
+
+  main.flex-grow-1,
+  .flex-grow-1.p-3,
+  .flex-grow-1.p-3.p-md-4 {
+    padding: 0.9rem !important;
+  }
+
+  .card-header {
+    font-size: 0.95rem;
+  }
+
+  .table-responsive {
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .mgrid-brand-name {
+    font-size: 1.3rem;
+  }
+
+  .mgrid-brand-mark {
+    width: 34px;
+    height: 34px;
+    font-size: 0.6rem;
+  }
+
+  .mgrid-brand-tagline {
+    display: none !important;
+  }
+
+  .mgrid-lang-toggle .btn {
+    padding: 0.22rem 0.42rem;
+    font-size: 0.72rem;
+  }
+
+  .mgrid-hero-full .btn-lg,
+  .mgrid-cta-panel .btn-lg {
+    font-size: 0.95rem;
+    padding: 0.55rem 0.85rem;
+  }
+
+  .mgrid-hero-full .row.g-3 > div .fs-3 {
+    font-size: 1.25rem !important;
+  }
+
+  .mgrid-feature-card h3 {
+    font-size: 1.35rem;
+  }
+
+  #benefits ul {
+    margin-bottom: 0.4rem;
+  }
+
+  #about .card,
+  #features .mgrid-tier-card,
+  #benefits .card,
+  #partners .mgrid-partner-cell {
+    min-height: 0;
+  }
+
+  #partners .mgrid-partner-cell h3 {
+    font-size: 1.7rem;
+  }
+
+  .mgrid-cta-panel .display-5 {
+    font-size: 2rem;
+  }
+
+  .mgrid-page-header-title {
+    font-size: 1.35rem;
+  }
+
+  .mgrid-page-header-sub {
+    font-size: 0.88rem;
+  }
+
+  .mgrid-stat-card {
+    min-height: 0 !important;
+  }
+}
+
+@media (max-width: 479.98px) {
+  body.mgrid-public {
+    padding-top: 64px;
+  }
+
+  .mgrid-nav-wrap {
+    min-height: 62px;
+  }
+
+  .mgrid-navbar .navbar-collapse {
+    padding: 0.65rem;
+  }
+
+  .mgrid-hero-title {
+    font-size: 1.75rem !important;
+  }
+
+  .mgrid-hero-lead {
+    font-size: 0.9rem;
+  }
+
+  .mgrid-public .container,
+  .mgrid-register-left,
+  .col-lg-7.d-flex.align-items-center.justify-content-center.p-4.p-lg-5 {
+    padding-left: 0.85rem !important;
+    padding-right: 0.85rem !important;
+  }
+
+  .mgrid-modal-rounded,
+  .mgrid-tier-card,
+  .card {
+    border-radius: 12px !important;
+  }
 }
