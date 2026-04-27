@@ -1,264 +1,273 @@
 <?php
-
 declare(strict_types=1);
 
-require __DIR__ . '/includes/init.php';
+require_once __DIR__ . '/includes/init.php';
+require_once __DIR__ . '/includes/csrf.php';
+require_once __DIR__ . '/includes/flash.php';
+require_once __DIR__ . '/includes/m_id_generator.php';
+require_once __DIR__ . '/includes/registration_helper.php';
 
-if (auth_actor() !== null) {
-    $u = auth_actor();
-    redirect(($u['account_type'] ?? 'user') === 'admin' ? 'admin/dashboard.php' : 'user/dashboard.php');
-}
-
-$errors = [];
 $form = [
-    'full_name' => '',
+    'first_name' => '',
+    'middle_name' => '',
+    'surname' => '',
+    'nida_number' => '',
     'phone' => '',
     'email' => '',
-    'region' => '',
-    'date_of_birth' => '',
-    'age_range' => '',
-    'business_status' => '',
-    'preferred_language' => 'sw',
+    'has_registered_business' => 'no',
+    'business_name' => '',
+    'business_type' => '',
+    'has_bank_account' => 'no',
+    'heard_about' => '',
 ];
 
-$regions = [
-    'Arusha', 'Dar es Salaam', 'Dodoma', 'Geita', 'Iringa', 'Kagera', 'Katavi', 'Kigoma', 'Kilimanjaro',
-    'Lindi', 'Manyara', 'Mara', 'Mbeya', 'Mjini Magharibi', 'Morogoro', 'Mtwara', 'Mwanza', 'Njombe',
-    'Pemba North', 'Pemba South', 'Pwani', 'Rukwa', 'Ruvuma', 'Shinyanga', 'Simiyu', 'Singida', 'Songwe',
-    'Tabora', 'Tanga', 'Other / Diaspora',
-];
+$errors = [];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!csrf_verify($_POST['_csrf'] ?? null)) {
-        $errors[] = __('register.error.token');
-    } else {
-        foreach (array_keys($form) as $k) {
-            if (isset($_POST[$k])) {
-                $form[$k] = clean_string((string) $_POST[$k]);
+if (is_post()) {
+    require_csrf();
+
+    [$validated, $errors] = validate_registration_payload($_POST);
+    $form = array_merge($form, $validated);
+
+    if ($errors === []) {
+        $pdo = db();
+        $errors = registration_unique_checks($pdo, $validated);
+    }
+
+    if ($errors === []) {
+        $pdo = db();
+
+        try {
+            $pdo->beginTransaction();
+
+            $mId = generate_next_m_id($pdo);
+            $passwordHash = password_hash($validated['password'], PASSWORD_DEFAULT);
+
+            $insertUser = $pdo->prepare(
+                'INSERT INTO users
+                (m_id, first_name, middle_name, surname, nida_number, phone, email, password_hash, status, preferred_language)
+                VALUES
+                (:m_id, :first_name, :middle_name, :surname, :nida_number, :phone, :email, :password_hash, :status, :preferred_language)'
+            );
+            $insertUser->execute([
+                ':m_id' => $mId,
+                ':first_name' => $validated['first_name'],
+                ':middle_name' => $validated['middle_name'],
+                ':surname' => $validated['surname'],
+                ':nida_number' => $validated['nida_number'],
+                ':phone' => $validated['phone'],
+                ':email' => $validated['email'] !== '' ? strtolower($validated['email']) : null,
+                ':password_hash' => $passwordHash,
+                ':status' => 'pending',
+                ':preferred_language' => 'sw',
+            ]);
+
+            $userId = (int) $pdo->lastInsertId();
+
+            $insertProfile = $pdo->prepare(
+                'INSERT INTO user_profiles
+                (user_id, has_registered_business, business_name, business_type, has_bank_account, heard_about)
+                VALUES
+                (:user_id, :has_registered_business, :business_name, :business_type, :has_bank_account, :heard_about)'
+            );
+            $insertProfile->execute([
+                ':user_id' => $userId,
+                ':has_registered_business' => $validated['has_registered_business'],
+                ':business_name' => $validated['business_name'] !== '' ? $validated['business_name'] : null,
+                ':business_type' => $validated['business_type'] !== '' ? $validated['business_type'] : null,
+                ':has_bank_account' => $validated['has_bank_account'],
+                ':heard_about' => $validated['heard_about'],
+            ]);
+
+            initialize_mscore_current_scores($pdo, $userId);
+
+            $pdo->commit();
+
+            session_regenerate_id(true);
+            $_SESSION['user_id'] = $userId;
+            $_SESSION['user_m_id'] = $mId;
+            $_SESSION['role'] = 'user';
+
+            flash_success('Usajili umefanikiwa.');
+            redirect('pending-verification.php');
+        } catch (Throwable $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
             }
-        }
-        $password = (string) ($_POST['password'] ?? '');
-        $confirm = (string) ($_POST['confirm_password'] ?? '');
-
-        if ($form['full_name'] === '' || mb_strlen($form['full_name']) < 2) {
-            $errors[] = __('register.error.full_name');
-        }
-        if ($form['phone'] === '') {
-            $errors[] = __('register.error.phone');
-        }
-        $phoneNorm = normalise_phone($form['phone']);
-        if ($form['email'] === '' || !filter_var($form['email'], FILTER_VALIDATE_EMAIL)) {
-            $errors[] = __('register.error.email');
-        } else {
-            $form['email'] = strtolower($form['email']);
-        }
-        if ($form['region'] === '') {
-            $errors[] = __('register.error.region');
-        }
-        if ($form['business_status'] === '') {
-            $errors[] = __('register.error.business');
-        }
-        if (!in_array($form['preferred_language'], ['en', 'sw'], true)) {
-            $errors[] = __('register.error.language');
-        }
-        if ($form['date_of_birth'] === '' && $form['age_range'] === '') {
-            $errors[] = __('register.error.dob_or_age');
-        }
-        if ($form['date_of_birth'] !== '') {
-            $d = DateTime::createFromFormat('Y-m-d', $form['date_of_birth']);
-            if (!$d || $d->format('Y-m-d') !== $form['date_of_birth']) {
-                $errors[] = __('register.error.dob_invalid');
-            }
-        }
-        if (strlen($password) < 8) {
-            $errors[] = __('register.error.password_short');
-        }
-        if (!hash_equals($password, $confirm)) {
-            $errors[] = __('register.error.password_mismatch');
-        }
-
-        if ($errors === []) {
-            $pdo = db();
-            $chk = $pdo->prepare('SELECT id FROM users WHERE email = :e OR phone = :p LIMIT 1');
-            $chk->execute(['e' => $form['email'], 'p' => $phoneNorm]);
-            if ($chk->fetch()) {
-                $errors[] = __('register.error.duplicate');
-            }
-        }
-
-        if ($errors === []) {
-            $hash = password_hash($password, PASSWORD_DEFAULT);
-            $dobSql = $form['date_of_birth'] !== '' ? $form['date_of_birth'] : null;
-            $ageSql = $form['age_range'] !== '' ? $form['age_range'] : null;
-
-            try {
-                $pdo = db();
-                $pdo->beginTransaction();
-
-                $mId = m_id_allocate_next($pdo);
-
-                $ins = $pdo->prepare('
-                    INSERT INTO users (m_id, full_name, phone, email, password_hash, status, preferred_language)
-                    VALUES (:m_id, :full_name, :phone, :email, :ph, "pending", :lang)
-                ');
-                $ins->execute([
-                    'm_id' => $mId,
-                    'full_name' => $form['full_name'],
-                    'phone' => $phoneNorm,
-                    'email' => $form['email'],
-                    'ph' => $hash,
-                    'lang' => $form['preferred_language'],
-                ]);
-                $userId = (int) $pdo->lastInsertId();
-
-                $prof = $pdo->prepare('
-                    INSERT INTO user_profiles (user_id, region, date_of_birth, age_range, business_status, bio, profile_photo, profile_completion)
-                    VALUES (:uid, :region, :dob, :age, :bs, NULL, NULL, 15)
-                ');
-                $prof->execute([
-                    'uid' => $userId,
-                    'region' => $form['region'],
-                    'dob' => $dobSql,
-                    'age' => $ageSql,
-                    'bs' => $form['business_status'],
-                ]);
-
-                $sc = $pdo->prepare('
-                    INSERT INTO m_scores (user_id, score, tier, last_calculated_at)
-                    VALUES (:uid, NULL, "pending", NULL)
-                ');
-                $sc->execute(['uid' => $userId]);
-
-                $pdo->commit();
-                flash_set('success', __('register.flash_ok', ['mid' => $mId]));
-                redirect('login.php');
-            } catch (Throwable $e) {
-                $tx = db();
-                if ($tx->inTransaction()) {
-                    $tx->rollBack();
-                }
-                $errors[] = __('register.error.generic');
-            }
+            $errors[] = 'Hitilafu imetokea wakati wa usajili. Tafadhali jaribu tena.';
         }
     }
 }
-
-$mgrid_page_title = mgrid_title('title.register');
-$mgrid_layout = 'auth';
-require __DIR__ . '/includes/header.php';
 ?>
+<!DOCTYPE html>
+<html lang="sw" data-mgrid-default-lang="sw">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fungua M-ID yako — M-Grid</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/mgrid-variables.css" rel="stylesheet" />
+    <link href="assets/css/mgrid-overrides.css" rel="stylesheet" />
+    <link href="assets/css/mgrid-components.css" rel="stylesheet" />
+    <link href="assets/css/mgrid-animations.css" rel="stylesheet" />
+    <link href="assets/css/mgrid-reference-theme.css" rel="stylesheet" />
+  </head>
+  <body class="bg-white">
+    <div class="min-vh-100 d-lg-flex">
+      <div class="d-none d-lg-flex flex-column justify-content-between col-lg-5 mgrid-register-left p-5">
+        <div>
+          <div class="mgrid-logo-text-light mb-4">M·GRID</div>
+          <p class="lead text-white opacity-90 mgrid-register-lead">Njia yako ya fursa huanza na M-ID moja.</p>
+        </div>
+        <div class="mgrid-mid-card text-dark mt-4">
+          <div class="small text-muted text-uppercase">Kadi ya mfano</div>
+          <div class="mgrid-mid-card-mono">M-2026-000104</div>
+          <div class="fw-semibold mt-2">Neema Joseph</div>
+          <div class="small text-muted">Mbeya · Gold</div>
+        </div>
+        <p class="small mb-0">
+          <a class="text-white text-decoration-underline" href="login.php">Tayari una M-ID? Ingia</a>
+        </p>
+      </div>
 
-<div class="mgrid-auth-card" style="max-width:680px; margin:0 auto;">
-  <div class="mgrid-auth-brand-wrap">
-    <div class="mgrid-auth-logo-mark">
-      <img src="<?= e(asset('images/logos/logo.png')) ?>" alt="Malkia Grid logo" />
-    </div>
-    <div>
-      <span class="mgrid-auth-brand-name">M GRID</span>
-      <span class="mgrid-auth-brand-tagline">Women Rising in Power and Opportunity</span>
-    </div>
-  </div>
-  <p class="mb-3"><a class="text-decoration-none" href="<?= e(url('index.php')) ?>" data-i18n="auth.back_home">&larr; Back to Home</a></p>
-  <div class="mgrid-auth-tabs" role="tablist" aria-label="Authentication pages">
-    <a class="mgrid-auth-tab" href="<?= e(url('login.php')) ?>" role="tab" aria-selected="false" data-i18n="auth.sign_in_tab">Sign in</a>
-    <a class="mgrid-auth-tab is-active" href="<?= e(url('register.php')) ?>" role="tab" aria-selected="true" data-i18n="auth.register_tab">Register</a>
-  </div>
-  <h1 class="mgrid-display" style="font-size:2rem; margin-bottom:6px;" data-i18n="auth.register_title">Create your M-ID account</h1>
-  <p style="color: var(--mgrid-ink-500); font-size: 14.5px;" data-i18n="auth.register_lead">Provide accurate details. Your M-ID is issued automatically after submission.</p>
-  <?php foreach ($errors as $err): ?>
-    <div class="mgrid-alert mgrid-alert-danger"><?= e($err) ?></div>
-  <?php endforeach; ?>
-  <form method="post" novalidate>
-    <?= csrf_field() ?>
-    <div class="mgrid-auth-grid-2">
-      <div>
-        <label class="mgrid-form-label" for="full_name" data-i18n="auth.label_full_name">Full name</label>
-        <input class="mgrid-form-control" type="text" id="full_name" name="full_name" required value="<?= e($form['full_name']) ?>">
-        <p class="small text-muted mb-0 mt-1" data-i18n="register.help_full_name">Use your everyday name as on your ID if you have one.</p>
-      </div>
-      <div>
-        <label class="mgrid-form-label" for="phone" data-i18n="auth.label_phone">Phone</label>
-        <input class="mgrid-form-control" type="text" id="phone" name="phone" required value="<?= e($form['phone']) ?>" placeholder="+255...">
-        <p class="small text-muted mb-0 mt-1" data-i18n="register.help_phone">Use the phone number you use every day.</p>
-      </div>
-      <div>
-        <label class="mgrid-form-label" for="email" data-i18n="auth.label_email">Email</label>
-        <input class="mgrid-form-control" type="email" id="email" name="email" required value="<?= e($form['email']) ?>">
-        <p class="small text-muted mb-0 mt-1" data-i18n="register.help_email">We will send important updates here.</p>
-      </div>
-      <div>
-        <label class="mgrid-form-label" for="region" data-i18n="auth.label_region">Region</label>
-        <select class="mgrid-form-control" id="region" name="region" required>
-          <option value=""><?= e(__('register.choose')) ?></option>
-          <?php foreach ($regions as $r): ?>
-            <option value="<?= e($r) ?>" <?= $form['region'] === $r ? 'selected' : '' ?>><?= e($r) ?></option>
+      <div class="col-lg-7 d-flex align-items-center justify-content-center p-4 p-lg-5">
+        <div class="w-100 mgrid-max-w-460">
+          <p class="mb-2">
+            <a class="small text-decoration-none" href="index.php">&larr; Rudi ukurasa mkuu</a>
+          </p>
+
+          <h1 class="h2 mgrid-section-heading mb-1">Fungua M-ID yako</h1>
+          <p class="text-muted small mb-4">Inachukua chini ya dakika 3</p>
+
+          <?php foreach ($errors as $error): ?>
+            <div class="alert alert-danger border-0 mb-2"><?= e($error) ?></div>
           <?php endforeach; ?>
-        </select>
-      </div>
-      <div>
-        <label class="mgrid-form-label" for="date_of_birth"><span data-i18n="auth.label_dob">Date of birth (optional if age range given)</span></label>
-        <input class="mgrid-form-control" type="date" id="date_of_birth" name="date_of_birth" value="<?= e($form['date_of_birth']) ?>">
-      </div>
-      <div>
-        <label class="mgrid-form-label" for="age_range" data-i18n="auth.label_age">Age range</label>
-        <select class="mgrid-form-control" id="age_range" name="age_range">
-          <option value=""><?= e(__('register.choose')) ?></option>
-              <?php
-                $ranges = ['18-25', '26-35', '36-45', '46-55', '56-65', '65+'];
-foreach ($ranges as $ar) {
-    ?>
-                <option value="<?= e($ar) ?>" <?= $form['age_range'] === $ar ? 'selected' : '' ?>><?= e($ar) ?></option>
-              <?php
-}
-?>
-        </select>
-      </div>
-      <div>
-        <label class="mgrid-form-label" for="business_status" data-i18n="auth.label_business">Business status</label>
-        <select class="mgrid-form-control" id="business_status" name="business_status" required>
-          <option value=""><?= e(__('register.choose')) ?></option>
-              <?php
-    $bss = [
-        'employed' => 'register.bs.employed',
-        'self_employed' => 'register.bs.self_employed',
-        'student' => 'register.bs.student',
-        'homemaker' => 'register.bs.homemaker',
-        'seeking' => 'register.bs.seeking',
-        'other' => 'register.bs.other',
-    ];
-foreach ($bss as $val => $labelKey) {
-    ?>
-                <option value="<?= e($val) ?>" <?= $form['business_status'] === $val ? 'selected' : '' ?>><?= e(__($labelKey)) ?></option>
-              <?php
-}
-?>
-        </select>
-      </div>
-      <div>
-        <label class="mgrid-form-label" for="preferred_language" data-i18n="auth.label_pref_lang">Preferred language</label>
-        <select class="mgrid-form-control" id="preferred_language" name="preferred_language">
-          <option value="en" <?= $form['preferred_language'] === 'en' ? 'selected' : '' ?> data-i18n="auth.opt_lang_en">English</option>
-          <option value="sw" <?= $form['preferred_language'] === 'sw' ? 'selected' : '' ?> data-i18n="auth.opt_lang_sw">Kiswahili</option>
-        </select>
-      </div>
-      <div>
-        <label class="mgrid-form-label" for="password" data-i18n="auth.label_pw">Password</label>
-        <input class="mgrid-form-control" type="password" id="password" name="password" autocomplete="new-password" required minlength="8">
-      </div>
-      <div>
-        <label class="mgrid-form-label" for="confirm_password" data-i18n="auth.label_pw_confirm">Confirm password</label>
-        <input class="mgrid-form-control" type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" required>
-      </div>
-    </div>
-    <div class="mt-4">
-      <button type="submit" class="btn-mgrid btn-mgrid-primary w-100 justify-content-center py-3" data-i18n="auth.submit_register">Create account &amp; receive M-ID</button>
-      <p class="text-center" style="font-size: 13.5px; color: var(--mgrid-ink-500); margin-top: 20px;">
-        <span data-i18n="auth.meta_have_account">Already registered?</span>
-        <a href="<?= e(url('login.php')) ?>" style="color: var(--mgrid-gold-600); font-weight: 500;" data-i18n="auth.meta_sign_in">Sign in</a>
-      </p>
-    </div>
-  </form>
-</div>
 
-<?php
-require __DIR__ . '/includes/footer.php';
+          <form id="registerForm" method="post" novalidate>
+            <?= csrf_input() ?>
+
+            <div id="regStep1">
+              <div class="row g-2 mb-3">
+                <div class="col-12 col-md-4">
+                  <label class="form-label" for="firstName">Jina la kwanza</label>
+                  <input type="text" class="form-control form-control-sm" id="firstName" name="first_name" required value="<?= e($form['first_name']) ?>" />
+                </div>
+                <div class="col-12 col-md-4">
+                  <label class="form-label" for="middleName">Jina la kati</label>
+                  <input type="text" class="form-control form-control-sm" id="middleName" name="middle_name" required value="<?= e($form['middle_name']) ?>" />
+                </div>
+                <div class="col-12 col-md-4">
+                  <label class="form-label" for="surname">Ukoo</label>
+                  <input type="text" class="form-control form-control-sm" id="surname" name="surname" required value="<?= e($form['surname']) ?>" />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="nidaNumber">Namba ya NIDA</label>
+                <input type="text" class="form-control form-control-sm" id="nidaNumber" name="nida_number" required value="<?= e($form['nida_number']) ?>" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="phone">Namba ya simu</label>
+                <input type="text" class="form-control form-control-sm" id="phone" name="phone" required value="<?= e($form['phone']) ?>" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="email">Barua pepe (si lazima)</label>
+                <input type="email" class="form-control form-control-sm" id="email" name="email" value="<?= e($form['email']) ?>" />
+              </div>
+              <div class="mb-2">
+                <label class="form-label" for="regPassword">Nenosiri</label>
+                <input type="password" class="form-control form-control-sm" id="regPassword" name="password" required minlength="8" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="regPassword2">Thibitisha nenosiri</label>
+                <input type="password" class="form-control form-control-sm" id="regPassword2" name="confirm_password" required />
+              </div>
+              <button type="button" class="btn btn-primary w-100" id="regBtnNext">Endelea Hatua ya 2</button>
+            </div>
+
+            <div id="regStep2" class="d-none">
+              <div class="mb-3">
+                <span class="form-label d-block">Una biashara iliyosajiliwa?</span>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="has_registered_business" id="bizY" value="yes" <?= $form['has_registered_business'] === 'yes' ? 'checked' : '' ?> />
+                  <label class="form-check-label" for="bizY">Ndiyo</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="has_registered_business" id="bizN" value="no" <?= $form['has_registered_business'] !== 'yes' ? 'checked' : '' ?> />
+                  <label class="form-check-label" for="bizN">Hapana</label>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="bizName">Jina la biashara</label>
+                <input type="text" class="form-control" id="bizName" name="business_name" value="<?= e($form['business_name']) ?>" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="bizType">Aina ya biashara</label>
+                <select class="form-select" id="bizType" name="business_type">
+                  <option value="">Chagua...</option>
+                  <option value="sole_prop" <?= $form['business_type'] === 'sole_prop' ? 'selected' : '' ?>>Mmiliki mmoja</option>
+                  <option value="company" <?= $form['business_type'] === 'company' ? 'selected' : '' ?>>Kampuni</option>
+                  <option value="cooperative" <?= $form['business_type'] === 'cooperative' ? 'selected' : '' ?>>Ushirika</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="bank">Una akaunti ya benki?</label>
+                <select class="form-select" id="bank" name="has_bank_account">
+                  <option value="yes" <?= $form['has_bank_account'] === 'yes' ? 'selected' : '' ?>>Ndiyo</option>
+                  <option value="no" <?= $form['has_bank_account'] !== 'yes' ? 'selected' : '' ?>>Hapana</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label class="form-label" for="hear">Umesikiaje kuhusu M-Grid?</label>
+                <select class="form-select" id="hear" name="heard_about" required>
+                  <option value="">Chagua...</option>
+                  <option value="clouds_media" <?= $form['heard_about'] === 'clouds_media' ? 'selected' : '' ?>>Clouds Media</option>
+                  <option value="partner_referral" <?= $form['heard_about'] === 'partner_referral' ? 'selected' : '' ?>>Kupitia mshirika</option>
+                  <option value="community_event" <?= $form['heard_about'] === 'community_event' ? 'selected' : '' ?>>Tukio la jamii</option>
+                  <option value="other" <?= $form['heard_about'] === 'other' ? 'selected' : '' ?>>Nyingine</option>
+                </select>
+              </div>
+              <div class="d-flex gap-2">
+                <button type="button" class="btn btn-outline-secondary flex-grow-1" id="regBtnBack">Rudi</button>
+                <button type="submit" class="btn btn-primary flex-grow-1">Tengeneza M-ID yangu</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const step1 = document.getElementById("regStep1");
+        const step2 = document.getElementById("regStep2");
+        const nextBtn = document.getElementById("regBtnNext");
+        const backBtn = document.getElementById("regBtnBack");
+
+        if (!step1 || !step2 || !nextBtn || !backBtn) return;
+
+        nextBtn.addEventListener("click", function () {
+          const requiredStep1 = step1.querySelectorAll("input[required]");
+          for (const input of requiredStep1) {
+            if (!input.checkValidity()) {
+              input.reportValidity();
+              return;
+            }
+          }
+          step1.classList.add("d-none");
+          step2.classList.remove("d-none");
+        });
+
+        backBtn.addEventListener("click", function () {
+          step2.classList.add("d-none");
+          step1.classList.remove("d-none");
+        });
+      })();
+    </script>
+  </body>
+</html>
