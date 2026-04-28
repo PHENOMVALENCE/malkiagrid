@@ -61,9 +61,30 @@
 .mgrid-progress-wrap { margin: 8px 0; }
 .mgrid-progress-track { height: 6px; background: var(--mgrid-ink-100); border-radius: 100px; overflow: hidden; }
 .mgrid-progress-fill { height: 100%; background: linear-gradient(90deg, var(--mgrid-gold-400), var(--mgrid-gold-200)); transition: width 1s ease; }
+.mgrid-dash-hero .mgrid-progress-track {
+  height: 10px;
+  background: rgba(86, 50, 71, 0.12);
+}
+.mgrid-progress-fill--hero {
+  display: block;
+  background: linear-gradient(90deg, #8f4f74 0%, #c38347 100%);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.2) inset;
+  border-radius: 999px;
+}
 .mgrid-progress-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--mgrid-ink-500); margin-top: 6px; }
 .mgrid-quick-link { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--mgrid-ink-50); border: 1px solid var(--mgrid-ink-100); border-radius: var(--mgrid-radius-md); font-size: 13.5px; font-weight: 500; color: var(--mgrid-ink-800); text-decoration: none; transition: .15s; }
 .mgrid-quick-link:hover { background: var(--mgrid-gold-50); border-color: rgba(201,164,78,.3); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(201,164,78,.12); }
+.mgrid-quick-link.is-locked {
+  opacity: .58;
+  cursor: not-allowed;
+  pointer-events: auto;
+}
+.mgrid-quick-link.is-locked:hover {
+  background: var(--mgrid-ink-50);
+  border-color: var(--mgrid-ink-100);
+  transform: none;
+  box-shadow: none;
+}
 .mgrid-module-tile { background: var(--mgrid-surface-raised); border: 1px solid var(--mgrid-ink-100); border-radius: var(--mgrid-radius-lg); padding: 20px; position: relative; overflow: hidden; }
 .mgrid-module-tile::after { content: ""; position: absolute; inset: 0; background-image: repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(20,18,16,.02) 8px, rgba(20,18,16,.02) 9px); pointer-events: none; }
 .mgrid-module-tile-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--mgrid-gold-50); border: 1px solid rgba(201,164,78,.2); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }

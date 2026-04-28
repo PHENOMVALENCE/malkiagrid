@@ -90,6 +90,7 @@ foreach ($notifications as $n) {
     }
 }
 $fundingStatus = $latestFunding ? (string) $latestFunding['status'] : 'Bado hujatuma ombi';
+$profileCompletionPct = max(0, min(100, (int) $profileCompletion));
 $mgrid_page_title = 'Dashibodi ya Mwanachama — Malkia Grid';
 require __DIR__ . '/includes/shell_open.php';
 ?>
@@ -104,11 +105,17 @@ require __DIR__ . '/includes/shell_open.php';
           <p class="small text-muted mb-2">M-ID: <span class="mgrid-table-mid-cell"><?= e($mId) ?></span></p>
           <div class="mgrid-progress-wrap mb-0">
             <div class="mgrid-progress-track">
-              <div class="mgrid-progress-fill" style="width: <?= (int) $profileCompletion ?>%"></div>
+              <div
+                class="mgrid-progress-fill mgrid-progress-fill--hero"
+                style="width: <?= $profileCompletionPct ?>%; min-width: <?= $profileCompletionPct > 0 ? '10px' : '0' ?>;"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="<?= $profileCompletionPct ?>"
+              ></div>
             </div>
             <div class="mgrid-progress-meta">
               <span>Ukamilifu wa M PROFILE</span>
-              <span><?= (int) $profileCompletion ?>%</span>
+              <span><?= $profileCompletionPct ?>%</span>
             </div>
           </div>
         </div>
@@ -156,12 +163,12 @@ require __DIR__ . '/includes/shell_open.php';
         </div>
         <div class="mgrid-card-body mgrid-dash-actions-grid">
           <a class="mgrid-quick-link" href="<?= e(url('user/profile.php')) ?>"><i class="ti ti-user-circle"></i> M PROFILE</a>
-          <a class="mgrid-quick-link" href="<?= e(url('user/my_documents.php')) ?>"><i class="ti ti-file-certificate"></i> M‑Documents</a>
-          <a class="mgrid-quick-link" href="<?= e(url('user/my_mscore.php')) ?>"><i class="ti ti-chart-arcs"></i> M SCORE</a>
-          <a class="mgrid-quick-link" href="<?= e(url('user/opportunities.php')) ?>"><i class="ti ti-briefcase"></i> Fursa</a>
-          <a class="mgrid-quick-link" href="<?= e(url('user/trainings.php')) ?>"><i class="ti ti-school"></i> Mafunzo</a>
-          <a class="mgrid-quick-link" href="<?= e(url('user/benefits.php')) ?>"><i class="ti ti-gift"></i> M‑Benefits</a>
-          <a class="mgrid-quick-link" href="<?= e(url('user/funding_overview.php')) ?>"><i class="ti ti-cash-banknote"></i> M‑Fund</a>
+          <a class="mgrid-quick-link is-locked" href="javascript:void(0)" onclick="return false;" aria-disabled="true" title="Imefungwa kwa sasa"><i class="ti ti-lock"></i> M‑Documents</a>
+          <a class="mgrid-quick-link is-locked" href="javascript:void(0)" onclick="return false;" aria-disabled="true" title="Imefungwa kwa sasa"><i class="ti ti-lock"></i> M SCORE</a>
+          <a class="mgrid-quick-link is-locked" href="javascript:void(0)" onclick="return false;" aria-disabled="true" title="Imefungwa kwa sasa"><i class="ti ti-lock"></i> Fursa</a>
+          <a class="mgrid-quick-link is-locked" href="javascript:void(0)" onclick="return false;" aria-disabled="true" title="Imefungwa kwa sasa"><i class="ti ti-lock"></i> Mafunzo</a>
+          <a class="mgrid-quick-link is-locked" href="javascript:void(0)" onclick="return false;" aria-disabled="true" title="Imefungwa kwa sasa"><i class="ti ti-lock"></i> M‑Benefits</a>
+          <a class="mgrid-quick-link is-locked" href="javascript:void(0)" onclick="return false;" aria-disabled="true" title="Imefungwa kwa sasa"><i class="ti ti-lock"></i> M‑Fund</a>
           <a class="mgrid-quick-link" href="<?= e(url('user/notifications.php')) ?>"><i class="ti ti-bell"></i> Arifa (<?= (int) $unreadCount ?> mpya)</a>
         </div>
       </div>
@@ -209,11 +216,8 @@ require __DIR__ . '/includes/shell_open.php';
     </div>
     <div class="mgrid-card-body d-flex flex-wrap gap-2">
       <a class="btn-mgrid btn-mgrid-ghost" href="<?= e(url('user/profile.php')) ?>">Hariri M PROFILE</a>
-      <a class="btn-mgrid btn-mgrid-ghost" href="<?= e(url('user/my_documents.php')) ?>">Nyaraka zangu</a>
-      <a class="btn-mgrid btn-mgrid-ghost" href="<?= e(url('user/my_funding_applications.php')) ?>">Maombi ya M‑Fund</a>
-      <a class="btn-mgrid btn-mgrid-ghost" href="<?= e(url('user/my_benefits.php')) ?>">Maombi ya Benefits</a>
-      <a class="btn-mgrid btn-mgrid-ghost" href="<?= e(url('user/my_opportunities.php')) ?>">Maombi ya Fursa</a>
-      <a class="btn-mgrid btn-mgrid-ghost" href="<?= e(url('user/my_trainings.php')) ?>">Usajili wa Mafunzo</a>
+      <a class="btn-mgrid btn-mgrid-ghost" href="<?= e(url('user/settings.php')) ?>">Mipangilio</a>
+      <a class="btn-mgrid btn-mgrid-ghost" href="<?= e(url('user/notifications.php')) ?>">Arifa</a>
     </div>
   </div>
 </section>

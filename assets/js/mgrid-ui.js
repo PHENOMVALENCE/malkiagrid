@@ -56,6 +56,35 @@
     window.addEventListener("scroll", onScroll, { passive: true });
   }
 
+  function getMeta(name) {
+    var m = document.querySelector('meta[name="' + name + '"]');
+    return m ? (m.getAttribute("content") || "") : "";
+  }
+
+  function initIdleLogout() {
+    var timeoutRaw = getMeta("mgrid-idle-timeout-ms");
+    var logoutUrl = getMeta("mgrid-logout-url");
+    var timeoutMs = parseInt(timeoutRaw || "0", 10);
+    if (!logoutUrl || !timeoutMs || timeoutMs < 10000) return;
+
+    var timer = null;
+    var resetTimer = function () {
+      if (timer) window.clearTimeout(timer);
+      timer = window.setTimeout(function () {
+        window.location.href = logoutUrl;
+      }, timeoutMs);
+    };
+
+    ["click", "keydown", "mousemove", "scroll", "touchstart"].forEach(function (evt) {
+      window.addEventListener(evt, resetTimer, { passive: true });
+    });
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) resetTimer();
+    });
+    resetTimer();
+  }
+
   initReducedMotion();
   initTopbarScroll();
+  initIdleLogout();
 })();

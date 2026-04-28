@@ -1,75 +1,116 @@
-# M GRID Frontend (Kiswahili Primary)
+# 🚀 M GRID Platform
 
-Mradi huu ni toleo la **frontend-only** la M GRID, lililoboreshwa kwa muonekano wa kisasa na mtiririko wa usajili/uhakiki.
+M GRID is a digital empowerment platform designed to provide identity, credibility, and economic access for women, particularly in underserved and informal sectors.  
+The system aggregates user data, verifies credentials, and translates real-world progress into a structured digital profile that can unlock opportunities such as funding, partnerships, and services.
 
-## Muhtasari
+## 🎯 Core Objective
 
-- Lugha kuu: **Kiswahili**
-- Lugha ya pili: **English** (kupitia toggle EN/SW)
-- Hakuna backend ya lazima kwa preview ya UI
-- Imejengwa kwa HTML + CSS + vanilla JS
+To build a centralized, scalable ecosystem where women can:
 
-## Entry Points
+- Establish a verified digital identity (**M-ID**)
+- Track and improve their credibility score (**M SCORE**)
+- Access financial services, training, and partnerships
+- Participate in a structured economic network
 
-- `index.html`
-- `login.html`
-- `register.html`
-- `pending-verification.html`
+## 🧩 Key Modules
 
-## Mtiririko wa Auth (Frontend Demo)
+### 1. M-ID (Digital Identity)
 
-1. Usajili unaanzia `register.html`
-2. Baada ya usajili, mtumiaji anaelekezwa `pending-verification.html`
-3. Mtumiaji anapakia picha ya NIDA, hali inakuwa "pending_review"
-4. Login ya user:
-   - ikiwa si `verified` -> anarudishwa pending verification page
-   - ikiwa `verified` -> anaingia `dashboard/home.html`
-5. Login ya admin -> `dashboard/admin-home.html`
+- Unique identifier for every registered user
+- Serves as the foundation for all platform interactions
+- Linked to uploaded documents and verification status
 
-> Kumbuka: Hii ni demo ya frontend; status ya verification inahifadhiwa kwenye `localStorage`.
+### 2. M-Profile (User Dashboard)
 
-## Dashboard Pages
+Central dashboard displaying:
 
-### User
+- Personal information
+- Uploaded documents
+- Verification status
+- Progress and activity
 
-- `dashboard/home.html`
-- `dashboard/profile.html`
-- `dashboard/score.html`
-- `dashboard/documents.html`
-- `dashboard/loans.html`
-- `dashboard/partners.html`
-- `dashboard/benefits.html`
-- `dashboard/settings.html`
+### 3. Document Management & Verification
 
-### Admin
+Upload support for:
 
-- `dashboard/admin-home.html`
+- National ID
+- Business registration (BRELA)
+- Tax documents (TRA)
+- Bank details
+- Certificates
 
-## Styling
+Additional capabilities:
 
-Theme kuu ya muonekano:
+- Admin-based manual verification system
+- Designed for future integration with APIs (e.g., NIDA)
 
-- `assets/css/mgrid-reference-theme.css`
+### 4. M-Score (Credibility Engine)
 
-Mafaili ya msingi ya style:
+Dynamic scoring system based on:
 
-- `assets/css/mgrid-variables.css`
-- `assets/css/mgrid-overrides.css`
-- `assets/css/mgrid-components.css`
-- `assets/css/mgrid-animations.css`
+- Profile completion
+- Verified documents
+- Financial behavior
+- Participation in programs
 
-## Scripts Muhimu
+Used to determine eligibility for opportunities.
 
-- `assets/js/mgrid-core.js` -> logic za auth flow, pending verification flow, interactions za UI
-- `assets/js/mgrid-i18n.js` -> strings za lugha (SW/EN) na language toggle
+### 5. M-Fund (Financial Access)
 
-## Jinsi ya Ku-run (Local)
+Enables users to:
 
-Kwa kuwa ni frontend-only:
+- Apply for funding/loans
+- Be evaluated based on M-Score
+- Integrate in future with financial institutions
 
-1. Fungua project ndani ya browser kupitia server ya local (mf. XAMPP `htdocs`)
-2. Tembelea `http://localhost/m-grid1/`
+### 6. Admin Panel
 
-## Note
+- User management
+- Document verification
+- System monitoring
+- Role-based access (Admin vs User)
 
-Faili za `.php` bado zipo kwenye repository kwa historia/rejea, lakini muundo wa sasa wa UI umeandaliwa ku-run kama frontend-only.
+## 🌍 Localization Strategy
+
+- **Primary language:** Kiswahili (simple, accessible)
+- **Secondary language:** English
+- Built for inclusivity, especially for low-income and non-English-speaking users
+
+## 🛠 Tech Stack
+
+- **Frontend:** HTML, CSS, Bootstrap (customized template)
+- **Backend:** Plain PHP (no framework)
+- **Database:** MySQL
+- **Hosting:** Hostinger (Shared Hosting)
+- **Version Control:** Git + GitHub
+- **Deployment:** SSH-based Git pull workflow
+
+## ⚙️ Deployment Workflow
+
+The platform is deployed on Hostinger using SSH and Git:
+
+```bash
+cd ~/domains/mgrid.co.tz/public_html
+git pull origin main
+```
+
+This allows fast updates without manual file uploads.
+
+## 🔐 Authentication & Roles
+
+- User registration and login
+- Role separation:
+  - Users (women participants)
+  - Admins (verification and system control)
+
+## 🔄 Future Enhancements
+
+- NIDA API integration for automatic identity verification
+- Partner integrations (Banks, BRELA, TRA, training institutions)
+- Mobile-first progressive web app (PWA)
+- Advanced analytics for M-Score
+- Multi-tenant partner dashboards
+
+## 💡 Vision
+
+M GRID aims to become a Pan-African digital infrastructure for women's economic empowerment, enabling structured participation in the formal economy through technology, data, and partnerships.

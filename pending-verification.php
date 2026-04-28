@@ -149,6 +149,7 @@ if (is_post() && $docTypeId !== null) {
                 <div class="form-text">Tumia picha iliyo wazi, isiyokatika, na maandishi yasomeke.</div>
               </div>
               <button type="submit" class="btn btn-primary w-100 mb-2">Wasilisha kwa uhakiki</button>
+              <a class="btn btn-outline-danger w-100 mb-2" href="logout.php">Toka kwenye akaunti</a>
               <a class="btn btn-outline-secondary w-100" href="login.php">Rudi ukurasa wa kuingia</a>
             </form>
           </div>

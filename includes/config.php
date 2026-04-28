@@ -19,7 +19,7 @@ if (!defined('APP_DEBUG')) {
 }
 
 if (!defined('APP_URL')) {
-    define('APP_URL', rtrim((string) (getenv('APP_URL') ?: '/m-grid1'), '/'));
+    define('APP_URL', rtrim((string) (getenv('APP_URL') ?: ''), '/'));
 }
 
 if (!defined('DB_HOST')) {
@@ -47,6 +47,10 @@ if (!defined('SESSION_NAME')) {
 
 if (!defined('SESSION_LIFETIME')) {
     define('SESSION_LIFETIME', 60 * 60 * 4); // 4 hours
+}
+
+if (!defined('SESSION_IDLE_TIMEOUT')) {
+    define('SESSION_IDLE_TIMEOUT', 60 * 30); // 30 minutes inactivity
 }
 
 if (!defined('CSRF_TOKEN_KEY')) {

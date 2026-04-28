@@ -59,6 +59,10 @@ $mgrid_canonical = $mgrid_scheme . '://' . $mgrid_host . ($mgrid_path_only !== '
   <?php if (session_status() === PHP_SESSION_ACTIVE): ?>
   <meta name="mgrid-csrf-token" content="<?= e(csrf_token()) ?>" />
   <meta name="mgrid-set-lang-url" content="<?= e(url('set_ui_language.php')) ?>" />
+  <?php if (in_array($mgrid_layout, ['user', 'admin'], true) && function_exists('auth_actor') && auth_actor() !== null): ?>
+  <meta name="mgrid-idle-timeout-ms" content="<?= (int) (SESSION_IDLE_TIMEOUT * 1000) ?>" />
+  <meta name="mgrid-logout-url" content="<?= e(url('logout.php?reason=idle')) ?>" />
+  <?php endif; ?>
   <?php endif; ?>
   <title><?= e($mgrid_page_title) ?></title>
   <meta name="description" content="<?= e((string) $mgrid_meta_description) ?>" />

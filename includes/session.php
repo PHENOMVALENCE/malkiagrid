@@ -17,6 +17,7 @@ function is_https_request(): bool
 function start_secure_session(): void
 {
     if (session_status() === PHP_SESSION_ACTIVE) {
+        enforce_session_idle_timeout();
         return;
     }
 
@@ -37,5 +38,42 @@ function start_secure_session(): void
     ini_set('session.cookie_samesite', 'Lax');
 
     session_start();
+    enforce_session_idle_timeout();
+}
+
+function enforce_session_idle_timeout(): void
+{
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        return;
+    }
+
+    $role = (string) ($_SESSION['role'] ?? '');
+    if ($role !== 'user' && $role !== 'admin') {
+        return;
+    }
+
+    $now = time();
+    $lastActivity = (int) ($_SESSION['_last_activity_at'] ?? 0);
+    if ($lastActivity > 0 && ($now - $lastActivity) > SESSION_IDLE_TIMEOUT) {
+        $_SESSION = [];
+        if (ini_get('session.use_cookies')) {
+            $params = session_get_cookie_params();
+            setcookie(
+                session_name(),
+                '',
+                time() - 42000,
+                $params['path'] ?? '/',
+                $params['domain'] ?? '',
+                (bool) ($params['secure'] ?? false),
+                (bool) ($params['httponly'] ?? true)
+            );
+        }
+        session_destroy();
+        session_start();
+        $_SESSION['_flash']['error'][] = 'Umetolewa kwa kutotumia mfumo kwa muda. Tafadhali ingia tena.';
+        return;
+    }
+
+    $_SESSION['_last_activity_at'] = $now;
 }
 
