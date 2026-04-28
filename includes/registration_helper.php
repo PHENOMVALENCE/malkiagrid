@@ -28,18 +28,19 @@ function validate_registration_payload(array $input): array
 
     $errors = [];
 
-    foreach (['first_name', 'middle_name', 'surname', 'nida_number', 'phone', 'password', 'confirm_password'] as $field) {
+    foreach (['first_name', 'surname', 'phone', 'password', 'confirm_password'] as $field) {
         if ($data[$field] === '') {
             $errors[] = 'Tafadhali jaza taarifa zote muhimu za Hatua ya 1.';
             break;
         }
     }
 
-    foreach (['has_registered_business', 'has_bank_account', 'heard_about'] as $field) {
-        if ($data[$field] === '') {
-            $errors[] = 'Tafadhali kamilisha taarifa za Hatua ya 2.';
-            break;
-        }
+    // Step 2 fields are optional.
+    if ($data['has_registered_business'] === '') {
+        $data['has_registered_business'] = 'no';
+    }
+    if ($data['has_bank_account'] === '') {
+        $data['has_bank_account'] = 'no';
     }
 
     if ($data['has_registered_business'] === 'yes') {
@@ -67,10 +68,12 @@ function registration_unique_checks(PDO $pdo, array $data): array
 {
     $errors = [];
 
-    $nidaCheck = $pdo->prepare('SELECT id FROM users WHERE nida_number = :nida LIMIT 1');
-    $nidaCheck->execute([':nida' => $data['nida_number']]);
-    if ($nidaCheck->fetch()) {
-        $errors[] = 'Namba ya NIDA tayari imetumika.';
+    if ($data['nida_number'] !== '') {
+        $nidaCheck = $pdo->prepare('SELECT id FROM users WHERE nida_number = :nida LIMIT 1');
+        $nidaCheck->execute([':nida' => $data['nida_number']]);
+        if ($nidaCheck->fetch()) {
+            $errors[] = 'Namba ya NIDA tayari imetumika.';
+        }
     }
 
     $phoneCheck = $pdo->prepare('SELECT id FROM users WHERE phone = :phone LIMIT 1');

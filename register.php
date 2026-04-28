@@ -160,7 +160,7 @@ if (is_post()) {
                 </div>
                 <div class="col-12 col-md-4">
                   <label class="form-label" for="middleName">Jina la kati</label>
-                  <input type="text" class="form-control form-control-sm" id="middleName" name="middle_name" required value="<?= e($form['middle_name']) ?>" />
+                  <input type="text" class="form-control form-control-sm" id="middleName" name="middle_name" value="<?= e($form['middle_name']) ?>" />
                 </div>
                 <div class="col-12 col-md-4">
                   <label class="form-label" for="surname">Ukoo</label>
@@ -169,7 +169,7 @@ if (is_post()) {
               </div>
               <div class="mb-3">
                 <label class="form-label" for="nidaNumber">Namba ya NIDA</label>
-                <input type="text" class="form-control form-control-sm" id="nidaNumber" name="nida_number" required value="<?= e($form['nida_number']) ?>" />
+                <input type="text" class="form-control form-control-sm" id="nidaNumber" name="nida_number" value="<?= e($form['nida_number']) ?>" />
               </div>
               <div class="mb-3">
                 <label class="form-label" for="phone">Namba ya simu</label>
@@ -224,7 +224,7 @@ if (is_post()) {
               </div>
               <div class="mb-4">
                 <label class="form-label" for="hear">Umesikiaje kuhusu M-Grid?</label>
-                <select class="form-select" id="hear" name="heard_about" required>
+                <select class="form-select" id="hear" name="heard_about">
                   <option value="">Chagua...</option>
                   <option value="clouds_media" <?= $form['heard_about'] === 'clouds_media' ? 'selected' : '' ?>>Clouds Media</option>
                   <option value="partner_referral" <?= $form['heard_about'] === 'partner_referral' ? 'selected' : '' ?>>Kupitia mshirika</option>
