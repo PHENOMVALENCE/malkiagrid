@@ -132,6 +132,15 @@ h1, h2, h3, h4, h5 { font-weight: 500; line-height: 1.3; }
 .mgrid-nav-link--sub { margin-left: 18px; padding-left: 14px; }
 .mgrid-nav-link--sub i { opacity: .9; }
 .mgrid-nav-group[open] > summary { background: rgba(255,255,255,.05); }
+.mgrid-nav-link.is-locked {
+  opacity: .55;
+  cursor: not-allowed;
+  border-left-color: transparent !important;
+}
+.mgrid-nav-link.is-locked:hover {
+  background: rgba(255,255,255,.04);
+  color: rgba(255,255,255,.7);
+}
 .mgrid-sidebar-user { margin-top: auto; padding: 16px 12px; border-top: 1px solid rgba(255,255,255,.06); display: flex; gap: 10px; align-items: center; }
 .mgrid-sidebar-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--mgrid-gold-600); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
 .mgrid-sidebar-user-name { color: rgba(255,255,255,.85); font-size: 13.5px; }

@@ -188,8 +188,8 @@ $anyActive = static function (array $groups) use ($isActive): bool {
           <a class="mgrid-nav-link mgrid-nav-link--sub <?= $isActive(['profile.php']) ? 'is-active' : '' ?>" href="<?= e(url('user/profile.php')) ?>">
             <i class="ti ti-user-circle"></i><span data-i18n="sidebar.m_profile">M PROFILE</span>
           </a>
-          <a class="mgrid-nav-link mgrid-nav-link--sub <?= $isActive(['my_mscore.php']) ? 'is-active' : '' ?>" href="<?= e(url('user/my_mscore.php')) ?>">
-            <i class="ti ti-chart-arcs"></i><span data-i18n="sidebar.m_score">M SCORE</span>
+          <a class="mgrid-nav-link mgrid-nav-link--sub is-locked" href="javascript:void(0)" onclick="return false;" aria-disabled="true" title="Imefungwa kwa sasa">
+            <i class="ti ti-lock"></i><span data-i18n="sidebar.m_score">M SCORE</span>
           </a>
         </div>
       </details>
@@ -201,11 +201,11 @@ $anyActive = static function (array $groups) use ($isActive): bool {
           <i class="ti ti-chevron-down mgrid-nav-caret" aria-hidden="true"></i>
         </summary>
         <div class="mgrid-nav-sub">
-          <a class="mgrid-nav-link mgrid-nav-link--sub <?= $isActive(['verify-id.php']) ? 'is-active' : '' ?>" href="<?= e(url('user/verify-id.php')) ?>">
-            <i class="ti ti-id-badge-2"></i><span data-i18n="sidebar.id_verification">ID Verification</span>
+          <a class="mgrid-nav-link mgrid-nav-link--sub is-locked" href="javascript:void(0)" onclick="return false;" aria-disabled="true" title="Imefungwa kwa sasa">
+            <i class="ti ti-lock"></i><span data-i18n="sidebar.id_verification">ID Verification</span>
           </a>
-          <a class="mgrid-nav-link mgrid-nav-link--sub <?= $isActive(['my_documents.php','upload_document.php','reupload_document.php']) ? 'is-active' : '' ?>" href="<?= e(url('user/my_documents.php')) ?>">
-            <i class="ti ti-file-certificate"></i><span data-i18n="sidebar.documents">Documents</span>
+          <a class="mgrid-nav-link mgrid-nav-link--sub is-locked" href="javascript:void(0)" onclick="return false;" aria-disabled="true" title="Imefungwa kwa sasa">
+            <i class="ti ti-lock"></i><span data-i18n="sidebar.documents">Documents</span>
           </a>
         </div>
       </details>
@@ -217,20 +217,20 @@ $anyActive = static function (array $groups) use ($isActive): bool {
           <i class="ti ti-chevron-down mgrid-nav-caret" aria-hidden="true"></i>
         </summary>
         <div class="mgrid-nav-sub">
-          <a class="mgrid-nav-link mgrid-nav-link--sub <?= $isActive(['opportunities.php','opportunity_detail.php','apply_opportunity.php','my_opportunities.php']) ? 'is-active' : '' ?>" href="<?= e(url('user/opportunities.php')) ?>">
-            <i class="ti ti-briefcase"></i><span data-i18n="sidebar.opportunities_link">Opportunities</span>
+          <a class="mgrid-nav-link mgrid-nav-link--sub is-locked" href="javascript:void(0)" onclick="return false;" aria-disabled="true" title="Imefungwa kwa sasa">
+            <i class="ti ti-lock"></i><span data-i18n="sidebar.opportunities_link">Opportunities</span>
           </a>
-          <a class="mgrid-nav-link mgrid-nav-link--sub <?= $isActive(['trainings.php','training_detail.php','register_training.php','my_trainings.php']) ? 'is-active' : '' ?>" href="<?= e(url('user/trainings.php')) ?>">
-            <i class="ti ti-school"></i><span data-i18n="sidebar.trainings">Trainings</span>
+          <a class="mgrid-nav-link mgrid-nav-link--sub is-locked" href="javascript:void(0)" onclick="return false;" aria-disabled="true" title="Imefungwa kwa sasa">
+            <i class="ti ti-lock"></i><span data-i18n="sidebar.trainings">Trainings</span>
           </a>
-          <a class="mgrid-nav-link mgrid-nav-link--sub <?= $isActive(['funding_overview.php','apply_funding.php','my_funding_applications.php','funding_application_detail.php']) ? 'is-active' : '' ?>" href="<?= e(url('user/funding_overview.php')) ?>">
-            <i class="ti ti-cash-banknote"></i><span data-i18n="sidebar.m_fund">M-Fund (Loans)</span>
+          <a class="mgrid-nav-link mgrid-nav-link--sub is-locked" href="javascript:void(0)" onclick="return false;" aria-disabled="true" title="Imefungwa kwa sasa">
+            <i class="ti ti-lock"></i><span data-i18n="sidebar.m_fund">M-Fund (Loans)</span>
           </a>
-          <a class="mgrid-nav-link mgrid-nav-link--sub <?= $isActive(['benefits.php','benefit_detail.php','claim_benefit.php','my_benefits.php','benefit_claim_detail.php']) ? 'is-active' : '' ?>" href="<?= e(url('user/benefits.php')) ?>">
-            <i class="ti ti-gift"></i><span data-i18n="sidebar.m_benefits">M-Manufaa</span>
+          <a class="mgrid-nav-link mgrid-nav-link--sub is-locked" href="javascript:void(0)" onclick="return false;" aria-disabled="true" title="Imefungwa kwa sasa">
+            <i class="ti ti-lock"></i><span data-i18n="sidebar.m_benefits">M-Manufaa</span>
           </a>
-          <a class="mgrid-nav-link mgrid-nav-link--sub" href="javascript:void(0)" onclick="return false;">
-            <i class="ti ti-handshake"></i><span data-i18n="sidebar.m_partners">M-Washirika</span>
+          <a class="mgrid-nav-link mgrid-nav-link--sub is-locked" href="javascript:void(0)" onclick="return false;" aria-disabled="true" title="Imefungwa kwa sasa">
+            <i class="ti ti-lock"></i><span data-i18n="sidebar.m_partners">M-Washirika</span>
           </a>
         </div>
       </details>
