@@ -45,22 +45,22 @@ require __DIR__ . '/includes/shell_open.php';
 
 <div class="mgrid-card mb-3">
   <div class="mgrid-card-header">
-    <h1 class="mgrid-card-title"><i class="ti ti-file-description"></i> Application <?= e((string) $app['reference_number']) ?></h1>
-    <a class="btn-mgrid btn-mgrid-ghost" href="<?= e(url('user/my_funding_applications.php')) ?>">Back</a>
+    <h1 class="mgrid-card-title"><i class="ti ti-file-description"></i> <span data-i18n="user.application">Application</span> <?= e((string) $app['reference_number']) ?></h1>
+    <a class="btn-mgrid btn-mgrid-ghost" href="<?= e(url('user/my_funding_applications.php')) ?>" data-i18n="user.back">Back</a>
   </div>
   <div class="mgrid-card-body">
     <div class="mgrid-grid-2">
       <div>
-        <p class="mb-1"><strong>Type:</strong> FUNDING</p>
-        <p class="mb-1"><strong>Requested:</strong> TZS <?= number_format((float) $app['amount_requested'], 2) ?></p>
-        <p class="mb-1"><strong>Business Summary:</strong> <?= e((string) ($app['business_summary'] ?? '—')) ?></p>
-        <p class="mb-1"><strong>Repayment Plan:</strong> <?= e((string) ($app['repayment_plan'] ?? '—')) ?></p>
+        <p class="mb-1"><strong data-i18n="user.type">Type</strong>: FUNDING</p>
+        <p class="mb-1"><strong data-i18n="user.requested">Requested</strong>: TZS <?= number_format((float) $app['amount_requested'], 2) ?></p>
+        <p class="mb-1"><strong data-i18n="user.business_summary">Business Summary</strong>: <?= e((string) ($app['business_summary'] ?? '—')) ?></p>
+        <p class="mb-1"><strong data-i18n="user.repayment_plan">Repayment Plan</strong>: <?= e((string) ($app['repayment_plan'] ?? '—')) ?></p>
       </div>
       <div>
         <p class="mb-1"><strong>Status:</strong> <span class="badge text-bg-<?= e(mfund_status_badge((string) $app['status'])) ?>"><?= e(mfund_status_label((string) $app['status'])) ?></span></p>
-        <p class="mb-1"><strong>Submitted:</strong> <?= e(substr((string) $app['created_at'], 0, 16)) ?></p>
-        <p class="mb-1"><strong>Purpose:</strong> <?= e((string) $app['purpose']) ?></p>
-        <p class="mb-0"><strong>Admin Remark:</strong> <?= e((string) ($app['admin_comment'] ?? '—')) ?></p>
+        <p class="mb-1"><strong data-i18n="user.submitted">Submitted</strong>: <?= e(substr((string) $app['created_at'], 0, 16)) ?></p>
+        <p class="mb-1"><strong data-i18n="user.purpose">Purpose</strong>: <?= e((string) $app['purpose']) ?></p>
+        <p class="mb-0"><strong data-i18n="user.admin_remark">Admin Remark</strong>: <?= e((string) ($app['admin_comment'] ?? '—')) ?></p>
       </div>
     </div>
   </div>
@@ -68,16 +68,16 @@ require __DIR__ . '/includes/shell_open.php';
 
 <div class="mgrid-grid-2">
   <div class="mgrid-card">
-    <div class="mgrid-card-header"><h2 class="mgrid-card-title"><i class="ti ti-timeline"></i> Status Timeline</h2></div>
+    <div class="mgrid-card-header"><h2 class="mgrid-card-title"><i class="ti ti-timeline"></i> <span data-i18n="user.status_timeline">Status Timeline</span></h2></div>
     <div class="mgrid-card-body">
       <?php if ($logs === []): ?>
-        <p class="text-muted">No status logs yet.</p>
+        <p class="text-muted" data-i18n="user.no_status_logs">No status logs yet.</p>
       <?php else: ?>
         <ul class="list-unstyled mb-0">
           <?php foreach ($logs as $l): ?>
             <li class="mb-2 pb-2 border-bottom">
               <strong><?= e(mfund_status_label((string) $l['new_status'])) ?></strong>
-              <?php if (!empty($l['old_status'])): ?><span class="small text-muted"> (from <?= e(mfund_status_label((string) $l['old_status'])) ?>)</span><?php endif; ?>
+              <?php if (!empty($l['old_status'])): ?><span class="small text-muted"> (<span data-i18n="user.from">from</span> <?= e(mfund_status_label((string) $l['old_status'])) ?>)</span><?php endif; ?>
               <div class="small text-muted"><?= e(substr((string) $l['created_at'], 0, 16)) ?></div>
               <?php if (!empty($l['note'])): ?><div class="small"><?= e((string) $l['note']) ?></div><?php endif; ?>
             </li>
@@ -87,17 +87,17 @@ require __DIR__ . '/includes/shell_open.php';
     </div>
   </div>
   <div class="mgrid-card">
-    <div class="mgrid-card-header"><h2 class="mgrid-card-title"><i class="ti ti-calendar-dollar"></i> Repayment</h2></div>
+    <div class="mgrid-card-header"><h2 class="mgrid-card-title"><i class="ti ti-calendar-dollar"></i> <span data-i18n="user.repayment">Repayment</span></h2></div>
     <div class="mgrid-card-body">
-      <p class="mb-1"><strong>Total Expected:</strong> TZS <?= number_format((float) $totals['expected_total'], 2) ?></p>
-      <p class="mb-1"><strong>Total Paid:</strong> TZS <?= number_format((float) $totals['paid_total'], 2) ?></p>
-      <p class="mb-1"><strong>Balance:</strong> TZS <?= number_format((float) $totals['balance'], 2) ?></p>
-      <p class="mb-2"><strong>Overdue Installments:</strong> <?= (int) $totals['overdue_count'] ?></p>
+      <p class="mb-1"><strong data-i18n="user.total_expected">Total Expected</strong>: TZS <?= number_format((float) $totals['expected_total'], 2) ?></p>
+      <p class="mb-1"><strong data-i18n="user.total_paid">Total Paid</strong>: TZS <?= number_format((float) $totals['paid_total'], 2) ?></p>
+      <p class="mb-1"><strong data-i18n="user.balance">Balance</strong>: TZS <?= number_format((float) $totals['balance'], 2) ?></p>
+      <p class="mb-2"><strong data-i18n="user.overdue_installments">Overdue Installments</strong>: <?= (int) $totals['overdue_count'] ?></p>
 
       <?php if ($schedules !== []): ?>
         <div class="table-responsive">
           <table class="mgrid-table">
-            <thead><tr><th>#</th><th>Due Date</th><th>Expected</th><th>Paid</th><th>Status</th></tr></thead>
+            <thead><tr><th>#</th><th data-i18n="user.due_date">Due Date</th><th data-i18n="user.expected">Expected</th><th data-i18n="user.paid">Paid</th><th data-i18n="user.th_status">Status</th></tr></thead>
             <tbody>
               <?php foreach ($schedules as $s): ?>
                 <tr>

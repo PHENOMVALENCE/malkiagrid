@@ -46,7 +46,7 @@ require __DIR__ . '/includes/shell_open.php';
   <div class="mgrid-card-body">
     <div class="d-flex flex-wrap justify-content-between gap-2">
       <div>
-        <div class="mgrid-topbar-label">Claim reference</div>
+        <div class="mgrid-topbar-label" data-i18n="user.claim_reference">Claim reference</div>
         <div class="mgrid-mono-id" style="font-size:1.25rem;"><?= e('CLM-' . (string) $claim['id']) ?></div>
       </div>
       <span class="badge text-bg-<?= e(mbenefits_claim_status_badge((string) $claim['status'])) ?> align-self-center"><?= e(mbenefits_claim_status_label((string) $claim['status'])) ?></span>
@@ -59,27 +59,27 @@ require __DIR__ . '/includes/shell_open.php';
 <div class="row g-3">
   <div class="col-lg-6">
     <div class="mgrid-card">
-      <div class="mgrid-card-header"><h2 class="mgrid-card-title">Notes</h2></div>
+      <div class="mgrid-card-header"><h2 class="mgrid-card-title" data-i18n="user.notes">Notes</h2></div>
       <div class="mgrid-card-body">
         <?php if (trim((string) ($claim['claim_note'] ?? '')) !== ''): ?>
-          <p class="small text-muted mb-1">Your note</p>
+          <p class="small text-muted mb-1" data-i18n="user.your_note">Your note</p>
           <p><?= e((string) $claim['claim_note']) ?></p>
         <?php endif; ?>
         <?php if (trim((string) ($claim['admin_comment'] ?? '')) !== ''): ?>
-          <p class="small text-muted mb-1">Admin</p>
+          <p class="small text-muted mb-1" data-i18n="user.admin">Admin</p>
           <p class="mb-0"><?= e((string) $claim['admin_comment']) ?></p>
         <?php else: ?>
-          <p class="text-muted mb-0">No admin remarks yet.</p>
+          <p class="text-muted mb-0" data-i18n="user.no_admin_remarks">No admin remarks yet.</p>
         <?php endif; ?>
       </div>
     </div>
   </div>
   <div class="col-lg-6">
     <div class="mgrid-card">
-      <div class="mgrid-card-header"><h2 class="mgrid-card-title">Activity</h2></div>
+      <div class="mgrid-card-header"><h2 class="mgrid-card-title" data-i18n="user.activity">Activity</h2></div>
       <div class="mgrid-card-body">
         <?php if ($logRows === []): ?>
-          <p class="text-muted mb-0">No log entries.</p>
+          <p class="text-muted mb-0" data-i18n="user.no_logs">No log entries.</p>
         <?php else: ?>
           <ul class="list-unstyled mb-0">
             <?php foreach ($logRows as $l): ?>
@@ -87,7 +87,7 @@ require __DIR__ . '/includes/shell_open.php';
                 <div class="small text-muted"><?= e(substr((string) $l['created_at'], 0, 19)) ?></div>
                 <div><?= e((string) ($l['old_status'] ?? '—')) ?> → <strong><?= e((string) $l['new_status']) ?></strong></div>
                 <?php if (trim((string) ($l['comment'] ?? '')) !== ''): ?><div class="small"><?= e((string) $l['comment']) ?></div><?php endif; ?>
-                <?php if (trim((string) ($l['admin_name'] ?? '')) !== ''): ?><div class="small text-muted">By <?= e((string) $l['admin_name']) ?></div><?php endif; ?>
+                <?php if (trim((string) ($l['admin_name'] ?? '')) !== ''): ?><div class="small text-muted"><span data-i18n="user.by">By</span> <?= e((string) $l['admin_name']) ?></div><?php endif; ?>
               </li>
             <?php endforeach; ?>
           </ul>
@@ -98,8 +98,8 @@ require __DIR__ . '/includes/shell_open.php';
 </div>
 
 <div class="d-flex gap-2">
-  <a class="btn-mgrid btn-mgrid-outline" href="<?= e(url('user/my_benefits.php')) ?>">Back to history</a>
-  <a class="btn-mgrid btn-mgrid-primary" href="<?= e(url('user/benefit_detail.php?id=' . (int) $claim['offer_id'])) ?>">Offer details</a>
+  <a class="btn-mgrid btn-mgrid-outline" href="<?= e(url('user/my_benefits.php')) ?>" data-i18n="user.back_to_history">Back to history</a>
+  <a class="btn-mgrid btn-mgrid-primary" href="<?= e(url('user/benefit_detail.php?id=' . (int) $claim['offer_id'])) ?>" data-i18n="user.offer_details">Offer details</a>
 </div>
 
 <?php require __DIR__ . '/includes/shell_close.php'; ?>

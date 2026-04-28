@@ -13,39 +13,39 @@ require __DIR__ . '/includes/shell_open.php';
 
 <div class="mgrid-card">
   <div class="mgrid-card-header">
-    <h1 class="mgrid-card-title"><i class="ti ti-upload"></i> Upload Document</h1>
-    <a href="<?= e(url('user/my_documents.php')) ?>" class="btn-mgrid btn-mgrid-ghost">Back to My Documents</a>
+    <h1 class="mgrid-card-title"><i class="ti ti-upload"></i> <span data-i18n="user.upload_doc_title">Upload Document</span></h1>
+    <a href="<?= e(url('user/my_documents.php')) ?>" class="btn-mgrid btn-mgrid-ghost" data-i18n="user.back_my_documents">Back to My Documents</a>
   </div>
   <div class="mgrid-card-body">
     <?php if ($types === []): ?>
-      <div class="mgrid-alert mgrid-alert-warning">No active document types configured. Contact admin.</div>
+      <div class="mgrid-alert mgrid-alert-warning" data-i18n="user.no_doc_types">No active document types configured. Contact admin.</div>
     <?php else: ?>
       <form method="post" action="<?= e(url('save_document.php')) ?>" enctype="multipart/form-data" class="row g-3" novalidate>
         <?= csrf_field() ?>
         <input type="hidden" name="mode" value="upload">
         <div class="col-md-6">
-          <label class="mgrid-form-label" for="document_type_id">Document type</label>
+          <label class="mgrid-form-label" for="document_type_id" data-i18n="user.doc_type">Document type</label>
           <select class="mgrid-form-control" id="document_type_id" name="document_type_id" required>
-            <option value="">Choose...</option>
+            <option value="" data-i18n="user.choose">Choose...</option>
             <?php foreach ($types as $type): ?>
               <option value="<?= (int) $type['id'] ?>"><?= e((string) $type['name']) ?></option>
             <?php endforeach; ?>
           </select>
         </div>
         <div class="col-md-6">
-          <label class="mgrid-form-label" for="title">Document title</label>
+          <label class="mgrid-form-label" for="title" data-i18n="user.doc_title">Document title</label>
           <input class="mgrid-form-control" type="text" id="title" name="title" maxlength="180" required placeholder="e.g. NIDA Front Copy">
         </div>
         <div class="col-12">
-          <label class="mgrid-form-label" for="description">Description (optional)</label>
+          <label class="mgrid-form-label" for="description" data-i18n="user.doc_desc">Description (optional)</label>
           <textarea class="mgrid-form-control" id="description" name="description" rows="3" maxlength="1200" placeholder="Any context for admin reviewer"></textarea>
         </div>
         <div class="col-12">
-          <label class="mgrid-form-label" for="document_file">Select file (PDF/JPG/JPEG/PNG, max 8MB)</label>
+          <label class="mgrid-form-label" for="document_file" data-i18n="user.file_select">Select file (PDF/JPG/JPEG/PNG, max 8MB)</label>
           <input class="mgrid-form-control" type="file" id="document_file" name="document_file" accept=".pdf,.jpg,.jpeg,.png" required>
         </div>
         <div class="col-12 d-flex justify-content-end">
-          <button type="submit" class="btn-mgrid btn-mgrid-primary"><i class="ti ti-device-floppy"></i> Save Document</button>
+          <button type="submit" class="btn-mgrid btn-mgrid-primary"><i class="ti ti-device-floppy"></i> <span data-i18n="user.save_document">Save Document</span></button>
         </div>
       </form>
     <?php endif; ?>

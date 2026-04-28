@@ -23,23 +23,26 @@ require __DIR__ . '/includes/shell_open.php';
   <div class="mgrid-card-body d-flex flex-wrap justify-content-between gap-3 align-items-start">
     <div>
       <div class="mgrid-topbar-label">M-BENEFITS</div>
-      <h1 class="mgrid-display mb-1" style="font-size:2rem;">Rewards &amp; partner value</h1>
-      <p class="mb-0" style="color:var(--mgrid-ink-500);">Browse verified offers. Eligibility is linked to your M-SCORE, tier, and profile strength.</p>
+      <h1 class="mgrid-display mb-1" style="font-size:2rem;" data-i18n="user.mbenefits_title">Rewards &amp; partner value</h1>
+      <p class="mb-0" style="color:var(--mgrid-ink-500);" data-i18n="user.mbenefits_sub">Browse verified offers. Eligibility is linked to your M-SCORE, tier, and profile strength.</p>
     </div>
     <div class="d-flex flex-wrap gap-2">
-      <a class="btn-mgrid btn-mgrid-outline" href="<?= e(url('user/my_benefits.php')) ?>"><i class="ti ti-history"></i> My claims</a>
+      <a class="btn-mgrid btn-mgrid-outline" href="<?= e(url('user/my_benefits.php')) ?>"><i class="ti ti-history"></i> <span data-i18n="user.my_claims">My claims</span></a>
     </div>
   </div>
 </div>
 
 <?php if (!$ready): ?>
-  <div class="mgrid-alert mgrid-alert-danger">The M-Benefits database tables are not installed. Import <code>database/m_grid_mbenefits.sql</code> to enable this module.</div>
+  <div class="mgrid-alert mgrid-alert-danger">
+    <span data-i18n="user.mbenefits_missing">M-Benefits is not installed.</span>
+    <div class="small mt-1"><code>database/m_grid_mbenefits.sql</code></div>
+  </div>
 <?php else: ?>
   <form method="get" class="mgrid-card mb-3 p-3 d-flex flex-wrap gap-2 align-items-end">
     <div>
-      <label class="form-label small text-muted mb-0">Category</label>
+      <label class="form-label small text-muted mb-0" data-i18n="user.category">Category</label>
       <select name="category" class="mgrid-form-control" onchange="this.form.submit()">
-        <option value="0">All categories</option>
+        <option value="0" data-i18n="user.all_categories">All categories</option>
         <?php foreach ($cats as $c): ?>
           <option value="<?= (int) $c['id'] ?>" <?= $catFilter === (int) $c['id'] ? 'selected' : '' ?>><?= e((string) $c['name']) ?></option>
         <?php endforeach; ?>
@@ -49,7 +52,7 @@ require __DIR__ . '/includes/shell_open.php';
 
   <div class="row g-3">
     <?php if ($offers === []): ?>
-      <div class="col-12"><p class="text-muted">No active offers in this view.</p></div>
+      <div class="col-12"><p class="text-muted" data-i18n="user.no_active_offers">No active offers in this view.</p></div>
     <?php endif; ?>
     <?php foreach ($offers as $o): ?>
       <?php
@@ -61,7 +64,9 @@ require __DIR__ . '/includes/shell_open.php';
           <div class="mgrid-card-body d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-2">
               <span class="badge text-bg-<?= e(mbenefits_benefit_type_badge((string) $o['benefit_type'])) ?>"><?= e(mbenefits_benefit_type_label((string) $o['benefit_type'])) ?></span>
-              <span class="badge text-bg-<?= $eligible ? 'success' : 'secondary' ?>"><?= $eligible ? 'Eligible' : 'Not eligible' ?></span>
+              <span class="badge text-bg-<?= $eligible ? 'success' : 'secondary' ?>">
+                <span data-i18n="<?= $eligible ? 'user.eligible' : 'user.not_eligible' ?>"><?= $eligible ? 'Eligible' : 'Not eligible' ?></span>
+              </span>
             </div>
             <div class="small text-muted mb-1"><?= e((string) $o['category_name']) ?> · <?= e((string) $o['provider_name']) ?></div>
             <h2 class="h5 mb-2"><?= e((string) $o['title']) ?></h2>
@@ -70,11 +75,11 @@ require __DIR__ . '/includes/shell_open.php';
               <span class="mgrid-mono-id" style="font-size:1.1rem;"><?= e((string) $o['value_label']) ?></span>
             </div>
             <div class="small text-muted mb-3">
-              <div><strong>Rules:</strong> <?= e($rule) ?></div>
-              <div><strong>Valid:</strong> <?= e((string) $o['valid_from']) ?> → <?= e((string) $o['valid_to']) ?></div>
+              <div><strong data-i18n="user.rules">Rules</strong>: <?= e($rule) ?></div>
+              <div><strong data-i18n="user.validity">Valid</strong>: <?= e((string) $o['valid_from']) ?> → <?= e((string) $o['valid_to']) ?></div>
             </div>
             <div class="d-flex gap-2 mt-auto">
-              <a class="btn-mgrid btn-mgrid-primary flex-grow-1" href="<?= e(url('user/benefit_detail.php?id=' . (int) $o['id'])) ?>">View details</a>
+              <a class="btn-mgrid btn-mgrid-primary flex-grow-1" href="<?= e(url('user/benefit_detail.php?id=' . (int) $o['id'])) ?>" data-i18n="user.view_details">View details</a>
             </div>
           </div>
         </div>

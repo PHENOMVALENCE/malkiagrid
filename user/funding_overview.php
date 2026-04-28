@@ -30,44 +30,51 @@ require __DIR__ . '/includes/shell_open.php';
   <div class="mgrid-card-body d-flex flex-wrap justify-content-between gap-3">
     <div>
       <div class="mgrid-topbar-label">M-FUND</div>
-      <h1 class="mgrid-display mb-1" style="font-size:2rem;">Funding Readiness</h1>
+      <h1 class="mgrid-display mb-1" style="font-size:2rem;" data-i18n="user.mfund_title">Funding Readiness</h1>
       <p class="mb-0" style="color:var(--mgrid-ink-500);">
-        <?= $elig['eligible'] ? 'You are eligible to submit a funding application.' : 'You are not yet eligible. Complete the missing requirements below.' ?>
+        <span data-i18n="<?= $elig['eligible'] ? 'user.mfund_eligible' : 'user.mfund_not_eligible' ?>">
+          <?= $elig['eligible'] ? 'You are eligible to submit a funding application.' : 'You are not yet eligible. Complete the missing requirements below.' ?>
+        </span>
       </p>
     </div>
     <div>
       <div class="mgrid-mono-id" style="font-size:26px; color:var(--mgrid-gold-600);"><?= number_format((float) $elig['score'], 2) ?></div>
-      <div class="small text-muted">M-SCORE (minimum <?= number_format((float) $elig['min_score'], 2) ?>)</div>
+      <div class="small text-muted">
+        <span data-i18n="sidebar.m_score">M SCORE</span>
+        (min <?= number_format((float) $elig['min_score'], 2) ?>)
+      </div>
     </div>
   </div>
 </div>
 
 <div class="mgrid-grid-2">
   <div class="mgrid-card">
-    <div class="mgrid-card-header"><h2 class="mgrid-card-title"><i class="ti ti-checklist"></i> Eligibility Checklist</h2></div>
+    <div class="mgrid-card-header"><h2 class="mgrid-card-title"><i class="ti ti-checklist"></i> <span data-i18n="user.eligibility_checklist">Eligibility Checklist</span></h2></div>
     <div class="mgrid-card-body">
       <ul class="list-unstyled mb-0">
         <?php foreach ($elig['checks'] as $c): ?>
           <li class="mb-2">
-            <span class="badge text-bg-<?= $c['ok'] ? 'success' : 'danger' ?> me-1"><?= $c['ok'] ? 'OK' : 'Missing' ?></span>
+            <span class="badge text-bg-<?= $c['ok'] ? 'success' : 'danger' ?> me-1">
+              <span data-i18n="<?= $c['ok'] ? 'user.status_ok' : 'user.status_missing' ?>"><?= $c['ok'] ? 'OK' : 'Missing' ?></span>
+            </span>
             <?= e((string) $c['message']) ?>
           </li>
         <?php endforeach; ?>
       </ul>
       <div class="mt-3">
         <?php if ($elig['eligible']): ?>
-          <a class="btn-mgrid btn-mgrid-primary" href="<?= e(url('user/apply_funding.php')) ?>">Apply for Funding</a>
+          <a class="btn-mgrid btn-mgrid-primary" href="<?= e(url('user/apply_funding.php')) ?>" data-i18n="user.apply_funding">Apply for Funding</a>
         <?php else: ?>
-          <button class="btn btn-secondary" disabled>Not Eligible Yet</button>
+          <button class="btn btn-secondary" disabled data-i18n="user.not_eligible_yet">Not Eligible Yet</button>
         <?php endif; ?>
       </div>
     </div>
   </div>
   <div class="mgrid-card">
-    <div class="mgrid-card-header"><h2 class="mgrid-card-title"><i class="ti ti-history"></i> Recent Applications</h2></div>
+    <div class="mgrid-card-header"><h2 class="mgrid-card-title"><i class="ti ti-history"></i> <span data-i18n="user.recent_applications">Recent Applications</span></h2></div>
     <div class="mgrid-card-body">
       <?php if ($recent === []): ?>
-        <p class="text-muted">No funding applications yet.</p>
+        <p class="text-muted" data-i18n="user.no_funding_apps">No funding applications yet.</p>
       <?php else: ?>
         <ul class="list-unstyled mb-0">
           <?php foreach ($recent as $r): ?>
@@ -81,7 +88,7 @@ require __DIR__ . '/includes/shell_open.php';
           <?php endforeach; ?>
         </ul>
       <?php endif; ?>
-      <a class="btn-mgrid btn-mgrid-outline mt-2" href="<?= e(url('user/my_funding_applications.php')) ?>">View All Applications</a>
+      <a class="btn-mgrid btn-mgrid-outline mt-2" href="<?= e(url('user/my_funding_applications.php')) ?>" data-i18n="user.view_all_apps">View All Applications</a>
     </div>
   </div>
 </div>

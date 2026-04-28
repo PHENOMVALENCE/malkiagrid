@@ -72,49 +72,49 @@ require __DIR__ . '/includes/shell_open.php';
 <div class="mgrid-card mb-3">
   <div class="mgrid-card-body d-flex flex-wrap justify-content-between align-items-start gap-3">
     <div>
-      <div class="mgrid-topbar-label">Document Center</div>
-      <h1 class="mgrid-display mb-1" style="font-size:2rem;">My Documents</h1>
-      <p class="mb-0" style="color:var(--mgrid-ink-500);">Upload and manage verification documents for your M-Profile.</p>
+      <div class="mgrid-topbar-label" data-i18n="user.docs_center">Document Center</div>
+      <h1 class="mgrid-display mb-1" style="font-size:2rem;" data-i18n="user.my_documents_title">My Documents</h1>
+      <p class="mb-0" style="color:var(--mgrid-ink-500);" data-i18n="user.my_documents_sub">Upload and manage verification documents for your M-Profile.</p>
     </div>
-    <a href="<?= e(url('user/upload_document.php')) ?>" class="btn-mgrid btn-mgrid-primary"><i class="ti ti-upload"></i> Upload Document</a>
+    <a href="<?= e(url('user/upload_document.php')) ?>" class="btn-mgrid btn-mgrid-primary"><i class="ti ti-upload"></i> <span data-i18n="user.upload_document">Upload Document</span></a>
   </div>
 </div>
 
 <div class="mgrid-grid-3 mb-3">
   <div class="mgrid-stat-card">
-    <div class="mgrid-stat-label">Total Documents</div>
+    <div class="mgrid-stat-label" data-i18n="user.total_documents">Total Documents</div>
     <div class="mgrid-stat-value"><?= (int) $total ?></div>
   </div>
   <div class="mgrid-stat-card">
-    <div class="mgrid-stat-label">Pending Review</div>
+    <div class="mgrid-stat-label" data-i18n="user.pending_review">Pending Review</div>
     <div class="mgrid-stat-value"><?= (int) $pendingCount ?></div>
   </div>
   <div class="mgrid-stat-card">
-    <div class="mgrid-stat-label">Verified</div>
+    <div class="mgrid-stat-label" data-i18n="user.verified">Verified</div>
     <div class="mgrid-stat-value"><?= (int) $verifiedCount ?></div>
   </div>
 </div>
 
 <div class="mgrid-card">
   <div class="mgrid-card-header">
-    <h2 class="mgrid-card-title"><i class="ti ti-files"></i> Latest Document Versions</h2>
+    <h2 class="mgrid-card-title"><i class="ti ti-files"></i> <span data-i18n="user.latest_versions">Latest Document Versions</span></h2>
   </div>
   <div class="mgrid-card-body p-0">
     <div class="table-responsive">
       <table class="mgrid-table">
         <thead>
           <tr>
-            <th>Document</th>
-            <th>Type</th>
-            <th>Uploaded</th>
-            <th>Status</th>
-            <th>Remarks</th>
-            <th>Actions</th>
+            <th data-i18n="user.th_document">Document</th>
+            <th data-i18n="user.th_type">Type</th>
+            <th data-i18n="user.th_uploaded">Uploaded</th>
+            <th data-i18n="user.th_status">Status</th>
+            <th data-i18n="user.th_remarks">Remarks</th>
+            <th data-i18n="user.th_actions">Actions</th>
           </tr>
         </thead>
         <tbody>
           <?php if ($documents === []): ?>
-            <tr><td colspan="6" class="text-center" style="padding:22px; color:var(--mgrid-ink-500);">No documents uploaded yet.</td></tr>
+            <tr><td colspan="6" class="text-center" style="padding:22px; color:var(--mgrid-ink-500);" data-i18n="user.no_docs_yet">No documents uploaded yet.</td></tr>
           <?php endif; ?>
           <?php foreach ($documents as $doc): ?>
             <tr>
@@ -132,9 +132,9 @@ require __DIR__ . '/includes/shell_open.php';
               <td class="small"><?= e((string) ($doc['admin_comment'] ?? '—')) ?></td>
               <td>
                 <div class="d-flex gap-2 flex-wrap">
-                  <a class="btn btn-sm btn-outline-secondary" href="<?= e(url('document_view.php?id=' . (int) $doc['id'])) ?>" target="_blank">Preview</a>
+                  <a class="btn btn-sm btn-outline-secondary" href="<?= e(url('document_view.php?id=' . (int) $doc['id'])) ?>" target="_blank" data-i18n="user.preview">Preview</a>
                   <?php if (mgrid_document_can_reupload((string) $doc['status'])): ?>
-                    <a class="btn btn-sm btn-outline-primary" href="<?= e(url('user/reupload_document.php?id=' . (int) $doc['id'])) ?>">Re-upload</a>
+                    <a class="btn btn-sm btn-outline-primary" href="<?= e(url('user/reupload_document.php?id=' . (int) $doc['id'])) ?>" data-i18n="user.reupload">Re-upload</a>
                   <?php endif; ?>
                 </div>
               </td>

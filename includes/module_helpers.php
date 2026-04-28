@@ -351,7 +351,7 @@ function checkFundingEligibility(int $uid): array
     $profileStmt->execute(['uid' => $uid]);
     $profile = (int) ($profileStmt->fetchColumn() ?: 0);
 
-    $nidaStmt = $pdo->prepare("SELECT id FROM user_documents d INNER JOIN document_types t ON t.id = d.document_type_id WHERE d.user_id = :uid AND t.code='nida' AND d.status='verified' LIMIT 1");
+    $nidaStmt = $pdo->prepare("SELECT d.id FROM user_documents d INNER JOIN document_types t ON t.id = d.document_type_id WHERE d.user_id = :uid AND t.code='nida' AND d.status='verified' LIMIT 1");
     $nidaStmt->execute(['uid' => $uid]);
     $hasNida = (bool) $nidaStmt->fetchColumn();
 

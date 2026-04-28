@@ -34,16 +34,16 @@ require __DIR__ . '/includes/shell_open.php';
   <div class="mgrid-card-body d-flex flex-wrap justify-content-between gap-2">
     <div>
       <div class="mgrid-topbar-label">M-BENEFITS</div>
-      <h1 class="mgrid-display mb-0" style="font-size:1.75rem;">My claims &amp; history</h1>
+      <h1 class="mgrid-display mb-0" style="font-size:1.75rem;" data-i18n="user.my_benefits_title">My claims &amp; history</h1>
     </div>
-    <a class="btn-mgrid btn-mgrid-primary align-self-center" href="<?= e(url('user/benefits.php')) ?>">Browse offers</a>
+    <a class="btn-mgrid btn-mgrid-primary align-self-center" href="<?= e(url('user/benefits.php')) ?>" data-i18n="user.browse_offers">Browse offers</a>
   </div>
 </div>
 
 <?php if (!$ready): ?>
-  <div class="mgrid-alert mgrid-alert-danger">M-Benefits is not installed.</div>
+  <div class="mgrid-alert mgrid-alert-danger" data-i18n="user.mbenefits_missing">M-Benefits is not installed.</div>
 <?php elseif ($claims === []): ?>
-  <div class="mgrid-card"><div class="mgrid-card-body text-muted">You have not claimed any benefits yet.</div></div>
+  <div class="mgrid-card"><div class="mgrid-card-body text-muted" data-i18n="user.no_benefit_claims_yet">You have not claimed any benefits yet.</div></div>
 <?php else: ?>
   <div class="mgrid-card">
     <div class="mgrid-card-body p-0">
@@ -51,11 +51,11 @@ require __DIR__ . '/includes/shell_open.php';
         <table class="mgrid-table mb-0">
           <thead>
             <tr>
-              <th>Reference</th>
-              <th>Benefit</th>
-              <th>Provider</th>
-              <th>Claimed</th>
-              <th>Status</th>
+              <th data-i18n="user.th_reference">Reference</th>
+              <th data-i18n="user.th_benefit">Benefit</th>
+              <th data-i18n="user.th_provider">Provider</th>
+              <th data-i18n="user.th_claimed">Claimed</th>
+              <th data-i18n="user.th_status">Status</th>
               <th></th>
             </tr>
           </thead>
@@ -68,8 +68,8 @@ require __DIR__ . '/includes/shell_open.php';
                 <td><?= e(substr((string) $c['created_at'], 0, 16)) ?></td>
                 <td><span class="badge text-bg-<?= e(mbenefits_claim_status_badge((string) $c['status'])) ?>"><?= e(mbenefits_claim_status_label((string) $c['status'])) ?></span></td>
                 <td>
-                  <a class="btn btn-sm btn-outline-primary" href="<?= e(url('user/benefit_claim_detail.php?id=' . (int) $c['id'])) ?>">Details</a>
-                  <a class="btn btn-sm btn-outline-secondary" href="<?= e(url('user/benefit_detail.php?id=' . (int) $c['benefit_id'])) ?>">Offer</a>
+                  <a class="btn btn-sm btn-outline-primary" href="<?= e(url('user/benefit_claim_detail.php?id=' . (int) $c['id'])) ?>" data-i18n="user.btn_details">Details</a>
+                  <a class="btn btn-sm btn-outline-secondary" href="<?= e(url('user/benefit_detail.php?id=' . (int) $c['benefit_id'])) ?>" data-i18n="user.offer_details">Offer</a>
                 </td>
               </tr>
             <?php endforeach; ?>
