@@ -32,7 +32,33 @@ if ($u === null) {
         <?php require __DIR__ . '/../user/notification_dropdown_include.php'; ?>
       <?php endif; ?>
       <?php require __DIR__ . '/lang_toggle.php'; ?>
-      <div class="mgrid-sidebar-avatar"><?= e(strtoupper(substr($u['full_name'], 0, 1))) ?></div>
+      <div class="dropdown">
+        <button
+          class="btn btn-mgrid btn-mgrid-ghost p-0 border-0"
+          type="button"
+          id="mgridAccountMenu"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          aria-label="Account menu"
+        >
+          <span class="mgrid-sidebar-avatar"><?= e(strtoupper(substr($u['full_name'], 0, 1))) ?></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="mgridAccountMenu">
+          <?php if (($mgrid_sidebar_context ?? '') === 'user' && auth_user() !== null): ?>
+            <li>
+              <a class="dropdown-item d-flex align-items-center gap-2" href="<?= e(url('user/profile.php')) ?>">
+                <i class="ti ti-user-circle"></i><span data-i18n="sidebar.m_profile">M PROFILE</span>
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+          <?php endif; ?>
+          <li>
+            <a class="dropdown-item d-flex align-items-center gap-2" href="<?= e(url('logout.php')) ?>">
+              <i class="ti ti-logout"></i><span data-i18n="sidebar.logout">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
 </header>

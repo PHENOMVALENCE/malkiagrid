@@ -120,6 +120,18 @@ h1, h2, h3, h4, h5 { font-weight: 500; line-height: 1.3; }
 .mgrid-nav-link { display: flex; align-items: center; gap: 10px; margin: 1px 8px; padding: 9px 16px; border-radius: var(--mgrid-radius-md); color: rgba(255,255,255,.65); text-decoration: none; transition: .15s; border-left: 3px solid transparent; }
 .mgrid-nav-link:hover { background: rgba(255,255,255,.06); color: rgba(255,255,255,.92); }
 .mgrid-nav-link.is-active { background: linear-gradient(90deg, rgba(209,167,94,.2), rgba(188,106,139,.18)); color: #ffeac4; border-left-color: var(--mgrid-gold-400); }
+
+/* Collapsible sidebar groups (details/summary) */
+.mgrid-nav-group { margin: 0; padding: 0; }
+.mgrid-nav-group > summary { list-style: none; cursor: pointer; user-select: none; }
+.mgrid-nav-group > summary::-webkit-details-marker { display: none; }
+.mgrid-nav-link--parent { position: relative; }
+.mgrid-nav-caret { margin-left: auto; opacity: .75; transition: transform .18s ease, opacity .18s ease; }
+.mgrid-nav-group[open] .mgrid-nav-caret { transform: rotate(180deg); opacity: .95; }
+.mgrid-nav-sub { padding: 2px 0 10px; }
+.mgrid-nav-link--sub { margin-left: 18px; padding-left: 14px; }
+.mgrid-nav-link--sub i { opacity: .9; }
+.mgrid-nav-group[open] > summary { background: rgba(255,255,255,.05); }
 .mgrid-sidebar-user { margin-top: auto; padding: 16px 12px; border-top: 1px solid rgba(255,255,255,.06); display: flex; gap: 10px; align-items: center; }
 .mgrid-sidebar-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--mgrid-gold-600); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
 .mgrid-sidebar-user-name { color: rgba(255,255,255,.85); font-size: 13.5px; }
