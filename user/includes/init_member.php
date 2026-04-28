@@ -69,7 +69,7 @@ if (!function_exists('mgrid_document_can_reupload')) {
 if (!function_exists('mgrid_document_types')) {
     function mgrid_document_types(PDO $pdo): array
     {
-        $stmt = $pdo->query('SELECT id, name, slug FROM document_types WHERE is_active = 1 ORDER BY sort_order ASC, id ASC');
+        $stmt = $pdo->query('SELECT id, COALESCE(name_sw, name_en) AS name, code AS slug FROM document_types WHERE is_active = 1 ORDER BY id ASC');
         $rows = $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
         return is_array($rows) ? $rows : [];
     }

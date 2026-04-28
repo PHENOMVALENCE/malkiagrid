@@ -18,7 +18,7 @@ if (!$isAdmin && !$isUser) {
     exit('Huna ruhusa.');
 }
 
-$sql = 'SELECT id, user_id, file_path, mime_type, title FROM user_documents WHERE id = :id LIMIT 1';
+$sql = 'SELECT id, user_id, file_path, mime_type, COALESCE(original_name, "") AS title FROM user_documents WHERE id = :id LIMIT 1';
 $stmt = db()->prepare($sql);
 $stmt->execute([':id' => $docId]);
 $doc = $stmt->fetch(PDO::FETCH_ASSOC);

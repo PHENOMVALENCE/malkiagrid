@@ -111,7 +111,13 @@ function notifications_list_for_user(int $userId, ?bool $unreadOnly = null, int 
     }
 
     $selectType = isset($columns['type']) ? 'type' : '"info" AS type';
-    $selectSource = isset($columns['source_module']) ? 'source_module' : '"system" AS source_module';
+    if (isset($columns['source_module'])) {
+        $selectSource = 'source_module';
+    } elseif (isset($columns['related_module'])) {
+        $selectSource = 'related_module AS source_module';
+    } else {
+        $selectSource = '"system" AS source_module';
+    }
     $selectUrl = isset($columns['action_url']) ? 'action_url' : 'NULL AS action_url';
 
     $sql = "SELECT id, user_id, title, message, is_read, created_at, {$selectType}, {$selectSource}, {$selectUrl}

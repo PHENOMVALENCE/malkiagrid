@@ -28,7 +28,7 @@ $rows = $ready ? opportunities_list_for_public(
 ) : [];
 
 $cats = $ready
-    ? ($pdo->query('SELECT id, name FROM opportunity_categories WHERE is_active = 1 ORDER BY sort_order, name')->fetchAll() ?: [])
+    ? ($pdo->query('SELECT id, COALESCE(name_sw, name_en) AS name FROM opportunity_categories WHERE is_active = 1 ORDER BY name_sw ASC, id ASC')->fetchAll() ?: [])
     : [];
 
 $mgrid_page_title = mgrid_title('title.opportunities');

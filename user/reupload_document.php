@@ -35,7 +35,7 @@ require __DIR__ . '/includes/shell_open.php';
   <div class="mgrid-card-body">
     <div class="mgrid-alert mgrid-alert-warning">
       Current status: <strong><?= e(mgrid_document_status_label((string) $doc['status'])) ?></strong>.
-      <?= !empty($doc['admin_remark']) ? ' Admin remark: ' . e((string) $doc['admin_remark']) : '' ?>
+      <?= !empty($doc['admin_comment']) ? ' Admin remark: ' . e((string) $doc['admin_comment']) : '' ?>
     </div>
 
     <form method="post" action="<?= e(url('save_document.php')) ?>" enctype="multipart/form-data" class="row g-3" novalidate>

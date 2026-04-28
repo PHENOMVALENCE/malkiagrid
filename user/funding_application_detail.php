@@ -16,13 +16,27 @@ if (!$app) {
     redirect(url('user/my_funding_applications.php'));
 }
 
-$logsStmt = $pdo->prepare('SELECT old_status, new_status, notes AS note, created_at FROM funding_status_logs WHERE application_id = :id ORDER BY created_at DESC');
-$logsStmt->execute(['id' => $appId]);
-$logs = $logsStmt->fetchAll() ?: [];
+$logs = [];
+if (function_exists('mgrid_table_exists') && mgrid_table_exists($pdo, 'funding_status_logs')) {
+    try {
+        $logsStmt = $pdo->prepare('SELECT old_status, new_status, notes AS note, created_at FROM funding_status_logs WHERE application_id = :id ORDER BY created_at DESC');
+        $logsStmt->execute(['id' => $appId]);
+        $logs = $logsStmt->fetchAll() ?: [];
+    } catch (Throwable $e) {
+        $logs = [];
+    }
+}
 
-$repSchedStmt = $pdo->prepare('SELECT * FROM funding_repayment_schedules WHERE application_id = :id ORDER BY due_date ASC');
-$repSchedStmt->execute(['id' => $appId]);
-$schedules = $repSchedStmt->fetchAll() ?: [];
+$schedules = [];
+if (function_exists('mgrid_table_exists') && mgrid_table_exists($pdo, 'funding_repayment_schedules')) {
+    try {
+        $repSchedStmt = $pdo->prepare('SELECT * FROM funding_repayment_schedules WHERE application_id = :id ORDER BY due_date ASC');
+        $repSchedStmt->execute(['id' => $appId]);
+        $schedules = $repSchedStmt->fetchAll() ?: [];
+    } catch (Throwable $e) {
+        $schedules = [];
+    }
+}
 $totals = fundingRepaymentTotals($pdo, $appId);
 
 $mgrid_page_title = mgrid_title('title.funding_detail');

@@ -13,6 +13,15 @@ if ($u === null) {
       <i class="ti ti-menu-2"></i>
     </button>
     <div class="mgrid-topbar-breadcrumb">
+      <?php
+        $tbPath = basename((string) parse_url((string) ($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH));
+        $showMemberDash = (($mgrid_sidebar_context ?? '') === 'user' && auth_user() !== null && $tbPath !== 'dashboard.php');
+      ?>
+      <?php if ($showMemberDash): ?>
+        <a class="btn btn-sm btn-mgrid btn-mgrid-outline me-2 d-inline-flex align-items-center gap-1" href="<?= e(url('user/dashboard.php')) ?>">
+          <i class="ti ti-smart-home"></i><span data-i18n="topbar.back_dashboard">Dashibodi</span>
+        </a>
+      <?php endif; ?>
       <span data-i18n="topbar.signed_in_as" class="d-none">Signed in as</span>
       <span data-i18n="<?= ($mgrid_sidebar_context ?? 'user') === 'admin' ? 'topbar.role_admin' : 'topbar.role_member' ?>"><?= ($mgrid_sidebar_context ?? 'user') === 'admin' ? 'Admin' : 'Member' ?></span>
       <i class="ti ti-chevron-right"></i>

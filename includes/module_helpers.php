@@ -5,9 +5,12 @@ require_once __DIR__ . '/db.php';
 
 function mgrid_table_exists(PDO $pdo, string $table): bool
 {
-    $stmt = $pdo->prepare('SHOW TABLES LIKE :table');
-    $stmt->execute(['table' => $table]);
-    return (bool) $stmt->fetchColumn();
+    if (!preg_match('/^[A-Za-z0-9_]+$/', $table)) {
+        return false;
+    }
+    $pattern = $pdo->quote($table);
+    $stmt = $pdo->query('SHOW TABLES LIKE ' . $pattern);
+    return $stmt ? (bool) $stmt->fetchColumn() : false;
 }
 
 function mscore_current_for_user(int $userId): ?array
@@ -380,17 +383,26 @@ function mfund_status_label(string $status): string
 
 function fundingRepaymentTotals(PDO $pdo, int $appId): array
 {
-    $sumDue = $pdo->prepare('SELECT COALESCE(SUM(amount_due),0) FROM funding_repayment_schedules WHERE application_id = :id');
-    $sumDue->execute(['id' => $appId]);
-    $expected = (float) $sumDue->fetchColumn();
-
-    $sumPaid = $pdo->prepare('SELECT COALESCE(SUM(amount_paid),0) FROM funding_repayment_logs WHERE application_id = :id');
-    $sumPaid->execute(['id' => $appId]);
-    $paid = (float) $sumPaid->fetchColumn();
-
-    $overdue = $pdo->prepare("SELECT COUNT(*) FROM funding_repayment_schedules WHERE application_id = :id AND status = 'late'");
-    $overdue->execute(['id' => $appId]);
-    $overdueCount = (int) $overdue->fetchColumn();
+    $expected = 0.0;
+    $paid = 0.0;
+    $overdueCount = 0;
+    try {
+        if (mgrid_table_exists($pdo, 'funding_repayment_schedules')) {
+            $sumDue = $pdo->prepare('SELECT COALESCE(SUM(amount_due),0) FROM funding_repayment_schedules WHERE application_id = :id');
+            $sumDue->execute(['id' => $appId]);
+            $expected = (float) $sumDue->fetchColumn();
+            $overdue = $pdo->prepare("SELECT COUNT(*) FROM funding_repayment_schedules WHERE application_id = :id AND status = 'late'");
+            $overdue->execute(['id' => $appId]);
+            $overdueCount = (int) $overdue->fetchColumn();
+        }
+        if (mgrid_table_exists($pdo, 'funding_repayment_logs')) {
+            $sumPaid = $pdo->prepare('SELECT COALESCE(SUM(amount_paid),0) FROM funding_repayment_logs WHERE application_id = :id');
+            $sumPaid->execute(['id' => $appId]);
+            $paid = (float) $sumPaid->fetchColumn();
+        }
+    } catch (Throwable $e) {
+        // leave zeros
+    }
 
     return ['expected_total' => $expected, 'paid_total' => $paid, 'balance' => max(0, $expected - $paid), 'overdue_count' => $overdueCount];
 }

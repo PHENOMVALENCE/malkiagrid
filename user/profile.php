@@ -35,8 +35,8 @@ if (is_post()) {
         if (!in_array($preferredLanguage, ['sw', 'en'], true)) {
             $errors[] = 'Lugha uliyochagua si sahihi.';
         }
-        if (mb_strlen($bio) > 500) {
-            $errors[] = 'Maelezo ya wasifu yamezidi herufi 500.';
+        if (mb_strlen($bio) > 150) {
+            $errors[] = 'Maelezo ya wasifu yamezidi herufi 150.';
         }
 
         if ($errors === []) {
@@ -55,19 +55,19 @@ if (is_post()) {
             $upUser->execute(['lang' => $preferredLanguage, 'id' => $uid]);
 
             $upProfile = $pdo->prepare('
-                INSERT INTO user_profiles (user_id, region, business_status, bio, profile_completion)
-                VALUES (:uid, :region, :business_status, :bio, :profile_completion)
+                INSERT INTO user_profiles (user_id, region, occupation, business_sector, profile_completion)
+                VALUES (:uid, :region, :occupation, :business_sector, :profile_completion)
                 ON DUPLICATE KEY UPDATE
                     region = VALUES(region),
-                    business_status = VALUES(business_status),
-                    bio = VALUES(bio),
+                    occupation = VALUES(occupation),
+                    business_sector = VALUES(business_sector),
                     profile_completion = VALUES(profile_completion)
             ');
             $upProfile->execute([
                 'uid' => $uid,
                 'region' => $region,
-                'business_status' => $businessStatus,
-                'bio' => $bio !== '' ? $bio : null,
+                'occupation' => $businessStatus,
+                'business_sector' => $bio !== '' ? $bio : null,
                 'profile_completion' => $completion,
             ]);
 
@@ -80,21 +80,21 @@ if (is_post()) {
 
 $stmt = $pdo->prepare('
     SELECT u.id, u.m_id, u.first_name, u.middle_name, u.surname, u.email, u.phone, u.status, u.preferred_language, u.created_at,
-           p.region, p.business_status, p.bio, p.profile_completion,
-           s.score AS m_score, s.tier AS m_tier,
+           p.region, p.occupation AS business_status, p.business_sector AS bio, p.profile_completion,
+           s.total_score AS m_score, s.tier AS m_tier,
            (
              SELECT ud.status
              FROM user_documents ud
              INNER JOIN document_types dt ON dt.id = ud.document_type_id
-             WHERE ud.user_id = u.id AND dt.slug = "national_id"
+             WHERE ud.user_id = u.id AND dt.code = "nida"
              ORDER BY ud.created_at DESC
              LIMIT 1
            ) AS nida_status,
            (
-             SELECT ud.admin_notes
+             SELECT ud.admin_comment
              FROM user_documents ud
              INNER JOIN document_types dt ON dt.id = ud.document_type_id
-             WHERE ud.user_id = u.id AND dt.slug = "national_id"
+             WHERE ud.user_id = u.id AND dt.code = "nida"
              ORDER BY ud.created_at DESC
              LIMIT 1
            ) AS nida_notes
@@ -157,7 +157,7 @@ require __DIR__ . '/includes/shell_open.php';
   </div>
   <div class="col-md-6">
     <div class="mgrid-stat-card">
-      <div class="mgrid-stat-label">Profile completion</div>
+      <div class="mgrid-stat-label">Ukamilifu wa wasifu</div>
       <div class="mgrid-stat-value"><?= (int) ($row['profile_completion'] ?? 0) ?>%</div>
     </div>
   </div>
@@ -180,7 +180,7 @@ require __DIR__ . '/includes/shell_open.php';
         </select>
       </div>
       <div class="col-md-6">
-        <label class="form-label" for="business_status">Hali ya biashara</label>
+        <label class="form-label" for="business_status">Hali ya biashara / kazi</label>
         <select class="form-select" id="business_status" name="business_status" required>
           <option value="">Chagua...</option>
           <?php foreach ($businessStatuses as $status): ?>
@@ -196,8 +196,8 @@ require __DIR__ . '/includes/shell_open.php';
         </select>
       </div>
       <div class="col-12">
-        <label class="form-label" for="bio">Wasifu mfupi</label>
-        <textarea class="form-control" id="bio" name="bio" rows="4" maxlength="500"><?= e((string) ($row['bio'] ?? '')) ?></textarea>
+        <label class="form-label" for="bio">Wasifu mfupi (herufi 150)</label>
+        <textarea class="form-control" id="bio" name="bio" rows="4" maxlength="150"><?= e((string) ($row['bio'] ?? '')) ?></textarea>
       </div>
       <div class="col-12 d-flex justify-content-end">
         <button type="submit" class="btn-mgrid btn-mgrid-primary px-4">Hifadhi mabadiliko</button>

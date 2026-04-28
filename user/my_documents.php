@@ -30,7 +30,9 @@ if ($page > $totalPages) {
 }
 
 $listStmt = $pdo->prepare('
-    SELECT d.*, dt.name AS type_name, dt.slug AS type_slug
+    SELECT d.*,
+           COALESCE(dt.name_sw, dt.name_en, dt.code) AS type_name,
+           dt.code AS type_slug
     FROM user_documents d
     INNER JOIN document_types dt ON dt.id = d.document_type_id
     INNER JOIN (
@@ -127,7 +129,7 @@ require __DIR__ . '/includes/shell_open.php';
                   <?= e(mgrid_document_status_label((string) $doc['status'])) ?>
                 </span>
               </td>
-              <td class="small"><?= e((string) ($doc['admin_remark'] ?? '—')) ?></td>
+              <td class="small"><?= e((string) ($doc['admin_comment'] ?? '—')) ?></td>
               <td>
                 <div class="d-flex gap-2 flex-wrap">
                   <a class="btn btn-sm btn-outline-secondary" href="<?= e(url('document_view.php?id=' . (int) $doc['id'])) ?>" target="_blank">Preview</a>

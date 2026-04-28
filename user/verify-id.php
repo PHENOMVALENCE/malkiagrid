@@ -11,7 +11,7 @@ $errors = [];
 $maxBytes = 5 * 1024 * 1024;
 $allowedExt = ['jpg', 'jpeg', 'png', 'webp'];
 
-$docTypeStmt = $pdo->query("SELECT id FROM document_types WHERE slug = 'national_id' LIMIT 1");
+$docTypeStmt = $pdo->query("SELECT id FROM document_types WHERE code = 'nida' LIMIT 1");
 $docTypeId = (int) ($docTypeStmt->fetchColumn() ?: 0);
 if ($docTypeId <= 0) {
     http_response_code(500);
@@ -52,8 +52,6 @@ if (is_post()) {
             } else {
                 try {
                     $pdo->beginTransaction();
-                    $deactivate = $pdo->prepare('UPDATE user_documents SET is_current = 0 WHERE user_id = :uid AND document_type_id = :docType');
-                    $deactivate->execute(['uid' => $uid, 'docType' => $docTypeId]);
 
                     $mime = mime_content_type($absolutePath) ?: 'application/octet-stream';
                     create_nida_document($pdo, $uid, $docTypeId, $mime, (int) filesize($absolutePath), $relativePath, $name);
@@ -75,7 +73,7 @@ if (is_post()) {
 }
 
 $profileStmt = $pdo->prepare('
-    SELECT u.status, d.status AS nida_status, d.admin_notes, d.created_at AS submitted_at
+    SELECT u.status, d.status AS nida_status, d.admin_comment AS admin_notes, d.created_at AS submitted_at
     FROM users u
     LEFT JOIN user_documents d ON d.id = (
         SELECT ud.id
