@@ -21,7 +21,7 @@ require __DIR__ . '/includes/header.php';
     <div class="mgrid-container mgrid-lp-hero__inner">
       <div class="mgrid-lp-hero-grid">
         <div>
-          <p class="mgrid-lp-hero__eyebrow mgrid-lp-hero__anim" data-i18n="landing.hero_eyebrow">Malkia wa Nguvu · Clouds Media Group</p>
+          <p class="mgrid-lp-hero__eyebrow mgrid-lp-hero__anim" data-i18n="landing.hero_eyebrow">Malkia wa Nguvu</p>
           <h1 class="mgrid-lp-hero__title mgrid-lp-hero__anim mgrid-lp-hero__anim--2" data-i18n-html="landing.hero_title">
             Economic identity,<br><span class="mgrid-lp-hero__accent">built for national scale.</span>
           </h1>
@@ -73,8 +73,18 @@ require __DIR__ . '/includes/header.php';
       <div class="mgrid-lp-trust__panel">
         <p class="mgrid-lp-trust__label" data-i18n="landing.trust_label">Trusted programme architecture</p>
         <ul class="mgrid-lp-trust__grid mgrid-list-plain">
-          <li class="mgrid-lp-trust__cell"><span class="mgrid-lp-trust__name" data-i18n="landing.trust_1">Malkia wa Nguvu</span></li>
-          <li class="mgrid-lp-trust__cell"><span class="mgrid-lp-trust__name" data-i18n="landing.trust_2">Clouds Media Group</span></li>
+          <li class="mgrid-lp-trust__cell">
+            <span class="mgrid-lp-trust__name mgrid-lp-trust__name--with-logo">
+              <img class="mgrid-lp-trust-logo" src="<?= e(asset('images/logos/MalkiaGrid%20Logo_1.png')) ?>" alt="Malkia wa Nguvu logo" loading="lazy" />
+              <span data-i18n="landing.trust_1">Malkia wa Nguvu</span>
+            </span>
+          </li>
+          <li class="mgrid-lp-trust__cell">
+            <span class="mgrid-lp-trust__name mgrid-lp-trust__name--with-logo">
+              <img class="mgrid-lp-clouds-logo mgrid-lp-clouds-logo--trust" src="<?= e(asset('images/logos/Clouds%20Logo_1.png')) ?>" alt="Clouds Media logo" loading="lazy" />
+              <span data-i18n="landing.trust_2">Clouds Media Group</span>
+            </span>
+          </li>
           <li class="mgrid-lp-trust__cell"><span class="mgrid-lp-trust__name" data-i18n="landing.trust_3">Governed data practice</span></li>
           <li class="mgrid-lp-trust__cell"><span class="mgrid-lp-trust__name" data-i18n="landing.trust_4">National rollout design</span></li>
         </ul>

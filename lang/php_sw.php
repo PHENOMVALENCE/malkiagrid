@@ -373,6 +373,7 @@ return [
     'display.account_status.active' => 'Hai',
     'display.account_status.pending' => 'Inasubiri uthibitisho',
     'display.account_status.suspended' => 'Imesimamishwa',
+    'display.account_status.deleted' => 'Imefutwa',
 
     'display.mscore_tier.beginner' => 'Anaeanza',
     'display.mscore_tier.bronze' => 'Shaba',

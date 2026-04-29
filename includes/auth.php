@@ -117,8 +117,8 @@ function authenticate_user(string $identity, string $password): array
     auth_clear_failed_attempts($bucket);
 
     $status = (string) ($user['status'] ?? 'pending');
-    if ($status === 'suspended') {
-        return ['ok' => false, 'reason' => 'suspended', 'status' => $status];
+    if (in_array($status, ['suspended', 'deleted'], true)) {
+        return ['ok' => false, 'reason' => $status === 'deleted' ? 'deleted' : 'suspended', 'status' => $status];
     }
 
     session_regenerate_id(true);

@@ -372,6 +372,7 @@ return [
     'display.account_status.active' => 'Active',
     'display.account_status.pending' => 'Pending verification',
     'display.account_status.suspended' => 'Suspended',
+    'display.account_status.deleted' => 'Deleted',
 
     'display.mscore_tier.beginner' => 'Beginner',
     'display.mscore_tier.bronze' => 'Bronze',

@@ -16,7 +16,7 @@ if ($vanilla) {
   <div class="mgrid-container mgrid-nav-vanilla__inner">
     <a class="mgrid-nav-vanilla__brand" href="<?= e(url('index.php')) ?>">
       <span class="mgrid-brand-mark" aria-hidden="true">
-        <img src="<?= e(asset('images/logos/logo.png')) ?>" alt="" />
+        <img src="<?= e(asset('images/logos/MalkiaGrid%20Logo_1.png')) ?>" alt="" />
       </span>
       <span class="mgrid-brand-lockup">
         <?php if ($navPremium): ?>
@@ -69,7 +69,7 @@ if ($vanilla) {
   <div class="container py-2">
     <a class="navbar-brand d-flex align-items-center gap-2" href="<?= e(url('index.php')) ?>">
       <span class="d-inline-flex align-items-center justify-content-center mgrid-brand-mark" aria-hidden="true">
-        <img src="<?= e(asset('images/logos/logo.png')) ?>" alt="" />
+        <img src="<?= e(asset('images/logos/MalkiaGrid%20Logo_1.png')) ?>" alt="" />
       </span>
       <span class="mgrid-brand-lockup">
         <?php if ($navPremium): ?>

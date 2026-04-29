@@ -60,7 +60,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $pdo->beginTransaction();
 
-            if ($action === 'approve_id') {
+            if ($action === 'delete_user') {
+                // Soft-delete member account: mark as deleted so they cannot sign in.
+                $upUser = $pdo->prepare('UPDATE users SET status = :status WHERE id = :id');
+                $upUser->execute([':status' => 'deleted', ':id' => $id]);
+
+                write_admin_log(
+                    $pdo,
+                    (int) ($admin['admin_id'] ?? 0),
+                    'delete_user_soft',
+                    'user',
+                    $id,
+                    'Soft-deleted user ' . (string) ($row['m_id'] ?? '')
+                );
+
+                $pdo->commit();
+                flash_set('success', 'Member account marked as deleted. They can no longer sign in.');
+                redirect(url('admin/users.php'));
+            } elseif ($action === 'approve_id') {
                 $up = $pdo->prepare('UPDATE users SET status = :status WHERE id = :id');
                 $up->execute([':status' => 'active', ':id' => $id]);
 
@@ -210,10 +227,19 @@ require __DIR__ . '/includes/shell_open.php';
             <label class="form-label">Review note (optional)</label>
             <input type="text" class="form-control" name="review_note" maxlength="255" placeholder="Reason, instruction, or approval note">
           </div>
-          <div class="col-md-4 d-flex gap-2">
-            <button class="btn btn-success w-100" type="submit" name="action" value="approve_id">Approve ID</button>
-            <button class="btn btn-danger w-100" type="submit" name="action" value="reject_id">Reject ID</button>
+          <div class="col-md-4 d-flex flex-wrap gap-2">
+            <button class="btn btn-success flex-grow-1" type="submit" name="action" value="approve_id">Approve ID</button>
+            <button class="btn btn-outline-danger flex-grow-1" type="submit" name="action" value="reject_id">Reject ID</button>
           </div>
+        </form>
+      </div>
+      <div class="col-12 mt-3">
+        <form method="post" onsubmit="return confirm('Are you sure you want to delete this member account? This will block future sign-in but keep basic records for audit.');">
+          <?= csrf_input() ?>
+          <input type="hidden" name="action" value="delete_user">
+          <button type="submit" class="btn btn-sm btn-danger">
+            Delete member account
+          </button>
         </form>
       </div>
     </div>

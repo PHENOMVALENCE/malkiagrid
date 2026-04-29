@@ -28,7 +28,7 @@ $anyActive = static function (array $groups) use ($isActive): bool {
 <aside class="mgrid-sidebar" id="mgridSidebar">
   <div class="mgrid-sidebar-logo">
     <div class="mgrid-sidebar-logo-mark">
-      <img src="<?= e(asset('images/logos/logo.png')) ?>" alt="Nembo ya Malkia Grid" />
+      <img src="<?= e(asset('images/logos/MalkiaGrid%20Logo_1.png')) ?>" alt="Nembo ya Malkia Grid" />
     </div>
     <a href="<?= e($isAdmin ? url('admin/dashboard.php') : url('user/dashboard.php')) ?>" class="text-decoration-none">
       <div class="mgrid-sidebar-logo-name">M GRID</div>

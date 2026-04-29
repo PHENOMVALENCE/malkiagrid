@@ -17,6 +17,14 @@ if ($vanilla) {
       </div>
       <div>
         <div class="mgrid-footer-heading" data-i18n="footer.partners_heading">Washirika wa programu</div>
+        <div class="mgrid-footer-partner-logo-wrap mb-2">
+          <img
+            class="mgrid-footer-partner-logo"
+            src="<?= e(asset('images/logos/Clouds%20Logo_1.png')) ?>"
+            alt="Clouds Media logo"
+            loading="lazy"
+          />
+        </div>
         <p class="mgrid-text-small mgrid-opacity-80 mgrid-mb-0" data-i18n="footer.partners_text">Malkia wa Nguvu · Clouds Media Group — usimamizi wa programu, ufikivu wa vyombo vya habari, na uratibu wa kitaasisi.</p>
       </div>
       <div>
@@ -47,6 +55,14 @@ if ($vanilla) {
       </div>
       <div class="col-md-4">
         <div class="mgrid-footer-heading mb-2" data-i18n="footer.partners_heading">Washirika wa programu</div>
+        <div class="mgrid-footer-partner-logo-wrap mb-2">
+          <img
+            class="mgrid-footer-partner-logo"
+            src="<?= e(asset('images/logos/Clouds%20Logo_1.png')) ?>"
+            alt="Clouds Media logo"
+            loading="lazy"
+          />
+        </div>
         <p class="small opacity-80 mb-0" data-i18n="footer.partners_text">Malkia wa Nguvu · Clouds Media Group — usimamizi wa programu, ufikivu wa vyombo vya habari, na uratibu wa kitaasisi.</p>
       </div>
       <div class="col-md-4">

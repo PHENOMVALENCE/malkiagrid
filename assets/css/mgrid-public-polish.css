@@ -9,6 +9,13 @@ body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero__overlay {
     radial-gradient(80% 70% at 10% 10%, rgba(212, 165, 165, 0.18) 0%, transparent 55%);
 }
 
+/* Runtime override for hero image (ensures new asset shows without SCSS rebuild). */
+body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero__bg {
+  background-image: url("../images/backgrounds/bgmg1.png") !important;
+  background-position: center 22% !important;
+  background-size: cover !important;
+}
+
 body.mgrid-landing-premium.mgrid-public .mgrid-lp-hero__accent {
   color: #f2dfbf;
 }
@@ -136,8 +143,51 @@ body.mgrid-public .mgrid-nav-vanilla__brand .mgrid-brand-mark img,
 body.mgrid-public .navbar-brand .mgrid-brand-mark img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
+}
+
+body.mgrid-public .mgrid-lp-hero__eyebrow-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+body.mgrid-public .mgrid-lp-clouds-logo {
+  height: 22px;
+  width: auto;
+  max-width: 130px;
+  object-fit: contain;
+}
+
+body.mgrid-public .mgrid-lp-clouds-logo--trust {
+  height: 20px;
+  max-width: 120px;
+}
+
+body.mgrid-public .mgrid-lp-trust__name--with-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+body.mgrid-public .mgrid-lp-trust-logo {
+  height: 20px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+}
+
+body.mgrid-public .mgrid-footer-partner-logo-wrap {
+  display: flex;
+  align-items: center;
+}
+
+body.mgrid-public .mgrid-footer-partner-logo {
+  height: 26px;
+  width: auto;
+  max-width: 170px;
+  object-fit: contain;
 }
 
 @media (max-width: 992px) {
@@ -198,6 +248,16 @@ body.mgrid-public .navbar-brand .mgrid-brand-mark img {
 
   body.mgrid-landing-premium.mgrid-public .mgrid-lp-faq__panel {
     padding: 0 12px 12px;
+  }
+
+  body.mgrid-public .mgrid-lp-clouds-logo--trust {
+    height: 18px;
+    max-width: 105px;
+  }
+
+  body.mgrid-public .mgrid-lp-trust-logo {
+    height: 18px;
+    max-width: 100px;
   }
 }
 

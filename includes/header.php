@@ -31,7 +31,7 @@ if (!isset($mgrid_meta_description)) {
     $mgrid_meta_description = 'M GRID is a women-focused digital identity and opportunity platform for profile credibility, growth, and inclusive economic access.';
 }
 if (!isset($mgrid_meta_image)) {
-    $mgrid_meta_image = asset('images/logos/logo.png');
+    $mgrid_meta_image = asset('images/logos/MalkiaGrid%20Logo_1.png');
 }
 
 $mgrid_default_lang = 'sw';
@@ -79,9 +79,9 @@ $mgrid_canonical = $mgrid_scheme . '://' . $mgrid_host . ($mgrid_path_only !== '
   <meta name="twitter:description" content="<?= e((string) $mgrid_meta_description) ?>" />
   <meta name="twitter:image" content="<?= e((string) $mgrid_meta_image) ?>" />
   <meta name="theme-color" content="#C9A58A" />
-  <link rel="icon" type="image/png" href="<?= e(asset('images/logos/logo.png')) ?>" />
-  <link rel="shortcut icon" type="image/png" href="<?= e(asset('images/logos/logo.png')) ?>" />
-  <link rel="apple-touch-icon" href="<?= e(asset('images/logos/logo.png')) ?>" />
+  <link rel="icon" type="image/png" href="<?= e(asset('images/logos/MalkiaGrid%20Logo_1.png')) ?>" />
+  <link rel="shortcut icon" type="image/png" href="<?= e(asset('images/logos/MalkiaGrid%20Logo_1.png')) ?>" />
+  <link rel="apple-touch-icon" href="<?= e(asset('images/logos/MalkiaGrid%20Logo_1.png')) ?>" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
