@@ -487,10 +487,43 @@ h3 {
   background-image: linear-gradient(145deg, #3b2230, #7f5d63) !important;
 }
 
-#regStep1 .form-control-sm,
+/* Login / register (auth) — mobile-friendly shell */
+body.mgrid-auth-page {
+  -webkit-text-size-adjust: 100%;
+  overflow-x: clip;
+}
+
+.mgrid-auth-layout {
+  margin-inline: 0;
+}
+
+.mgrid-auth-mobile-hero {
+  border-radius: 14px;
+  padding: 0.95rem 1rem;
+  background-image: linear-gradient(145deg, #3b2230, #7f5d63);
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(28, 19, 18, 0.12);
+}
+
+.mgrid-auth-mobile-hero__brand {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: clamp(1.35rem, 5vw, 1.75rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.mgrid-auth-mobile-hero__lead {
+  font-size: 0.92rem;
+  line-height: 1.45;
+  opacity: 0.92;
+}
+
+#regStep1 .form-control,
+#regStep1 .form-select,
 #regStep1 .input-group-text {
-  min-height: 34px;
-  font-size: 0.9rem;
+  min-height: 42px;
+  font-size: 1rem;
 }
 
 #regStep1 .form-label {
@@ -745,7 +778,7 @@ h3 {
 
   .mgrid-public .container,
   .mgrid-register-left,
-  .col-lg-7.d-flex.align-items-center.justify-content-center.p-4.p-lg-5 {
+  .mgrid-auth-page .col-12.col-lg-7 {
     padding-left: 0.85rem !important;
     padding-right: 0.85rem !important;
   }

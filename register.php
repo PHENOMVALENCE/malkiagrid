@@ -118,8 +118,8 @@ if (is_post()) {
     <link href="assets/css/mgrid-animations.css" rel="stylesheet" />
     <link href="assets/css/mgrid-reference-theme.css" rel="stylesheet" />
   </head>
-  <body class="bg-white">
-    <div class="min-vh-100 d-lg-flex">
+  <body class="bg-white mgrid-auth-page">
+    <div class="row g-0 min-vh-100 mgrid-auth-layout">
       <div class="d-none d-lg-flex flex-column justify-content-between col-lg-5 mgrid-register-left p-5">
         <div>
           <div class="mgrid-logo-text-light mb-4">M·GRID</div>
@@ -136,8 +136,12 @@ if (is_post()) {
         </p>
       </div>
 
-      <div class="col-lg-7 d-flex align-items-center justify-content-center p-4 p-lg-5">
-        <div class="w-100 mgrid-max-w-460">
+      <div class="col-12 col-lg-7 d-flex flex-column justify-content-center px-3 py-4 p-lg-5">
+        <div class="d-lg-none mgrid-auth-mobile-hero mb-3">
+          <div class="mgrid-auth-mobile-hero__brand">M·GRID</div>
+          <p class="mgrid-auth-mobile-hero__lead mb-0">Njia yako ya fursa huanza na M-ID moja.</p>
+        </div>
+        <div class="w-100 mgrid-max-w-560 mx-lg-0 mx-auto">
           <p class="mb-2">
             <a class="small text-decoration-none" href="index.php">&larr; Rudi ukurasa mkuu</a>
           </p>
@@ -156,50 +160,56 @@ if (is_post()) {
               <div class="row g-2 mb-3">
                 <div class="col-12 col-md-4">
                   <label class="form-label" for="firstName">Jina la kwanza</label>
-                  <input type="text" class="form-control form-control-sm" id="firstName" name="first_name" required value="<?= e($form['first_name']) ?>" />
+                  <input type="text" class="form-control" id="firstName" name="first_name" required value="<?= e($form['first_name']) ?>" />
                 </div>
                 <div class="col-12 col-md-4">
                   <label class="form-label" for="middleName">Jina la kati</label>
-                  <input type="text" class="form-control form-control-sm" id="middleName" name="middle_name" value="<?= e($form['middle_name']) ?>" />
+                  <input type="text" class="form-control" id="middleName" name="middle_name" value="<?= e($form['middle_name']) ?>" />
                 </div>
                 <div class="col-12 col-md-4">
                   <label class="form-label" for="surname">Ukoo</label>
-                  <input type="text" class="form-control form-control-sm" id="surname" name="surname" required value="<?= e($form['surname']) ?>" />
+                  <input type="text" class="form-control" id="surname" name="surname" required value="<?= e($form['surname']) ?>" />
                 </div>
               </div>
               <div class="mb-3">
-                <label class="form-label" for="nidaNumber">Namba ya NIDA</label>
-                <input type="text" class="form-control form-control-sm" id="nidaNumber" name="nida_number" value="<?= e($form['nida_number']) ?>" />
+                <label class="form-label" for="nidaNumber">Namba ya NIDA (hakikisha namba ni sahihi)</label>
+                <input type="text" class="form-control" id="nidaNumber" name="nida_number" value="<?= e($form['nida_number']) ?>" />
               </div>
               <div class="mb-3">
                 <label class="form-label" for="phone">Namba ya simu</label>
-                <input type="text" class="form-control form-control-sm" id="phone" name="phone" required value="<?= e($form['phone']) ?>" />
+                <input type="text" class="form-control" id="phone" name="phone" required value="<?= e($form['phone']) ?>" />
               </div>
               <div class="mb-3">
                 <label class="form-label" for="email">Barua pepe (si lazima)</label>
-                <input type="email" class="form-control form-control-sm" id="email" name="email" value="<?= e($form['email']) ?>" />
+                <input type="email" class="form-control" id="email" name="email" value="<?= e($form['email']) ?>" />
               </div>
               <div class="mb-2">
                 <label class="form-label" for="regPassword">Nenosiri</label>
-                <input type="password" class="form-control form-control-sm" id="regPassword" name="password" required minlength="8" />
+                <input type="password" class="form-control" id="regPassword" name="password" required minlength="8" />
               </div>
               <div class="mb-3">
                 <label class="form-label" for="regPassword2">Thibitisha nenosiri</label>
-                <input type="password" class="form-control form-control-sm" id="regPassword2" name="confirm_password" required />
+                <input type="password" class="form-control" id="regPassword2" name="confirm_password" required />
               </div>
-              <button type="button" class="btn btn-primary w-100" id="regBtnNext">Endelea Hatua ya 2</button>
+              <button type="button" class="btn btn-primary w-100 py-2" id="regBtnNext">Endelea Hatua ya 2</button>
             </div>
 
             <div id="regStep2" class="d-none">
               <div class="mb-3">
                 <span class="form-label d-block">Una biashara iliyosajiliwa?</span>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="has_registered_business" id="bizY" value="yes" <?= $form['has_registered_business'] === 'yes' ? 'checked' : '' ?> />
-                  <label class="form-check-label" for="bizY">Ndiyo</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="has_registered_business" id="bizN" value="no" <?= $form['has_registered_business'] !== 'yes' ? 'checked' : '' ?> />
-                  <label class="form-check-label" for="bizN">Hapana</label>
+                <div class="row g-2">
+                  <div class="col-6">
+                    <div class="form-check m-0 border rounded px-2 py-2 h-100">
+                      <input class="form-check-input" type="radio" name="has_registered_business" id="bizY" value="yes" <?= $form['has_registered_business'] === 'yes' ? 'checked' : '' ?> />
+                      <label class="form-check-label" for="bizY">Ndiyo</label>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-check m-0 border rounded px-2 py-2 h-100">
+                      <input class="form-check-input" type="radio" name="has_registered_business" id="bizN" value="no" <?= $form['has_registered_business'] !== 'yes' ? 'checked' : '' ?> />
+                      <label class="form-check-label" for="bizN">Hapana</label>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="mb-3">
@@ -232,12 +242,15 @@ if (is_post()) {
                   <option value="other" <?= $form['heard_about'] === 'other' ? 'selected' : '' ?>>Nyingine</option>
                 </select>
               </div>
-              <div class="d-flex gap-2">
-                <button type="button" class="btn btn-outline-secondary flex-grow-1" id="regBtnBack">Rudi</button>
-                <button type="submit" class="btn btn-primary flex-grow-1">Tengeneza M-ID yangu</button>
+              <div class="d-grid d-sm-flex gap-2">
+                <button type="button" class="btn btn-outline-secondary flex-sm-grow-1 py-2" id="regBtnBack">Rudi</button>
+                <button type="submit" class="btn btn-primary flex-sm-grow-1 py-2">Tengeneza M-ID yangu</button>
               </div>
             </div>
           </form>
+          <p class="text-center small text-muted mt-3 mb-0">
+            Tayari una M-ID? <a href="login.php">Ingia</a>
+          </p>
         </div>
       </div>
     </div>
@@ -248,8 +261,31 @@ if (is_post()) {
         const step2 = document.getElementById("regStep2");
         const nextBtn = document.getElementById("regBtnNext");
         const backBtn = document.getElementById("regBtnBack");
+        const regPassword = document.getElementById("regPassword");
+        const regPassword2 = document.getElementById("regPassword2");
 
         if (!step1 || !step2 || !nextBtn || !backBtn) return;
+
+        function applySwValidation(input) {
+          if (!input) return;
+          input.addEventListener("invalid", function () {
+            if (input.validity.valueMissing) {
+              input.setCustomValidity("Tafadhali jaza sehemu hii.");
+            } else if (input.validity.tooShort) {
+              input.setCustomValidity("Nenosiri liwe angalau herufi 8.");
+            } else if (input.validity.typeMismatch && input.type === "email") {
+              input.setCustomValidity("Weka barua pepe sahihi.");
+            } else {
+              input.setCustomValidity("Tafadhali hakikisha taarifa ni sahihi.");
+            }
+          });
+          input.addEventListener("input", function () {
+            input.setCustomValidity("");
+          });
+        }
+
+        applySwValidation(regPassword);
+        applySwValidation(regPassword2);
 
         nextBtn.addEventListener("click", function () {
           const requiredStep1 = step1.querySelectorAll("input[required]");

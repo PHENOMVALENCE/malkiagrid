@@ -87,3 +87,54 @@ function mgrid_title(string $titleKey, array $replace = []): string
 {
     return __($titleKey, $replace) . ' — ' . __('site.brand');
 }
+
+/**
+ * Human label for `users.status` (DB stores English slugs; UI shows translated text when lang is Swahili).
+ */
+function mgrid_account_status_label(string $status): string
+{
+    $slug = strtolower(trim($status));
+    if ($slug === '') {
+        return '';
+    }
+
+    $key = 'display.account_status.' . $slug;
+    $s = __($key);
+
+    return $s !== $key ? $s : ucfirst($slug);
+}
+
+/**
+ * Human label for M-SCORE tier stored in DB (e.g. Beginner, Gold, or admin tier labels).
+ */
+function mgrid_mscore_tier_display_label(string $tier): string
+{
+    $t = trim($tier);
+    if ($t === '') {
+        return '';
+    }
+
+    $slug = strtolower((string) preg_replace('/[^a-z0-9]+/i', '_', $t));
+    $slug = trim((string) preg_replace('/_+/', '_', $slug), '_');
+    $key = 'display.mscore_tier.' . $slug;
+    $s = __($key);
+
+    return $s !== $key ? $s : $t;
+}
+
+/**
+ * Label for NIDA upload row status (`user_documents.status`) or synthetic `not_submitted` when none exists.
+ */
+function mgrid_nida_status_display_label(?string $status): string
+{
+    $raw = trim((string) ($status ?? ''));
+    if ($raw === '') {
+        $raw = 'not_submitted';
+    }
+
+    $slug = strtolower($raw);
+    $key = 'display.nida_status.' . $slug;
+    $s = __($key);
+
+    return $s !== $key ? $s : str_replace('_', ' ', ucfirst($raw));
+}

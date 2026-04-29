@@ -123,7 +123,7 @@ require __DIR__ . '/includes/shell_open.php';
       <div class="mgrid-topbar-label">M-Profile</div>
       <h1 class="mgrid-display mb-1" style="font-size:2rem;"><?= e($fullName !== '' ? $fullName : 'Mwanachama') ?></h1>
       <p class="mb-1">M-ID: <strong><?= e((string) ($row['m_id'] ?? '—')) ?></strong></p>
-      <p class="mb-0" style="color:var(--mgrid-ink-500);">Hali ya akaunti: <?= e((string) ($row['status'] ?? 'pending')) ?></p>
+      <p class="mb-0" style="color:var(--mgrid-ink-500);">Hali ya akaunti: <?= e(mgrid_account_status_label((string) ($row['status'] ?? 'pending'))) ?></p>
     </div>
     <a href="<?= e(url('user/my_mscore.php')) ?>" class="btn-mgrid btn-mgrid-outline">M-SCORE: <?= e((string) ($row['m_score'] ?? '—')) ?></a>
   </div>
@@ -152,7 +152,7 @@ require __DIR__ . '/includes/shell_open.php';
   <div class="col-md-6">
     <div class="mgrid-stat-card">
       <div class="mgrid-stat-label">Hali ya NIDA</div>
-      <div class="mgrid-stat-value" style="font-size:1.05rem;"><?= e((string) ($row['nida_status'] ?? 'not_submitted')) ?></div>
+      <div class="mgrid-stat-value" style="font-size:1.05rem;"><?= e(mgrid_nida_status_display_label($row['nida_status'] ?? null)) ?></div>
     </div>
   </div>
   <div class="col-md-6">

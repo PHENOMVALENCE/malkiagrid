@@ -54,7 +54,7 @@ $recommendations = $score['recommendations'] ?? [];
     <div class="mt-3">
       <div class="d-flex align-items-center gap-2 mb-1">
         <div class="mgrid-mono-id" style="font-size:30px; color:var(--mgrid-gold-600);"><?= number_format($totalScore, 2) ?></div>
-        <span class="badge text-bg-<?= e(mscore_tier_badge_class($tier)) ?>"><?= e($tier) ?></span>
+        <span class="badge text-bg-<?= e(mscore_tier_badge_class($tier)) ?>"><?= e(mgrid_mscore_tier_display_label($tier)) ?></span>
       </div>
       <div class="mgrid-progress-track" style="height:8px;">
         <div class="mgrid-progress-fill" style="width: <?= max(0, min(100, $totalScore)) ?>%;"></div>

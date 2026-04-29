@@ -368,4 +368,37 @@ return [
     'admin.role.admin' => 'Administrator',
     'admin.role.super_short' => 'Super admin',
     'admin.role.admin_short' => 'Admin',
+
+    'display.account_status.active' => 'Active',
+    'display.account_status.pending' => 'Pending verification',
+    'display.account_status.suspended' => 'Suspended',
+
+    'display.mscore_tier.beginner' => 'Beginner',
+    'display.mscore_tier.bronze' => 'Bronze',
+    'display.mscore_tier.silver' => 'Silver',
+    'display.mscore_tier.gold' => 'Gold',
+    'display.mscore_tier.starter' => 'Starter',
+    'display.mscore_tier.emerging' => 'Emerging',
+    'display.mscore_tier.growth' => 'Growth',
+    'display.mscore_tier.investment_ready' => 'Investment ready',
+
+    'display.mfund_status.submitted' => 'Submitted',
+    'display.mfund_status.under_review' => 'Under review',
+    'display.mfund_status.more_info_requested' => 'More information requested',
+    'display.mfund_status.approved' => 'Approved',
+    'display.mfund_status.rejected' => 'Rejected',
+    'display.mfund_status.disbursed' => 'Disbursed',
+    'display.mfund_status.active_repayment' => 'Active repayment',
+    'display.mfund_status.completed' => 'Completed',
+    'display.mfund_status.defaulted' => 'Defaulted',
+    'display.mfund_status.cancelled' => 'Cancelled',
+
+    'display.docs_verified_suffix' => 'verified',
+    'display.dashboard_no_funding_app' => 'No application yet',
+
+    'display.nida_status.not_submitted' => 'Not submitted',
+    'display.nida_status.pending' => 'Pending review',
+    'display.nida_status.verified' => 'Verified',
+    'display.nida_status.rejected' => 'Rejected',
+    'display.nida_status.resubmission_requested' => 'Resubmission requested',
 ];

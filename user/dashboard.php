@@ -89,7 +89,7 @@ foreach ($notifications as $n) {
         $unreadCount++;
     }
 }
-$fundingStatus = $latestFunding ? (string) $latestFunding['status'] : 'Bado hujatuma ombi';
+$fundingStatus = $latestFunding ? mfund_status_label((string) $latestFunding['status']) : __('display.dashboard_no_funding_app');
 $profileCompletionPct = max(0, min(100, (int) $profileCompletion));
 $mgrid_page_title = 'Dashibodi ya Mwanachama — Malkia Grid';
 require __DIR__ . '/includes/shell_open.php';
@@ -138,7 +138,7 @@ require __DIR__ . '/includes/shell_open.php';
     </article>
     <article class="mgrid-stat-card mgrid-dash-stat">
       <div class="mgrid-stat-label">Hali ya akaunti</div>
-      <div class="mgrid-stat-value"><?= e($accountStatus) ?></div>
+      <div class="mgrid-stat-value"><?= e(mgrid_account_status_label($accountStatus)) ?></div>
       <div class="mgrid-stat-sub">Ili kufungua huduma zote</div>
     </article>
     <article class="mgrid-stat-card mgrid-dash-stat">
@@ -149,7 +149,7 @@ require __DIR__ . '/includes/shell_open.php';
     <article class="mgrid-stat-card mgrid-dash-stat">
       <div class="mgrid-stat-label">M-SCORE</div>
       <div class="mgrid-stat-value"><?= (int) $mScore ?></div>
-      <div class="mgrid-stat-sub"><?= e($mTier) ?></div>
+      <div class="mgrid-stat-sub"><?= e(mgrid_mscore_tier_display_label($mTier)) ?></div>
     </article>
   </div>
 </section>
@@ -181,7 +181,7 @@ require __DIR__ . '/includes/shell_open.php';
         <div class="mgrid-card-body">
           <div class="mgrid-dash-mini-stat">
             <span>Nyaraka</span>
-            <strong><?= (int) $docVerified ?>/<?= (int) $docTotal ?> verified</strong>
+            <strong><?= (int) $docVerified ?>/<?= (int) $docTotal ?> <?= e(__('display.docs_verified_suffix')) ?></strong>
           </div>
           <div class="mgrid-dash-mini-stat">
             <span>Inasubiri hakiki</span>

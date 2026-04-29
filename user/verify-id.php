@@ -126,8 +126,8 @@ require __DIR__ . '/includes/shell_open.php';
     <div class="card border-0 shadow-sm h-100">
       <div class="card-body p-4">
         <h2 class="h5 mgrid-dash-section-title mb-3">Hali ya uhakiki</h2>
-        <p class="mb-2"><strong>Hali ya akaunti:</strong> <?= e((string) ($profile['status'] ?? 'pending')) ?></p>
-        <p class="mb-2"><strong>Hali ya NIDA:</strong> <?= e((string) ($profile['nida_status'] ?? 'not_submitted')) ?></p>
+        <p class="mb-2"><strong>Hali ya akaunti:</strong> <?= e(mgrid_account_status_label((string) ($profile['status'] ?? 'pending'))) ?></p>
+        <p class="mb-2"><strong>Hali ya NIDA:</strong> <?= e(mgrid_nida_status_display_label($profile['nida_status'] ?? null)) ?></p>
         <p class="small text-muted mb-2">Imetumwa: <?= e((string) ($profile['submitted_at'] ?? '—')) ?></p>
         <?php if (!empty($profile['admin_notes'])): ?>
           <div class="alert alert-warning small mb-0"><strong>Maoni ya admin:</strong> <?= e((string) $profile['admin_notes']) ?></div>

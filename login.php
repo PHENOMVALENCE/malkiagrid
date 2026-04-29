@@ -125,8 +125,8 @@ if (is_post()) {
     <link href="assets/css/mgrid-animations.css" rel="stylesheet" />
     <link href="assets/css/mgrid-reference-theme.css" rel="stylesheet" />
   </head>
-  <body class="bg-white">
-    <div class="min-vh-100 d-lg-flex">
+  <body class="bg-white mgrid-auth-page">
+    <div class="row g-0 min-vh-100 mgrid-auth-layout">
       <div class="d-none d-lg-flex flex-column justify-content-between col-lg-5 mgrid-register-left p-5">
         <div>
           <div class="mgrid-logo-text-light mb-4">M·GRID</div>
@@ -143,8 +143,12 @@ if (is_post()) {
         </p>
       </div>
 
-      <div class="col-lg-7 d-flex align-items-center justify-content-center p-4 p-lg-5">
-        <div class="w-100 mgrid-max-w-460">
+      <div class="col-12 col-lg-7 d-flex flex-column justify-content-center px-3 py-4 p-lg-5">
+        <div class="d-lg-none mgrid-auth-mobile-hero mb-3">
+          <div class="mgrid-auth-mobile-hero__brand">M·GRID</div>
+          <p class="mgrid-auth-mobile-hero__lead mb-0">Njia yako ya fursa huanza na M-ID moja.</p>
+        </div>
+        <div class="w-100 mgrid-max-w-460 mx-lg-0 mx-auto">
           <p class="mb-2">
             <a class="small text-decoration-none" href="index.php">&larr; Rudi ukurasa mkuu</a>
           </p>
@@ -160,11 +164,15 @@ if (is_post()) {
 
           <form method="post" novalidate>
             <?= csrf_input() ?>
-            <div class="btn-group w-100 mb-4" role="group" aria-label="Login role">
-              <input type="radio" class="btn-check" name="login_role" id="roleUser" value="user" autocomplete="off" <?= $activeRole !== 'admin' ? 'checked' : '' ?> />
-              <label class="btn btn-outline-primary" for="roleUser">Mwanachama</label>
-              <input type="radio" class="btn-check" name="login_role" id="roleAdmin" value="admin" autocomplete="off" <?= $activeRole === 'admin' ? 'checked' : '' ?> />
-              <label class="btn btn-outline-primary" for="roleAdmin">Msimamizi</label>
+            <div class="row g-2 mb-4" role="group" aria-label="Login role">
+              <div class="col-6">
+                <input type="radio" class="btn-check" name="login_role" id="roleUser" value="user" autocomplete="off" <?= $activeRole !== 'admin' ? 'checked' : '' ?> />
+                <label class="btn btn-outline-primary w-100 py-2" for="roleUser">Mwanachama</label>
+              </div>
+              <div class="col-6">
+                <input type="radio" class="btn-check" name="login_role" id="roleAdmin" value="admin" autocomplete="off" <?= $activeRole === 'admin' ? 'checked' : '' ?> />
+                <label class="btn btn-outline-primary w-100 py-2" for="roleAdmin">Msimamizi</label>
+              </div>
             </div>
 
             <div id="userFields" class="<?= $activeRole === 'admin' ? 'd-none' : '' ?>">
@@ -189,7 +197,7 @@ if (is_post()) {
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 mb-3">Ingia</button>
+            <button type="submit" class="btn btn-primary w-100 py-2 mb-3">Ingia</button>
             <p class="text-center small text-muted mb-0">
               Mpya hapa? <a href="register.php">Pata M-ID yako</a>
             </p>

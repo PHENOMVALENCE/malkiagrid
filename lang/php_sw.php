@@ -259,7 +259,7 @@ return [
 
     'admin.benefit.invalid_offer' => 'Ofa si sahihi.',
 
-    'title.landing' => 'M GRID — Utambulisho wa kiuchumi kwa wanawake',
+    'title.landing' => 'M GRID — Fursa kwa wanawake wafanyabiashara',
     'title.login' => 'Ingia',
     'title.register' => 'Fungua akaunti ya M-ID',
     'title.dashboard' => 'Nyumbani yangu',
@@ -368,4 +368,38 @@ return [
     'admin.role.admin' => 'Msimamizi',
     'admin.role.super_short' => 'Super',
     'admin.role.admin_short' => 'Admin',
+
+    /* Member UI: show Swahili labels for English values stored in DB */
+    'display.account_status.active' => 'Hai',
+    'display.account_status.pending' => 'Inasubiri uthibitisho',
+    'display.account_status.suspended' => 'Imesimamishwa',
+
+    'display.mscore_tier.beginner' => 'Anaeanza',
+    'display.mscore_tier.bronze' => 'Shaba',
+    'display.mscore_tier.silver' => 'Fedha',
+    'display.mscore_tier.gold' => 'Dhahabu',
+    'display.mscore_tier.starter' => 'Mwanzo',
+    'display.mscore_tier.emerging' => 'Inakua',
+    'display.mscore_tier.growth' => 'Ukuaji',
+    'display.mscore_tier.investment_ready' => 'Tayari kwa uwekezaji',
+
+    'display.mfund_status.submitted' => 'Imewasilishwa',
+    'display.mfund_status.under_review' => 'Inakaguliwa',
+    'display.mfund_status.more_info_requested' => 'Maelezo zaidi yameombwa',
+    'display.mfund_status.approved' => 'Imeidhinishwa',
+    'display.mfund_status.rejected' => 'Imekataliwa',
+    'display.mfund_status.disbursed' => 'Fedha zimetolewa',
+    'display.mfund_status.active_repayment' => 'Malipo yanayoendelea',
+    'display.mfund_status.completed' => 'Imekamilika',
+    'display.mfund_status.defaulted' => 'Imekosa kulipa',
+    'display.mfund_status.cancelled' => 'Imefutwa',
+
+    'display.docs_verified_suffix' => 'zilizothibitishwa',
+    'display.dashboard_no_funding_app' => 'Bado hujatuma ombi',
+
+    'display.nida_status.not_submitted' => 'Haijawasilishwa',
+    'display.nida_status.pending' => 'Inasubiri uhakiki',
+    'display.nida_status.verified' => 'Imethibitishwa',
+    'display.nida_status.rejected' => 'Imekataliwa',
+    'display.nida_status.resubmission_requested' => 'Tafadhali tuma upya',
 ];

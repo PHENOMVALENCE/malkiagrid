@@ -378,6 +378,20 @@ function mfund_status_badge(string $status): string
 
 function mfund_status_label(string $status): string
 {
+    $status = trim($status);
+    if ($status === '') {
+        return '—';
+    }
+
+    $slug = strtolower($status);
+    $key = 'display.mfund_status.' . $slug;
+    if (function_exists('__')) {
+        $s = __($key);
+        if ($s !== $key) {
+            return $s;
+        }
+    }
+
     return str_replace('_', ' ', ucfirst($status));
 }
 
